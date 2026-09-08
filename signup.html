@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>DWM — Join the Wave</title>
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+  <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+
+  <link rel="stylesheet" href="/assets/css/shared.css">
+  <link rel="stylesheet" href="/assets/css/pages.css">
+</head>
+
+<body>
+
+<nav></nav>
+
+<div class="auth-wrap">
+  <div class="auth-card">
+
+    <div class="auth-eyebrow">
+      — Darkwave Market —
+    </div>
+
+    <h1 class="auth-title">
+      Join the Wave.
+    </h1>
+
+    <p class="auth-subtitle">
+      Create your DWM account for early access, drop alerts, and exclusive drops.
+    </p>
+
+    <form id="signupForm">
+
+      <div class="form-group">
+        <label class="form-label" for="name">
+          Display Name
+        </label>
+
+        <input
+          class="form-input"
+          type="text"
+          id="name"
+          autocomplete="nickname"
+          placeholder="Your handle"
+          maxlength="50"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="email">
+          Email Address
+        </label>
+
+        <input
+          class="form-input"
+          type="email"
+          id="email"
+          autocomplete="email"
+          placeholder="you@thewave.com"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="password">
+          Password
+        </label>
+
+        <input
+          class="form-input"
+          type="password"
+          id="password"
+          autocomplete="new-password"
+          placeholder="Minimum 6 characters"
+          minlength="6"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="password2">
+          Confirm Password
+        </label>
+
+        <input
+          class="form-input"
+          type="password"
+          id="password2"
+          autocomplete="new-password"
+          placeholder="Re-enter password"
+          minlength="6"
+          required
+        >
+      </div>
+
+      <div
+        id="signupMessage"
+        style="
+          display:none;
+          margin:14px 0;
+          font-size:0.78rem;
+          line-height:1.5;
+          letter-spacing:0.04em;
+        "
+      ></div>
+
+      <button
+        id="signupButton"
+        type="submit"
+        class="btn-primary auth-btn"
+      >
+        Create Account
+      </button>
+
+    </form>
+
+    <div class="auth-footer">
+      Already in?
+      <a href="/login.html">
+        Sign in instead
+      </a>
+    </div>
+
+  </div>
+</div>
+
+
+<script type="module">
+
+  import {
+    app,
+    auth,
+    db
+  } from '/assets/js/firebase-config.js';
+
+  import {
+    createUserWithEmailAndPassword,
+    updateProfile
+  } from 'firebase/auth';
+
+  import {
+    doc,
+    setDoc,
+    serverTimestamp
+  } from 'firebase/firestore';
+
+  import {
+    renderNav
+  } from '/assets/js/nav.js';
+
+
+  // ============================================================
+  // NAV
+  // ============================================================
+
+  renderNav('nav', {
+    showCta: false,
+    showIg: false
+  });
+
+
+  // ============================================================
+  // ELEMENTS
+  // ============================================================
+
+  const form =
+    document.getElementById('signupForm');
+
+  const nameInput =
+    document.getElementById('name');
+
+  const emailInput =
+    document.getElementById('email');
+
+  const passwordInput =
+    document.getElementById('password');
+
+  const password2Input =
+    document.getElementById('password2');
+
+  const message =
+    document.getElementById('signupMessage');
+
+  const button =
+    document.getElementById('signupButton');
+
+
+  // ============================================================
+  // MESSAGE HELPERS
+  // ============================================================
+
+  function showMessage(text, type = 'error') {
+    message.style.display = 'block';
+    message.textContent = text;
+
+    if (type === 'success') {
+      message.style.color = 'var(--teal)';
+    } else {
+      message.style.color = '#d46f6f';
+    }
+  }
+
+
+  function clearMessage() {
+    message.style.display = 'none';
+    message.textContent = '';
+  }
+
+
+  // ============================================================
+  // SIGNUP
+  // ============================================================
+
+  form.addEventListener(
+    'submit',
+    async (event) => {
+
+      event.preventDefault();
+
+      clearMessage();
+
+      const displayName =
+        nameInput.value.trim();
+
+      const email =
+        emailInput.value.trim();
+
+      const password =
+        passwordInput.value;
+
+      const password2 =
+        password2Input.value;
+
+
+      // --------------------------------------------------------
+      // BASIC VALIDATION
+      // --------------------------------------------------------
+
+      if (!displayName) {
+        showMessage(
+          'Enter a display name.'
+        );
+
+        return;
+      }
+
+
+      if (!email) {
+        showMessage(
+          'Enter your email address.'
+        );
+
+        return;
+      }
+
+
+      if (password.length < 6) {
+        showMessage(
+          'Password must be at least 6 characters.'
+        );
+
+        return;
+      }
+
+
+      if (password !== password2) {
+        showMessage(
+          'Passwords do not match.'
+        );
+
+        return;
+      }
+
+
+      button.disabled = true;
+      button.textContent = 'Creating Account...';
+
+
+      try {
+
+        // ======================================================
+        // CREATE FIREBASE AUTH USER
+        // ======================================================
+
+        const credential =
+          await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+
+        const user = credential.user;
+
+
+        // ======================================================
+        // SET FIREBASE AUTH DISPLAY NAME
+        // ======================================================
+
+        await updateProfile(
+          user,
+          {
+            displayName
+          }
+        );
+
+
+        // ======================================================
+        // CREATE FIRESTORE USER PROFILE
+        //
+        // IMPORTANT:
+        // Every normal signup starts as CUSTOMER.
+        // Users cannot choose their own role.
+        // ======================================================
+
+        await setDoc(
+          doc(
+            db,
+            'users',
+            user.uid
+          ),
+          {
+            uid: user.uid,
+
+            displayName,
+
+            email: user.email,
+
+            role: 'customer',
+
+            photoUrl: '',
+
+            createdAt:
+              serverTimestamp()
+          }
+        );
+
+
+        // ======================================================
+        // SUCCESS
+        // ======================================================
+
+        showMessage(
+          'Account created. Welcome to the wave.',
+          'success'
+        );
+
+
+        // Firebase signs the user in automatically after signup.
+        window.location.href =
+          '/account.html';
+
+
+      } catch (err) {
+
+        console.error(
+          '[signup] Firebase error:',
+          err
+        );
+
+
+        let userMessage =
+          'Unable to create your account. Try again.';
+
+
+        switch (err.code) {
+
+          case 'auth/email-already-in-use':
+            userMessage =
+              'An account already exists with that email address.';
+            break;
+
+
+          case 'auth/invalid-email':
+            userMessage =
+              'Enter a valid email address.';
+            break;
+
+
+          case 'auth/weak-password':
+            userMessage =
+              'Choose a stronger password with at least 6 characters.';
+            break;
+
+
+          case 'auth/network-request-failed':
+            userMessage =
+              'Network error. Check your connection and try again.';
+            break;
+
+
+          case 'permission-denied':
+          case 'firestore/permission-denied':
+            userMessage =
+              'Your account was created, but the DWM profile could not be saved.';
+            break;
+        }
+
+
+        showMessage(
+          userMessage
+        );
+
+
+      } finally {
+
+        button.disabled = false;
+        button.textContent = 'Create Account';
+
+      }
+    }
+  );
+
+
+  // ============================================================
+  // DEBUG REFERENCES
+  // ============================================================
+
+  window.__DWM_FIREBASE__ = app;
+  window.__DWM_AUTH__ = auth;
+  window.__DWM_DB__ = db;
+
+</script>
+
+</body>
+</html>

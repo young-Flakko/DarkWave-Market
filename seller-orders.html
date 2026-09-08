@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>DWM — Seller Orders</title>
+
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="32x32"
+    href="/assets/img/favicon-32x32.png"
+  >
+
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="16x16"
+    href="/assets/img/favicon-16x16.png"
+  >
+
+  <link
+    rel="apple-touch-icon"
+    sizes="180x180"
+    href="/assets/img/apple-touch-icon.png"
+  >
+
+  <link
+    rel="icon"
+    type="image/x-icon"
+    href="/assets/img/favicon.ico"
+  >
+
+  <link
+    rel="stylesheet"
+    href="/assets/css/shared.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="/assets/css/pages.css"
+  >
+
+  <style>
+
+    .seller-orders-wrap {
+      width:min(1180px, calc(100% - 40px));
+      margin:0 auto;
+      padding:70px 0 100px;
+    }
+
+    .seller-orders-heading {
+      margin-bottom:45px;
+    }
+
+    .seller-orders-heading h1 {
+      margin:10px 0;
+      font-size:clamp(2.5rem, 6vw, 5rem);
+      line-height:0.95;
+    }
+
+    .seller-orders-heading p {
+      color:var(--gray-light);
+      max-width:720px;
+      line-height:1.7;
+    }
+
+    .orders-status {
+      margin-bottom:25px;
+      color:var(--gray-light);
+      font-size:0.85rem;
+    }
+
+    .seller-order {
+      border:1px solid rgba(255,255,255,0.12);
+      background:rgba(8,12,14,0.72);
+      margin-bottom:28px;
+      overflow:hidden;
+    }
+
+    .seller-order-head {
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:20px;
+      padding:22px;
+      border-bottom:1px solid rgba(255,255,255,0.1);
+    }
+
+    .seller-order-reference {
+      color:var(--teal-bright);
+      font-weight:800;
+      letter-spacing:0.08em;
+      margin-top:5px;
+    }
+
+    .seller-order-date {
+      color:var(--gray-light);
+      font-size:0.75rem;
+      margin-top:7px;
+    }
+
+    .seller-status-pill {
+      border:1px solid rgba(74,157,168,0.35);
+      padding:8px 11px;
+      font-size:0.68rem;
+      font-weight:800;
+      letter-spacing:0.1em;
+      text-transform:uppercase;
+      white-space:nowrap;
+    }
+
+    .seller-order-grid {
+      display:grid;
+      grid-template-columns:minmax(0,1fr) minmax(320px,0.75fr);
+    }
+
+    .seller-order-section {
+      padding:22px;
+    }
+
+    .seller-order-section + .seller-order-section {
+      border-left:1px solid rgba(255,255,255,0.1);
+    }
+
+    .seller-order-label {
+      color:var(--teal-bright);
+      font-size:0.65rem;
+      font-weight:800;
+      letter-spacing:0.18em;
+      text-transform:uppercase;
+      margin-bottom:15px;
+    }
+
+    .seller-order-item {
+      display:grid;
+      grid-template-columns:80px 1fr;
+      gap:16px;
+      margin-bottom:18px;
+      align-items:center;
+    }
+
+    .seller-order-item img {
+      width:80px;
+      height:80px;
+      object-fit:contain;
+      box-sizing:border-box;
+      padding:7px;
+      background:#fff;
+    }
+
+    .seller-order-item-name {
+      color:var(--white);
+      font-weight:800;
+      font-size:0.88rem;
+      margin-bottom:6px;
+    }
+
+    .seller-order-item-meta {
+      color:var(--gray-light);
+      font-size:0.75rem;
+      line-height:1.7;
+    }
+
+    .seller-customer {
+      line-height:1.8;
+      font-size:0.82rem;
+      color:var(--gray-light);
+      margin-bottom:25px;
+    }
+
+    .seller-customer strong {
+      color:var(--white);
+    }
+
+    .shipment-form {
+      display:grid;
+      gap:14px;
+    }
+
+    .shipment-field label {
+      display:block;
+      margin-bottom:7px;
+      color:var(--gray-light);
+      font-size:0.7rem;
+      font-weight:700;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+    }
+
+    .shipment-field input,
+    .shipment-field select {
+      width:100%;
+      box-sizing:border-box;
+      background:rgba(255,255,255,0.04);
+      color:var(--white);
+      border:1px solid rgba(255,255,255,0.14);
+      padding:13px;
+      font-family:inherit;
+    }
+
+    .shipment-field select option {
+      background:#111;
+      color:#fff;
+    }
+
+    .shipment-actions {
+      display:flex;
+      align-items:center;
+      gap:15px;
+      flex-wrap:wrap;
+      margin-top:5px;
+    }
+
+    .shipment-message {
+      font-size:0.75rem;
+      line-height:1.5;
+    }
+
+    .seller-order-subtotal {
+      margin-top:20px;
+      padding-top:18px;
+      border-top:1px solid rgba(255,255,255,0.1);
+      display:flex;
+      justify-content:space-between;
+      gap:15px;
+      font-size:0.82rem;
+    }
+
+    .seller-order-subtotal strong {
+      color:var(--teal-bright);
+    }
+
+    .seller-empty {
+      padding:45px;
+      text-align:center;
+      border:1px solid rgba(255,255,255,0.12);
+      color:var(--gray-light);
+    }
+
+    @media (max-width:850px) {
+
+      .seller-order-grid {
+        grid-template-columns:1fr;
+      }
+
+      .seller-order-section + .seller-order-section {
+        border-left:none;
+        border-top:1px solid rgba(255,255,255,0.1);
+      }
+
+    }
+
+    @media (max-width:600px) {
+
+      .seller-orders-wrap {
+        width:min(100% - 24px,1180px);
+        padding-top:45px;
+      }
+
+      .seller-order-head {
+        flex-direction:column;
+      }
+
+      .seller-order-item {
+        grid-template-columns:65px 1fr;
+      }
+
+      .seller-order-item img {
+        width:65px;
+        height:65px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <nav></nav>
+
+  <main class="seller-orders-wrap">
+
+    <div class="seller-orders-heading">
+
+      <span class="section-label">
+        Seller Dashboard
+      </span>
+
+      <h1>
+        ORDERS
+      </h1>
+
+      <p id="sellerOrdersIntro">
+        Loading your incoming orders...
+      </p>
+
+    </div>
+
+    <div
+      id="ordersStatus"
+      class="orders-status"
+    >
+      Loading orders...
+    </div>
+
+    <div id="sellerOrders"></div>
+
+  </main>
+
+  <footer>
+
+    <div class="footer-top">
+
+      <div>
+
+        <div class="footer-brand">
+          DWM
+        </div>
+
+        <div class="footer-tagline">
+          Darkwave Market. The market that never ends.
+          Built for the people, by the people.
+        </div>
+
+      </div>
+
+      <div class="footer-col">
+
+        <h4>Market</h4>
+
+        <ul>
+          <li><a href="/drops.html">New Drops</a></li>
+          <li><a href="/shop.html">Shop</a></li>
+          <li><a href="/brands.html">Brands</a></li>
+        </ul>
+
+      </div>
+
+      <div class="footer-col">
+
+        <h4>Seller</h4>
+
+        <ul>
+          <li><a href="/seller.html">Dashboard</a></li>
+          <li><a href="/seller-orders.html">Orders</a></li>
+          <li><a href="/account.html">Account</a></li>
+        </ul>
+
+      </div>
+
+      <div class="footer-col">
+
+        <h4>Support</h4>
+
+        <ul>
+          <li><a href="/shipping.html">Shipping</a></li>
+          <li><a href="/returns.html">Returns</a></li>
+          <li><a href="/faq.html">FAQ</a></li>
+        </ul>
+
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+
+      <div class="footer-copy">
+
+        © 2026 Darkwave Market.
+        All rights reserved.
+        SA &amp; World Wide.
+
+        <br>
+
+        <span class="founders">
+          Founded by Chief Flakko &amp; Pablow
+        </span>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+  <script
+    type="module"
+    src="/assets/js/seller-orders.js"
+  ></script>
+
+</body>
+
+</html>

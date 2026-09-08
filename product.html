@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DWM — Product</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+<link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+<link rel="stylesheet" href="/assets/css/shared.css">
+<link rel="stylesheet" href="/assets/css/pages.css">
+<style>
+  .product-layout {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 56px;
+    align-items: start;
+    width: 100%;
+  }
+  .product-gallery {
+    position: sticky;
+    top: 140px;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: linear-gradient(145deg, #1a1a1a, #222);
+    border: 1px solid rgba(74,157,168,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding: 32px;
+  }
+  .product-gallery img {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    object-position: center center;
+    display: block;
+    margin: auto;
+    filter: drop-shadow(0 20px 60px rgba(0,0,0,0.45));
+  }
+  .product-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding-top: 8px;
+  }
+  .product-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    line-height: 1.2;
+    color: var(--white);
+    letter-spacing: 0.01em;
+    margin: 0;
+  }
+  .product-category {
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--teal-dim);
+  }
+  .product-price {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.5rem, 2.8vw, 2.1rem);
+    font-weight: 700;
+    color: var(--teal-bright);
+    letter-spacing: 0.01em;
+  }
+  .product-drop {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gray-light);
+  }
+  .product-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 4px 0 10px;
+  }
+  .product-pill {
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    line-height: 1;
+    border: 1px solid transparent;
+    backdrop-filter: blur(6px);
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  .pill-live {
+    background: rgba(68, 179, 126, 0.14);
+    color: #6de4b2;
+    border-color: rgba(68, 179, 126, 0.4);
+    box-shadow: 0 0 12px rgba(68, 179, 126, 0.16);
+  }
+  .pill-draft {
+    background: rgba(160, 160, 160, 0.12);
+    color: #cfd6dc;
+    border-color: rgba(160, 160, 160, 0.3);
+  }
+  .pill-soldout {
+    background: rgba(207, 88, 88, 0.14);
+    color: #ff9898;
+    border-color: rgba(207, 88, 88, 0.4);
+    box-shadow: 0 0 12px rgba(207, 88, 88, 0.16);
+  }
+  .pill-instock {
+    background: rgba(74, 157, 168, 0.14);
+    color: var(--teal-bright);
+    border-color: rgba(74, 157, 168, 0.38);
+  }
+  .product-description {
+    color: var(--gray-light);
+    line-height: 1.75;
+    font-size: 0.95rem;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  .product-description-empty {
+    color: rgba(200,210,220,0.38);
+    font-style: italic;
+    line-height: 1.6;
+    font-size: 0.9rem;
+  }
+  .product-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, rgba(74,157,168,0.22), transparent);
+    margin: 10px 0;
+  }
+  .product-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 14px;
+  }
+  .seller-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    background: rgba(74,157,168,0.04);
+    border: 1px solid rgba(74,157,168,0.12);
+    font-size: 0.85rem;
+  }
+  .seller-row-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--teal-dim);
+    margin-bottom: 6px;
+  }
+  .seller-row-name {
+    font-family: 'Cinzel', serif;
+    color: var(--white);
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+  }
+  .seller-store-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 14px;
+    border: 1px solid rgba(74,157,168,0.3);
+    color: var(--teal-bright);
+    text-decoration: none;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+  }
+  .seller-store-link:hover {
+    border-color: rgba(91,191,204,0.75);
+    color: var(--white);
+  }
+  .btn-addcart {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px 24px;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--charcoal);
+    background: linear-gradient(135deg, #67dde9, #43a5b0);
+    border: 1px solid rgba(91,191,204,0.55);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    width: 100%;
+  }
+  .btn-addcart:hover:not(:disabled) {
+    filter: brightness(1.08);
+    box-shadow: 0 0 32px rgba(91,191,204,0.35);
+  }
+  .btn-addcart:disabled {
+    background: #2b2b2b;
+    color: #666;
+    border-color: rgba(120,120,120,0.3);
+    cursor: not-allowed;
+    box-shadow: none;
+    filter: grayscale(0.5);
+  }
+  .btn-checkout-soon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 22px;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 0.72rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gray-light);
+    background: transparent;
+    border: 1px dashed rgba(160,160,160,0.25);
+    cursor: default;
+    width: 100%;
+    text-decoration: none;
+  }
+  .product-feedback {
+    min-height: 24px;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  .fb-success { color: #6de4b2; }
+  .fb-error { color: #ff9090; }
+  .fb-info { color: var(--teal-bright); }
+
+  @media (max-width: 960px) {
+    .product-layout {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+    .product-gallery {
+      position: static;
+      top: auto;
+      aspect-ratio: 1 / 1;
+      padding: 22px;
+    }
+    .product-meta {
+      padding-top: 0;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .product-gallery {
+      padding: 18px;
+    }
+    .seller-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 14px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<nav></nav>
+
+<div class="page-wrap">
+  <div id="productSlot"></div>
+</div>
+
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">DWM</div>
+      <div class="footer-tagline">Darkwave Market. The market that never ends. Built for the people, by the people.</div>
+    </div>
+    <div class="footer-col">
+      <h4>Market</h4>
+      <ul>
+        <li><a href="drops.html">New Drops</a></li>
+        <li><a href="drops.html?category=streetwear">Streetwear</a></li>
+        <li><a href="drops.html?category=sneakers">Sneakers</a></li>
+        <li><a href="drops.html?category=decor">Decor</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="about.html#mission">Our Mission</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="shipping.html">Shipping</a></li>
+        <li><a href="returns.html">Returns</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="reseller-apply.html">Sell With Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="https://www.instagram.com/darkwavemarket" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a href="contact.html">Email Us</a></li>
+        <li><a href="about.html">Press Kit</a></li>
+        <li><a href="reseller-apply.html">Brand Applications</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 Darkwave Market. All rights reserved. SA &amp; World Wide.<br><span class="founders">Founded by Chief Flakko &amp; Pablow</span></div>
+    <div class="footer-socials">
+      <a href="https://www.instagram.com/darkwavemarket" target="_blank" rel="noopener">IG</a>
+          <span class="social-placeholder">TWITTER</span>
+          <span class="social-placeholder">TIKTOK</span>
+    </div>
+  </div>
+</footer>
+
+<script type="module">
+  import { app, db } from '/assets/js/firebase-config.js';
+  window.__DWM_FIREBASE__ = app;
+  window.__DWM_DB__ = db;
+  import '/assets/js/product.js';
+</script>
+
+</body>
+</html>

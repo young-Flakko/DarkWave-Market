@@ -1,0 +1,245 @@
+html, body { height: 100%; overflow: hidden; }
+
+body {
+  background: #050505;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#shop-bg {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.container {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 40px 24px;
+  max-width: 700px;
+  width: 100%;
+}
+
+.back-link {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--teal-dim);
+  text-decoration: none;
+  margin-bottom: 48px;
+  transition: color 0.3s;
+}
+
+.back-link:hover { color: var(--teal-bright); }
+.back-link::before { content: '← '; }
+
+.eyebrow {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.6em;
+  text-transform: uppercase;
+  color: var(--teal-dim);
+  margin-bottom: 24px;
+  animation: fadeUp 0.8s ease both;
+}
+
+.title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(2.5rem, 8vw, 5.5rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0.05em;
+  background: linear-gradient(145deg, #2a6d78 0%, #4a9da8 30%, #7dd4e0 50%, #4a9da8 65%, #2a5a63 80%, #5bbfcc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 40px rgba(74,157,168,0.4));
+  animation: fadeUp 0.8s ease 0.15s both;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 32px 0;
+  animation: fadeUp 0.8s ease 0.3s both;
+}
+
+.divider-line { height: 1px; width: 80px; background: linear-gradient(to right, transparent, var(--teal-dim)); }
+.divider-line.r { background: linear-gradient(to left, transparent, var(--teal-dim)); }
+.diamond { width: 7px; height: 7px; background: var(--teal); transform: rotate(45deg); }
+
+.subtitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.9rem, 2vw, 1.15rem);
+  font-weight: 400;
+  color: var(--gray-light);
+  line-height: 1.8;
+  letter-spacing: 0.08em;
+  max-width: 500px;
+  margin: 0 auto 48px;
+  animation: fadeUp 0.8s ease 0.45s both;
+}
+
+.subtitle em { color: var(--teal); font-style: normal; font-weight: 600; }
+
+.progress-wrap {
+  margin: 0 auto 48px;
+  max-width: 400px;
+  animation: fadeUp 0.8s ease 0.6s both;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gray);
+  margin-bottom: 10px;
+}
+
+.progress-track {
+  height: 2px;
+  background: rgba(74,157,168,0.15);
+  position: relative;
+  overflow: visible;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 73%;
+  background: linear-gradient(to right, var(--teal-dim), var(--teal-bright));
+  position: relative;
+  box-shadow: 0 0 12px rgba(91,191,204,0.6);
+  animation: progressGrow 2s ease 1s both;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  background: var(--teal-bright);
+  border-radius: 50%;
+  box-shadow: 0 0 16px rgba(91,191,204,1);
+}
+
+@keyframes progressGrow {
+  from { width: 0; }
+  to { width: 73%; }
+}
+
+.notify-wrap {
+  display: flex;
+  gap: 0;
+  max-width: 440px;
+  margin: 0 auto;
+  animation: fadeUp 0.8s ease 0.75s both;
+}
+
+.notify-input {
+  flex: 1;
+  background: rgba(74,157,168,0.06);
+  border: 1px solid rgba(74,157,168,0.3);
+  border-right: none;
+  color: var(--white);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  padding: 14px 20px;
+  outline: none;
+  clip-path: polygon(8px 0%, 100% 0%, 100% 100%, 0% 100%, 0% 8px);
+  transition: border-color 0.3s, background 0.3s;
+}
+
+.notify-input::placeholder { color: var(--gray); }
+.notify-input:focus { border-color: var(--teal); background: rgba(74,157,168,0.1); }
+
+.notify-btn {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--black);
+  background: var(--teal);
+  border: none;
+  padding: 14px 28px;
+  cursor: crosshair;
+  clip-path: polygon(0% 0%, calc(100% - 8px) 0%, 100% 8px, 100% 100%, 8px 100%, 0% calc(100% - 8px));
+  transition: background 0.3s, box-shadow 0.3s;
+  white-space: nowrap;
+}
+
+.notify-btn:hover { background: var(--teal-bright); box-shadow: 0 0 24px rgba(91,191,204,0.5); }
+
+.notify-success {
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  color: var(--teal);
+  margin-top: 14px;
+  opacity: 0;
+  transition: opacity 0.4s;
+  font-weight: 600;
+}
+
+.notify-success.show { opacity: 1; }
+
+.ig-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 40px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--steel);
+  text-decoration: none;
+  transition: color 0.3s;
+  animation: fadeUp 0.8s ease 0.9s both;
+}
+
+.ig-cta:hover { color: var(--teal-bright); }
+.ig-cta svg { opacity: 0.6; transition: opacity 0.3s; }
+.ig-cta:hover svg { opacity: 1; }
+
+.title-wrap { position: relative; display: inline-block; }
+
+.title-wrap .glitch {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(145deg, #2a6d78 0%, #4a9da8 30%, #7dd4e0 50%, #4a9da8 65%, #2a5a63 80%, #5bbfcc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(2.5rem, 8vw, 5.5rem);
+  font-weight: 900;
+  line-height: 1;
+  animation: glitch 6s infinite;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes glitch {
+  0%, 94%, 100% { opacity: 0; transform: none; }
+  95% { opacity: 0.7; transform: translate(-3px, 1px) skewX(-2deg); filter: drop-shadow(3px 0 rgba(255,0,60,0.6)); }
+  96% { opacity: 0.7; transform: translate(3px, -1px) skewX(2deg); filter: drop-shadow(-3px 0 rgba(0,200,255,0.6)); }
+  97% { opacity: 0; }
+  98% { opacity: 0.5; transform: translate(-2px, 0) skewX(-1deg); }
+  99% { opacity: 0; }
+}

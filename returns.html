@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DWM — Returns</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+<link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+<link rel="stylesheet" href="/assets/css/shared.css">
+<link rel="stylesheet" href="/assets/css/pages.css">
+</head>
+<body>
+
+<nav></nav>
+
+<div class="page-wrap">
+  <span class="section-label">Support</span>
+  <h1 class="page-title">Returns &amp;<br>Exchanges.</h1>
+  <p class="page-desc">Limited drops carry limited return windows. Full policy live when checkout ships.</p>
+
+  <div class="placeholder-grid">
+    <div class="placeholder-card">
+      <h3>⏱ Return Window</h3>
+      <p>Standard items: 14 days<br>Limited drops: 7 days</p>
+      <span class="badge-coming">TBA</span>
+    </div>
+    <div class="placeholder-card">
+      <h3>✅ Eligibility</h3>
+      <p>Unworn, tags attached<br>Final sale items excluded</p>
+      <span class="badge-coming">TBA</span>
+    </div>
+    <div class="placeholder-card">
+      <h3>↩ Exchange</h3>
+      <p>Same item, size swap<br>Stock permitting</p>
+      <span class="badge-coming">TBA</span>
+    </div>
+    <div class="placeholder-card">
+      <h3>💰 Refunds</h3>
+      <p>Original payment method<br>Processing 3–10 days</p>
+      <span class="badge-coming">TBA</span>
+    </div>
+    <div class="placeholder-card">
+      <h3>📮 Return Label</h3>
+      <p>Generated via account portal<br>or support request</p>
+      <span class="badge-coming">Phase 3</span>
+    </div>
+    <div class="placeholder-card">
+      <h3>📞 Start a Return</h3>
+      <p>support@darkwavemarket.co.za<br>@darkwavemarket DM</p>
+      <span class="badge-coming">Open Now</span>
+    </div>
+  </div>
+
+  <section style="margin-top:64px;">
+    <div class="divider-wrap" style="margin: 0 0 32px;">
+      <div class="divider-line"></div>
+      <span class="divider-text">Drop-Specific Returns</span>
+      <div class="divider-line"></div>
+    </div>
+    <div style="max-width:760px;margin:0 auto;line-height:1.8;">
+      <p style="color:var(--gray-light);margin-bottom:16px;">
+        Because limited drops sell out fast, inventory is finite. Every drop page will state whether returns are accepted for that specific piece. Collab drops, signed pieces, and mystery items are typically final sale — we'll state this clearly on the listing.
+      </p>
+      <p style="color:var(--gray-light);">
+        Still unsure? Head to our <a href="faq.html" style="color:var(--teal);text-decoration:none;">FAQ</a> or <a href="contact.html" style="color:var(--teal);text-decoration:none;">Contact</a> page and we'll get back to you.
+      </p>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">DWM</div>
+      <div class="footer-tagline">Darkwave Market. The market that never ends. Built for the people, by the people.</div>
+    </div>
+    <div class="footer-col">
+      <h4>Market</h4>
+      <ul>
+        <li><a href="drops.html">New Drops</a></li>
+        <li><a href="drops.html?category=streetwear">Streetwear</a></li>
+        <li><a href="drops.html?category=sneakers">Sneakers</a></li>
+        <li><a href="drops.html?category=decor">Decor</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="about.html#mission">Our Mission</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="shipping.html">Shipping</a></li>
+        <li><a href="returns.html">Returns</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="reseller-apply.html">Sell With Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="https://www.instagram.com/darkwavemarket" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a href="contact.html">Email Us</a></li>
+        <li><a href="about.html">Press Kit</a></li>
+        <li><a href="reseller-apply.html">Brand Applications</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 Darkwave Market. All rights reserved. SA &amp; World Wide.<br><span class="founders">Founded by Chief Flakko &amp; Pablow</span></div>
+    <div class="footer-socials">
+      <a href="https://www.instagram.com/darkwavemarket" target="_blank" rel="noopener">IG</a>
+          <span class="social-placeholder">TWITTER</span>
+          <span class="social-placeholder">TIKTOK</span>
+    </div>
+  </div>
+</footer>
+
+<script type="module">
+  import { app } from '/assets/js/firebase-config.js';
+  import { renderNav } from '/assets/js/nav.js';
+  renderNav('nav');
+  window.__DWM_FIREBASE__ = app;
+</script>
+
+</body>
+</html>

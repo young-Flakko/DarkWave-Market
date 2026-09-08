@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>DWM — My Orders</title>
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="/assets/img/dwm-logo-new.png"
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+    <link rel="stylesheet" href="/assets/css/shared.css">
+  <link rel="stylesheet" href="/assets/css/pages.css">
+
+  <style>
+    :root {
+      --black: #050505;
+      --panel: #0b0b0b;
+
+      --teal: #4a9da8;
+      --teal-bright: #5bbfcc;
+      --teal-dim: #2a6d78;
+
+      --white: #e8e8e8;
+      --steel: #8a9ba8;
+
+      --gray: #555;
+      --gray-light: #888;
+
+      --yellow: #d7b76e;
+      --red: #ff9898;
+
+      --border: rgba(74,157,168,0.18);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+
+      background:
+        radial-gradient(
+          circle at 50% -10%,
+          rgba(74,157,168,0.09),
+          transparent 38%
+        ),
+        #050505;
+
+      color: var(--white);
+
+      font-family:
+        'Rajdhani',
+        sans-serif;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    #nav {
+      position: relative;
+      z-index: 100;
+    }
+
+    .hero {
+      padding:
+        80px
+        24px
+        55px;
+
+      border-bottom:
+        1px solid
+        var(--border);
+    }
+
+    .hero-inner,
+    .page {
+      width:
+        min(
+          1180px,
+          100%
+        );
+
+      margin:
+        0 auto;
+    }
+
+    .eyebrow {
+      margin-bottom: 15px;
+
+      color:
+        var(--teal);
+
+      font-size:
+        0.61rem;
+
+      font-weight:
+        700;
+
+      letter-spacing:
+        0.48em;
+
+      text-transform:
+        uppercase;
+    }
+
+    h1 {
+      font-family:
+        'Cinzel Decorative',
+        serif;
+
+      font-size:
+        clamp(
+          2.8rem,
+          8vw,
+          6rem
+        );
+
+      line-height:
+        0.95;
+
+      background:
+        linear-gradient(
+          145deg,
+          #2a6d78,
+          #4a9da8 30%,
+          #7dd4e0 50%,
+          #4a9da8 70%,
+          #2a5a63
+        );
+
+      -webkit-background-clip:
+        text;
+
+      -webkit-text-fill-color:
+        transparent;
+
+      background-clip:
+        text;
+    }
+
+    .hero-copy {
+      margin-top:
+        20px;
+
+      max-width:
+        600px;
+
+      color:
+        var(--gray-light);
+
+      font-family:
+        'Cinzel',
+        serif;
+
+      line-height:
+        1.8;
+
+      font-size:
+        0.82rem;
+    }
+
+    .page {
+      padding:
+        42px 20px
+        100px;
+    }
+
+    .orders {
+      display: grid;
+      gap: 20px;
+    }
+
+    .state {
+      padding: 70px 24px;
+
+      border:
+        1px dashed
+        var(--border);
+
+      text-align:
+        center;
+
+      color:
+        var(--gray-light);
+    }
+
+    .state h2 {
+      color:
+        var(--white);
+
+      font-family:
+        'Cinzel',
+        serif;
+
+      margin-bottom:
+        10px;
+    }
+
+    .order {
+      border:
+        1px solid
+        var(--border);
+
+      background:
+        rgba(255,255,255,0.014);
+    }
+
+    .order-head {
+      display: grid;
+
+      grid-template-columns:
+        minmax(0,1fr)
+        auto;
+
+      gap: 20px;
+
+      padding:
+        20px;
+
+      border-bottom:
+        1px solid
+        var(--border);
+    }
+
+    .reference-label {
+      color:
+        var(--teal-dim);
+
+      font-size:
+        0.53rem;
+
+      font-weight:
+        700;
+
+      letter-spacing:
+        0.25em;
+
+      text-transform:
+        uppercase;
+    }
+
+    .reference {
+      margin-top:
+        5px;
+
+      color:
+        var(--teal-bright);
+
+      font-family:
+        'Cinzel',
+        serif;
+
+      font-weight:
+        700;
+
+      letter-spacing:
+        0.04em;
+    }
+
+    .order-date {
+      margin-top:
+        7px;
+
+      color:
+        var(--gray-light);
+
+      font-size:
+        0.66rem;
+    }
+
+    .statuses {
+      display: flex;
+
+      gap: 8px;
+
+      flex-wrap:
+        wrap;
+
+      justify-content:
+        flex-end;
+    }
+
+    .pill {
+      padding:
+        7px 11px;
+
+      border:
+        1px solid
+        var(--border);
+
+      font-size:
+        0.52rem;
+
+      font-weight:
+        800;
+
+      letter-spacing:
+        0.16em;
+
+      text-transform:
+        uppercase;
+    }
+
+    .pending {
+      color:
+        var(--yellow);
+
+      border-color:
+        rgba(215,183,110,0.28);
+    }
+
+    .good {
+      color:
+        var(--teal-bright);
+
+      border-color:
+        rgba(91,191,204,0.34);
+    }
+
+    .bad {
+      color:
+        var(--red);
+    }
+
+    .order-body {
+      display: grid;
+
+      grid-template-columns:
+        minmax(0,1.2fr)
+        minmax(270px,0.8fr);
+
+      gap: 0;
+    }
+
+    .items {
+      padding:
+        20px;
+
+      border-right:
+        1px solid
+        var(--border);
+    }
+
+    .item {
+      display: grid;
+
+      grid-template-columns:
+        78px
+        minmax(0,1fr);
+
+      gap:
+        13px;
+
+      padding:
+        13px 0;
+
+      border-bottom:
+        1px solid
+        rgba(74,157,168,0.09);
+    }
+
+    .item:first-child {
+      padding-top:
+        0;
+    }
+
+    .item:last-child {
+      border-bottom:
+        0;
+
+      padding-bottom:
+        0;
+    }
+
+    .item-image {
+      width:
+        78px;
+
+      height:
+        78px;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      background:
+        #151515;
+
+      border:
+        1px solid
+        rgba(74,157,168,0.12);
+    }
+
+    .item-image img {
+      width:
+        100%;
+
+      height:
+        100%;
+
+      padding:
+        7px;
+
+      object-fit:
+        contain;
+    }
+
+    .item-name {
+      font-family:
+        'Cinzel',
+        serif;
+
+      font-size:
+        0.75rem;
+
+      font-weight:
+        700;
+    }
+
+    .item-store {
+      margin-top:
+        5px;
+
+      color:
+        var(--teal-dim);
+
+      font-size:
+        0.55rem;
+
+      font-weight:
+        700;
+
+      letter-spacing:
+        0.15em;
+
+      text-transform:
+        uppercase;
+    }
+
+    .item-meta {
+      margin-top:
+        7px;
+
+      color:
+        var(--gray-light);
+
+      font-size:
+        0.65rem;
+    }
+
+    .side {
+      padding:
+        20px;
+    }
+
+    .side-title {
+      margin-bottom:
+        12px;
+
+      color:
+        var(--teal-dim);
+
+      font-size:
+        0.55rem;
+
+      font-weight:
+        700;
+
+      letter-spacing:
+        0.25em;
+
+      text-transform:
+        uppercase;
+    }
+
+    .tracking-list {
+      display:
+        grid;
+
+      gap:
+        10px;
+    }
+
+    .shipment {
+      padding:
+        13px;
+
+      border:
+        1px solid
+        var(--border);
+
+      background:
+        rgba(74,157,168,0.025);
+    }
+
+    .shipment-store {
+      color:
+        var(--white);
+
+      font-weight:
+        700;
+
+      font-size:
+        0.72rem;
+    }
+
+    .shipment-status {
+      margin-top:
+        4px;
+
+      color:
+        var(--yellow);
+
+      font-size:
+        0.62rem;
+    }
+
+    .tracking-code {
+      margin-top:
+        10px;
+
+      color:
+        var(--teal-bright);
+
+      font-family:
+        'Cinzel',
+        serif;
+
+      font-size:
+        0.72rem;
+
+      word-break:
+        break-all;
+    }
+
+    .carrier {
+      margin-top:
+        5px;
+
+      color:
+        var(--gray-light);
+
+      font-size:
+        0.62rem;
+    }
+
+    .track-link {
+      display:
+        inline-flex;
+
+      margin-top:
+        11px;
+
+      text-decoration:
+        none;
+
+      color:
+        var(--teal-bright);
+
+      font-size:
+        0.56rem;
+
+      font-weight:
+        800;
+
+      letter-spacing:
+        0.18em;
+
+      text-transform:
+        uppercase;
+    }
+
+    .totals {
+      margin-top:
+        20px;
+
+      padding-top:
+        16px;
+
+      border-top:
+        1px solid
+        var(--border);
+    }
+
+    .total-row {
+      display:
+        flex;
+
+      justify-content:
+        space-between;
+
+      gap:
+        15px;
+
+      margin-bottom:
+        8px;
+
+      color:
+        var(--gray-light);
+
+      font-size:
+        0.68rem;
+    }
+
+    .total-row.final {
+      margin-top:
+        13px;
+
+      padding-top:
+        13px;
+
+      border-top:
+        1px solid
+        rgba(74,157,168,0.12);
+
+      color:
+        var(--white);
+
+      font-family:
+        'Cinzel',
+        serif;
+    }
+
+    .total-row.final strong {
+      color:
+        var(--teal-bright);
+    }
+
+    .order-actions {
+      display:
+        flex;
+
+      gap:
+        10px;
+
+      padding:
+        16px 20px;
+
+      border-top:
+        1px solid
+        var(--border);
+    }
+
+    .btn {
+      min-height:
+        42px;
+
+      padding:
+        0 18px;
+
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      border:
+        1px solid
+        var(--border);
+
+      color:
+        var(--steel);
+
+      text-decoration:
+        none;
+
+      font-size:
+        0.56rem;
+
+      font-weight:
+        800;
+
+      letter-spacing:
+        0.2em;
+
+      text-transform:
+        uppercase;
+    }
+
+    .btn:hover {
+      color:
+        var(--teal-bright);
+
+      border-color:
+        var(--teal);
+    }
+
+    @media (max-width: 760px) {
+
+      .order-head,
+      .order-body {
+        grid-template-columns:
+          1fr;
+      }
+
+      .statuses {
+        justify-content:
+          flex-start;
+      }
+
+      .items {
+        border-right:
+          0;
+
+        border-bottom:
+          1px solid
+          var(--border);
+      }
+
+    }
+  </style>
+</head>
+
+<body>
+
+<nav></nav>
+
+  <div id="nav"></div>
+
+  <header class="hero">
+
+    <div class="hero-inner">
+
+      <div class="eyebrow">
+        ◆ Dark Wave Market / Account
+      </div>
+
+      <h1>
+        MY ORDERS
+      </h1>
+
+      <p class="hero-copy">
+        View your purchases, payment status,
+        fulfilment progress and shipment tracking.
+      </p>
+
+    </div>
+
+  </header>
+
+
+  <main class="page">
+
+    <section
+      id="ordersRoot"
+      class="orders"
+    >
+
+      <div class="state">
+        Loading your orders...
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script
+    type="module"
+    src="/assets/js/my-orders.js"
+  ></script>
+
+</body>
+</html>

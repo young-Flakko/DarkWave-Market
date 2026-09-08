@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DWM — About</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+<link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+<link rel="stylesheet" href="/assets/css/shared.css">
+<link rel="stylesheet" href="/assets/css/pages.css">
+</head>
+<body>
+
+<nav></nav>
+
+<div class="page-wrap">
+  <span class="section-label">Darkwave Market</span>
+  <h1 class="page-title">About the<br>Wave.</h1>
+  <p class="page-desc">Darkwave Market is a curated marketplace for independent culture. We partner with underground designers, underground labels, and the artists pushing style forward. Content expanding — actual brand history coming soon.</p>
+
+  <div class="divider-wrap" style="margin: 48px 0;">
+    <div class="divider-line"></div>
+    <span class="divider-text">Our Story</span>
+    <div class="divider-line"></div>
+  </div>
+
+  <section style="max-width:760px;margin:0 auto 64px;line-height:1.8;">
+    <p style="color:var(--gray-light);margin-bottom:16px;">
+      <strong style="color:var(--white);">Darkwave Market</strong> began as a conversation between Chief Flakko &amp; Pablow — two people tired of watching culture get watered down by mass retail. The wave was always going to come from the independent side.
+    </p>
+    <p style="color:var(--gray-light);margin-bottom:16px;">
+      We built this market to be the exact opposite of fast fashion: limited runs, real stories, actual partners, and a door that never closes for the people creating the new.
+    </p>
+    <p style="color:var(--gray-light);">
+      Full brand history, partners, and milestones page coming in the next phase.
+    </p>
+  </section>
+
+  <section id="mission" style="scroll-margin-top:120px;">
+    <div class="divider-wrap" style="margin: 0 0 32px;">
+      <div class="divider-line"></div>
+      <span class="divider-text">Our Mission</span>
+      <div class="divider-line"></div>
+    </div>
+    <div style="max-width:760px;margin:0 auto;">
+      <span class="section-label">Manifesto</span>
+      <h2 class="section-title" style="margin-top:8px;margin-bottom:24px;">Built for the culture. By the culture.</h2>
+      <p style="color:var(--gray-light);margin-bottom:16px;line-height:1.8;">
+        Our mission is simple: give independent creators a real market. No algorithm lottery, no 60% cuts, no fake scarcity. Just honest drops, real partners, and a platform that treats artists like partners instead of SKUs.
+      </p>
+      <p style="color:var(--gray-light);margin-bottom:16px;line-height:1.8;">
+        <strong style="color:var(--white);">The Wave Principles:</strong> Quality over quantity. Story over hype. Long term over flip. Independent forever.
+      </p>
+      <p style="color:var(--gray-light);line-height:1.8;">
+        <em style="color:var(--teal);">"The wave doesn't ask permission. It arrives, and everything changes."</em> — DWM Manifesto
+      </p>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">DWM</div>
+      <div class="footer-tagline">Darkwave Market. The market that never ends. Built for the people, by the people.</div>
+    </div>
+    <div class="footer-col">
+      <h4>Market</h4>
+      <ul>
+        <li><a href="drops.html">New Drops</a></li>
+        <li><a href="drops.html?category=streetwear">Streetwear</a></li>
+        <li><a href="drops.html?category=sneakers">Sneakers</a></li>
+        <li><a href="drops.html?category=decor">Decor</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="about.html#mission">Our Mission</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="shipping.html">Shipping</a></li>
+        <li><a href="returns.html">Returns</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="reseller-apply.html">Sell With Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="https://www.instagram.com/darkwavemarket" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a href="contact.html">Email Us</a></li>
+        <li><a href="about.html">Press Kit</a></li>
+        <li><a href="reseller-apply.html">Brand Applications</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 Darkwave Market. All rights reserved. SA &amp; World Wide.<br><span class="founders">Founded by Chief Flakko &amp; Pablow</span></div>
+    <div class="footer-socials">
+      <a href="https://www.instagram.com/darkwavemarket" target="_blank" rel="noopener">IG</a>
+          <span class="social-placeholder">TWITTER</span>
+          <span class="social-placeholder">TIKTOK</span>
+    </div>
+  </div>
+</footer>
+
+<script type="module">
+  import { app } from '/assets/js/firebase-config.js';
+  import { renderNav } from '/assets/js/nav.js';
+  renderNav('nav');
+  window.__DWM_FIREBASE__ = app;
+</script>
+
+</body>
+</html>

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>DWM — Sign In</title>
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+  <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+
+  <link rel="stylesheet" href="/assets/css/shared.css">
+  <link rel="stylesheet" href="/assets/css/pages.css">
+</head>
+
+<body>
+
+<nav></nav>
+
+<div class="auth-wrap">
+  <div class="auth-card">
+
+    <div class="auth-eyebrow">
+      — Darkwave Market —
+    </div>
+
+    <h1 class="auth-title">
+      Welcome Back.
+    </h1>
+
+    <p class="auth-subtitle">
+      Sign in to access your drops, orders, and early access.
+    </p>
+
+    <form id="loginForm">
+
+      <div class="form-group">
+        <label class="form-label" for="email">
+          Email Address
+        </label>
+
+        <input
+          class="form-input"
+          type="email"
+          id="email"
+          autocomplete="email"
+          placeholder="you@thewave.com"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="password">
+          Password
+        </label>
+
+        <input
+          class="form-input"
+          type="password"
+          id="password"
+          autocomplete="current-password"
+          placeholder="••••••••"
+          required
+        >
+      </div>
+
+      <div
+        id="loginMessage"
+        style="
+          display:none;
+          margin:14px 0;
+          font-size:0.78rem;
+          line-height:1.5;
+          letter-spacing:0.04em;
+        "
+      ></div>
+
+      <button
+        id="loginButton"
+        type="submit"
+        class="btn-primary auth-btn"
+      >
+        Sign In
+      </button>
+
+    </form>
+
+    <div class="auth-footer">
+      New to the wave?
+      <a href="/signup.html">
+        Create an account
+      </a>
+    </div>
+
+  </div>
+</div>
+
+
+<script type="module">
+
+  import {
+    app,
+    auth
+  } from '/assets/js/firebase-config.js';
+
+  import {
+    signInWithEmailAndPassword,
+    onAuthStateChanged
+  } from 'firebase/auth';
+
+  import {
+    getUserProfile
+  } from '/assets/js/auth.js';
+
+  import {
+    renderNav
+  } from '/assets/js/nav.js';
+
+
+  // ============================================================
+  // NAV
+  // ============================================================
+
+  renderNav('nav', {
+    showCta: false,
+    showIg: false
+  });
+
+
+  // ============================================================
+  // ELEMENTS
+  // ============================================================
+
+  const form =
+    document.getElementById('loginForm');
+
+  const emailInput =
+    document.getElementById('email');
+
+  const passwordInput =
+    document.getElementById('password');
+
+  const message =
+    document.getElementById('loginMessage');
+
+  const button =
+    document.getElementById('loginButton');
+
+
+  // ============================================================
+  // MESSAGE HELPER
+  // ============================================================
+
+  function showMessage(text, type = 'error') {
+
+    message.style.display = 'block';
+
+    message.textContent = text;
+
+    if (type === 'success') {
+      message.style.color = 'var(--teal)';
+    } else {
+      message.style.color = '#d46f6f';
+    }
+  }
+
+
+  function clearMessage() {
+    message.style.display = 'none';
+    message.textContent = '';
+  }
+
+
+  // ============================================================
+  // REDIRECT USER BASED ON ROLE
+  // ============================================================
+
+  async function redirectSignedInUser(user) {
+
+    const profile =
+      await getUserProfile(user.uid);
+
+    if (
+      profile &&
+      profile.role === 'admin'
+    ) {
+      window.location.href =
+        '/admin.html';
+
+      return;
+    }
+
+    window.location.href =
+      '/account.html';
+  }
+
+
+  // ============================================================
+  // LOGIN
+  // ============================================================
+
+  form.addEventListener(
+    'submit',
+    async (event) => {
+
+      event.preventDefault();
+
+      clearMessage();
+
+      const email =
+        emailInput.value.trim();
+
+      const password =
+        passwordInput.value;
+
+      if (!email || !password) {
+        showMessage(
+          'Enter your email address and password.'
+        );
+
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = 'Signing In...';
+
+      try {
+
+        const credential =
+          await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+
+        showMessage(
+          'Signed in successfully.',
+          'success'
+        );
+
+        await redirectSignedInUser(
+          credential.user
+        );
+
+      } catch (err) {
+
+        console.error(
+          '[login] Firebase Auth error:',
+          err
+        );
+
+        let userMessage =
+          'Unable to sign in. Check your details and try again.';
+
+        switch (err.code) {
+
+          case 'auth/invalid-credential':
+          case 'auth/wrong-password':
+          case 'auth/user-not-found':
+            userMessage =
+              'Incorrect email address or password.';
+            break;
+
+          case 'auth/invalid-email':
+            userMessage =
+              'Enter a valid email address.';
+            break;
+
+          case 'auth/too-many-requests':
+            userMessage =
+              'Too many sign-in attempts. Try again later.';
+            break;
+
+          case 'auth/network-request-failed':
+            userMessage =
+              'Network error. Check your connection and try again.';
+            break;
+        }
+
+        showMessage(
+          userMessage
+        );
+
+      } finally {
+
+        button.disabled = false;
+        button.textContent = 'Sign In';
+
+      }
+    }
+  );
+
+
+  // ============================================================
+  // IF ALREADY SIGNED IN
+  // ============================================================
+
+  let initialCheckComplete = false;
+
+  onAuthStateChanged(
+    auth,
+    async (user) => {
+
+      if (initialCheckComplete) {
+        return;
+      }
+
+      initialCheckComplete = true;
+
+      if (user) {
+        await redirectSignedInUser(user);
+      }
+    }
+  );
+
+
+  // ============================================================
+  // DEBUG REFERENCES
+  // ============================================================
+
+  window.__DWM_FIREBASE__ = app;
+  window.__DWM_AUTH__ = auth;
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>DWM — Sell With Us</title>
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+  <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+
+  <link rel="stylesheet" href="/assets/css/shared.css">
+  <link rel="stylesheet" href="/assets/css/pages.css">
+</head>
+
+<body>
+
+<nav></nav>
+
+<div class="page-wrap">
+
+  <span class="section-label">
+    Sell With DWM
+  </span>
+
+  <h1 class="page-title">
+    Become a<br>Partner.
+  </h1>
+
+  <p class="page-desc">
+    Think your brand belongs in the market?
+    Apply below. Every application is reviewed by the Darkwave Market team.
+  </p>
+
+
+  <div
+    class="auth-wrap"
+    style="
+      max-width:640px;
+      min-height:auto;
+      padding-top:48px;
+      padding-bottom:48px;
+    "
+  >
+
+    <div class="auth-card">
+
+      <div class="auth-eyebrow">
+        — Reseller Application —
+      </div>
+
+      <h1
+        class="auth-title"
+        style="text-align:left;"
+      >
+        Sell with Darkwave.
+      </h1>
+
+      <p
+        class="auth-subtitle"
+        style="
+          text-align:left;
+          margin-bottom:32px;
+        "
+      >
+        Tell us about your brand.
+        You must be signed into a DWM account before submitting.
+      </p>
+
+
+      <form id="resellerForm">
+
+        <div class="form-group">
+
+          <label
+            class="form-label"
+            for="bizName"
+          >
+            Business / Brand Name
+          </label>
+
+          <input
+            class="form-input"
+            type="text"
+            id="bizName"
+            maxlength="80"
+            placeholder="e.g. Void Atelier"
+            required
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label
+            class="form-label"
+            for="contactEmail"
+          >
+            Contact Email
+          </label>
+
+          <input
+            class="form-input"
+            type="email"
+            id="contactEmail"
+            placeholder="you@brand.com"
+            required
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label
+            class="form-label"
+            for="whatSell"
+          >
+            What Do You Sell?
+          </label>
+
+          <input
+            class="form-input"
+            type="text"
+            id="whatSell"
+            maxlength="160"
+            placeholder="Streetwear, outerwear, sneakers, fragrance..."
+            required
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label
+            class="form-label"
+            for="igHandle"
+          >
+            Instagram Handle
+          </label>
+
+          <input
+            class="form-input"
+            type="text"
+            id="igHandle"
+            maxlength="80"
+            placeholder="@yourbrand"
+            required
+          >
+
+        </div>
+
+
+        <div
+          id="authNotice"
+          style="
+            display:none;
+            margin:16px 0;
+            padding:14px;
+            border:1px solid rgba(74,157,168,0.3);
+            background:rgba(74,157,168,0.08);
+            color:var(--gray-light);
+            font-size:0.8rem;
+            line-height:1.6;
+          "
+        ></div>
+
+
+        <button
+          type="submit"
+          id="submitButton"
+          class="btn-primary auth-btn"
+        >
+          Submit Application
+        </button>
+
+      </form>
+
+
+      <div
+        id="resellerStatus"
+        style="
+          display:none;
+          margin-top:20px;
+          padding:16px;
+          background:rgba(74,157,168,0.1);
+          border:1px solid rgba(74,157,168,0.3);
+          text-align:center;
+        "
+      >
+
+        <div
+          style="
+            color:var(--teal-bright);
+            font-weight:700;
+            letter-spacing:0.1em;
+            font-size:0.8rem;
+            margin-bottom:4px;
+          "
+        >
+          ◆ APPLICATION RECEIVED
+        </div>
+
+        <div
+          style="
+            color:var(--gray-light);
+            font-size:0.8rem;
+          "
+        >
+          Your application has been submitted to Darkwave Market for review.
+        </div>
+
+      </div>
+
+
+      <div
+        class="auth-footer"
+        style="margin-top:24px;"
+      >
+        Already selling on DWM?
+        <a href="/login.html">
+          Sign in to your account
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<footer>
+
+  <div class="footer-top">
+
+    <div>
+
+      <div class="footer-brand">
+        DWM
+      </div>
+
+      <div class="footer-tagline">
+        Darkwave Market. The market that never ends.
+        Built for the people, by the people.
+      </div>
+
+    </div>
+
+
+    <div class="footer-col">
+
+      <h4>Market</h4>
+
+      <ul>
+        <li><a href="/drops.html">New Drops</a></li>
+        <li><a href="/drops.html?category=streetwear">Streetwear</a></li>
+        <li><a href="/drops.html?category=sneakers">Sneakers</a></li>
+        <li><a href="/drops.html?category=decor">Decor</a></li>
+      </ul>
+
+    </div>
+
+
+    <div class="footer-col">
+
+      <h4>Company</h4>
+
+      <ul>
+        <li><a href="/about.html">About Us</a></li>
+        <li><a href="/about.html#mission">Our Mission</a></li>
+        <li><a href="/events.html">Events</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+
+    </div>
+
+
+    <div class="footer-col">
+
+      <h4>Support</h4>
+
+      <ul>
+        <li><a href="/shipping.html">Shipping</a></li>
+        <li><a href="/returns.html">Returns</a></li>
+        <li><a href="/faq.html">FAQ</a></li>
+        <li><a href="/reseller-apply.html">Sell With Us</a></li>
+      </ul>
+
+    </div>
+
+
+    <div class="footer-col">
+
+      <h4>Connect</h4>
+
+      <ul>
+
+        <li>
+          <a
+            href="https://www.instagram.com/darkwavemarket"
+            target="_blank"
+            rel="noopener"
+          >
+            Instagram
+          </a>
+        </li>
+
+        <li>
+          <a href="/contact.html">
+            Email Us
+          </a>
+        </li>
+
+        <li>
+          <a href="/about.html">
+            Press Kit
+          </a>
+        </li>
+
+        <li>
+          <a href="/reseller-apply.html">
+            Brand Applications
+          </a>
+        </li>
+
+      </ul>
+
+    </div>
+
+  </div>
+
+
+  <div class="footer-bottom">
+
+    <div class="footer-copy">
+
+      © 2026 Darkwave Market.
+      All rights reserved.
+      SA &amp; World Wide.
+
+      <br>
+
+      <span class="founders">
+        Founded by Chief Flakko &amp; Pablow
+      </span>
+
+    </div>
+
+
+    <div class="footer-socials">
+
+      <a
+        href="https://www.instagram.com/darkwavemarket"
+        target="_blank"
+        rel="noopener"
+      >
+        IG
+      </a>
+
+      <span class="social-placeholder">
+        TWITTER
+      </span>
+
+      <span class="social-placeholder">
+        TIKTOK
+      </span>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+<script type="module">
+
+  import {
+    app,
+    auth,
+    db
+  } from '/assets/js/firebase-config.js';
+
+  import {
+    onAuthStateChanged
+  } from 'firebase/auth';
+
+  import {
+    doc,
+    getDoc,
+    setDoc,
+    serverTimestamp
+  } from 'firebase/firestore';
+
+  import {
+    renderNav
+  } from '/assets/js/nav.js';
+
+
+  // ============================================================
+  // NAV
+  // ============================================================
+
+  renderNav('nav');
+
+
+  // ============================================================
+  // ELEMENTS
+  // ============================================================
+
+  const form =
+    document.getElementById('resellerForm');
+
+  const bizName =
+    document.getElementById('bizName');
+
+  const contactEmail =
+    document.getElementById('contactEmail');
+
+  const whatSell =
+    document.getElementById('whatSell');
+
+  const igHandle =
+    document.getElementById('igHandle');
+
+  const submitButton =
+    document.getElementById('submitButton');
+
+  const status =
+    document.getElementById('resellerStatus');
+
+  const authNotice =
+    document.getElementById('authNotice');
+
+
+  let currentUser = null;
+
+
+  // ============================================================
+  // AUTH STATE
+  // ============================================================
+
+  onAuthStateChanged(
+    auth,
+    async (user) => {
+
+      currentUser = user;
+
+
+      if (!user) {
+
+        authNotice.style.display =
+          'block';
+
+        authNotice.innerHTML =
+          'You need a DWM account before applying. ' +
+          '<a href="/login.html" style="color:var(--teal-bright);">' +
+          'Sign in here</a>.';
+
+        return;
+      }
+
+
+      authNotice.style.display =
+        'block';
+
+      authNotice.textContent =
+        `Signed in as ${user.email}`;
+
+
+      if (
+        user.email &&
+        !contactEmail.value
+      ) {
+        contactEmail.value =
+          user.email;
+      }
+
+
+      // --------------------------------------------------------
+      // CHECK EXISTING APPLICATION
+      // --------------------------------------------------------
+
+      try {
+
+        const applicationRef =
+          doc(
+            db,
+            'resellerApplications',
+            user.uid
+          );
+
+        const applicationSnap =
+          await getDoc(applicationRef);
+
+
+        if (applicationSnap.exists()) {
+
+          const application =
+            applicationSnap.data();
+
+
+          if (application.status === 'pending') {
+
+            status.style.display =
+              'block';
+
+            status.querySelector('div:last-child').textContent =
+              'Your application is already pending review.';
+
+          }
+
+
+          if (application.status === 'approved') {
+
+            status.style.display =
+              'block';
+
+            status.querySelector('div:first-child').textContent =
+              '◆ APPLICATION APPROVED';
+
+            status.querySelector('div:last-child').textContent =
+              'Your brand has been approved to sell on Darkwave Market.';
+
+            submitButton.disabled =
+              true;
+
+            submitButton.textContent =
+              'Approved';
+
+          }
+
+
+          if (application.status === 'rejected') {
+
+            authNotice.textContent =
+              'Your previous application was not approved. Contact DWM if you need more information.';
+
+          }
+
+        }
+
+      } catch (err) {
+
+        console.error(
+          '[reseller-apply] Existing application check failed:',
+          err
+        );
+
+      }
+
+    }
+  );
+
+
+  // ============================================================
+  // SUBMIT APPLICATION
+  // ============================================================
+
+  form.addEventListener(
+    'submit',
+    async (event) => {
+
+      event.preventDefault();
+
+
+      if (!currentUser) {
+
+        authNotice.style.display =
+          'block';
+
+        authNotice.innerHTML =
+          'Please <a href="/login.html" style="color:var(--teal-bright);">' +
+          'sign in</a> before submitting an application.';
+
+        return;
+      }
+
+
+      const businessName =
+        bizName.value.trim();
+
+      const email =
+        contactEmail.value.trim();
+
+      const whatYouSell =
+        whatSell.value.trim();
+
+      const instagramHandle =
+        igHandle.value.trim();
+
+
+      if (
+        !businessName ||
+        !email ||
+        !whatYouSell ||
+        !instagramHandle
+      ) {
+        return;
+      }
+
+
+      submitButton.disabled =
+        true;
+
+      submitButton.textContent =
+        'Submitting...';
+
+
+      try {
+
+        const applicationRef =
+          doc(
+            db,
+            'resellerApplications',
+            currentUser.uid
+          );
+
+
+        await setDoc(
+          applicationRef,
+          {
+            userUid:
+              currentUser.uid,
+
+            applicantEmail:
+              currentUser.email || '',
+
+            businessName,
+
+            contactEmail:
+              email,
+
+            whatYouSell,
+
+            instagramHandle,
+
+            status:
+              'pending',
+
+            submittedAt:
+              serverTimestamp(),
+
+            updatedAt:
+              serverTimestamp()
+          }
+        );
+
+
+        status.style.display =
+          'block';
+
+        status.querySelector('div:first-child').textContent =
+          '◆ APPLICATION RECEIVED';
+
+        status.querySelector('div:last-child').textContent =
+          'Your application has been submitted to Darkwave Market for review.';
+
+
+        submitButton.textContent =
+          'Application Submitted';
+
+
+      } catch (err) {
+
+        console.error(
+          '[reseller-apply] Firestore submission error:',
+          err
+        );
+
+
+        authNotice.style.display =
+          'block';
+
+        authNotice.textContent =
+          'Unable to submit your application. Please try again.';
+
+
+        submitButton.disabled =
+          false;
+
+        submitButton.textContent =
+          'Submit Application';
+
+      }
+
+    }
+  );
+
+
+  // ============================================================
+  // DEBUG
+  // ============================================================
+
+  window.__DWM_FIREBASE__ = app;
+  window.__DWM_AUTH__ = auth;
+  window.__DWM_DB__ = db;
+
+</script>
+
+</body>
+</html>

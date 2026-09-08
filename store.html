@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DWM — Brand Store</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+<link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+<link rel="stylesheet" href="/assets/css/shared.css">
+<link rel="stylesheet" href="/assets/css/pages.css">
+</head>
+<body>
+
+<nav></nav>
+
+<div class="page-wrap">
+  <div class="store-header">
+    <div style="display:flex;gap:24px;align-items:center;flex-wrap:wrap;">
+      <div class="store-avatar" id="storeAvatar">?</div>
+      <div>
+        <span class="section-label" style="margin-bottom:8px;">Brand Storefront</span>
+        <h1 class="page-title" id="storeTitle" style="margin-bottom:8px;">Loading Store...</h1>
+        <p class="page-desc" id="storeDesc">Fetching brand details from Firestore in next phase.</p>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;">
+      <a href="brands.html" class="btn-secondary">All Brands</a>
+      <a href="drops.html" class="btn-primary" id="viewDropsBtn">View Drops</a>
+    </div>
+  </div>
+
+  <div style="margin-top:32px;">
+    <h2 class="section-title" style="margin-bottom:24px;">Catalog</h2>
+    <div id="catalogWrap"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">DWM</div>
+      <div class="footer-tagline">Darkwave Market. The market that never ends. Built for the people, by the people.</div>
+    </div>
+    <div class="footer-col">
+      <h4>Market</h4>
+      <ul>
+        <li><a href="drops.html">New Drops</a></li>
+        <li><a href="drops.html?category=streetwear">Streetwear</a></li>
+        <li><a href="drops.html?category=sneakers">Sneakers</a></li>
+        <li><a href="drops.html?category=decor">Decor</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="about.html#mission">Our Mission</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="shipping.html">Shipping</a></li>
+        <li><a href="returns.html">Returns</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="reseller-apply.html">Sell With Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="https://www.instagram.com/darkwavemarket" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a href="contact.html">Email Us</a></li>
+        <li><a href="about.html">Press Kit</a></li>
+        <li><a href="reseller-apply.html">Brand Applications</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 Darkwave Market. All rights reserved. SA &amp; World Wide.<br><span class="founders">Founded by Chief Flakko &amp; Pablow</span></div>
+    <div class="footer-socials">
+      <a href="https://www.instagram.com/darkwavemarket" target="_blank" rel="noopener">IG</a>
+          <span class="social-placeholder">TWITTER</span>
+          <span class="social-placeholder">TIKTOK</span>
+    </div>
+  </div>
+</footer>
+
+<script type="module">
+  import { app, db } from '/assets/js/firebase-config.js';
+  window.__DWM_FIREBASE__ = app;
+  window.__DWM_DB__ = db;
+  import '/assets/js/store.js';
+</script>
+
+</body>
+</html>

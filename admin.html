@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>DWM — Admin Panel</title>
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+  <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+
+  <link rel="stylesheet" href="/assets/css/shared.css">
+  <link rel="stylesheet" href="/assets/css/pages.css">
+</head>
+
+<body>
+
+<nav></nav>
+
+<div
+  class="page-wrap"
+  id="adminPanel"
+  style="display:none;"
+>
+
+  <span class="section-label">
+    Administration
+  </span>
+
+  <h1 class="page-title">
+    Control the Wave.
+  </h1>
+
+  <p class="page-desc" id="adminIntro">
+    Manage Darkwave Market.
+  </p>
+
+
+  <div class="placeholder-grid">
+
+    <!-- DROPS -->
+
+    <div class="placeholder-card">
+
+      <h3>🎯 Drops</h3>
+
+      <p>
+        Create, edit, schedule, and publish
+        Darkwave Market products and drops.
+      </p>
+
+      <span class="badge-coming">
+        Next
+      </span>
+
+    </div>
+
+
+    <!-- BRANDS -->
+
+    <div class="placeholder-card">
+
+      <h3>🏪 Brands</h3>
+
+      <p>
+        Review reseller applications and
+        manage partner stores.
+      </p>
+
+      <a
+        href="/admin-brands.html"
+        class="btn-primary"
+        style="
+          display:inline-block;
+          margin-top:10px;
+          text-decoration:none;
+        "
+      >
+        Review Applications
+      </a>
+
+    </div>
+
+
+    <!-- ORDERS -->
+
+    <div class="placeholder-card">
+
+      <h3>📦 Orders</h3>
+
+      <p>
+        Fulfillment, refunds, and
+        order status management.
+      </p>
+
+      <span class="badge-coming">
+        Coming Soon
+      </span>
+
+    </div>
+
+
+    <!-- USERS -->
+
+    <div class="placeholder-card">
+
+      <h3>👥 Users</h3>
+
+      <p>
+        Manage DWM users and
+        reseller access.
+      </p>
+
+      <span class="badge-coming">
+        Phase 4
+      </span>
+
+    </div>
+
+
+    <!-- ANALYTICS -->
+
+    <div class="placeholder-card">
+
+      <h3>📊 Analytics</h3>
+
+      <p>
+        Sales, traffic, and
+        drop performance.
+      </p>
+
+      <span class="badge-coming">
+        Coming Soon
+      </span>
+
+    </div>
+
+
+    <!-- EVENTS -->
+
+    <div class="placeholder-card">
+
+      <h3>📅 Events</h3>
+
+      <p>
+        Manage Darkwave pop-ups
+        and market events.
+      </p>
+
+      <span class="badge-coming">
+        Coming Soon
+      </span>
+
+    </div>
+
+
+    <!-- ACCOUNT -->
+
+    <div class="placeholder-card">
+
+      <h3>👤 My Account</h3>
+
+      <p>
+        Return to your DWM account dashboard.
+      </p>
+
+      <a
+        href="/account.html"
+        class="btn-primary"
+        style="
+          display:inline-block;
+          margin-top:10px;
+          text-decoration:none;
+        "
+      >
+        My Account
+      </a>
+
+    </div>
+
+
+    <!-- SIGN OUT -->
+
+    <div class="placeholder-card">
+
+      <h3>🚪 Sign Out</h3>
+
+      <p>
+        End the current administrator session.
+      </p>
+
+      <button
+        id="logoutButton"
+        type="button"
+        class="btn-primary"
+        style="margin-top:10px;"
+      >
+        Sign Out
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<footer>
+
+  <div class="footer-top">
+
+    <div>
+
+      <div class="footer-brand">
+        DWM
+      </div>
+
+      <div class="footer-tagline">
+        Darkwave Market. The market that never ends.
+        Built for the people, by the people.
+      </div>
+
+    </div>
+
+
+    <div class="footer-col">
+
+      <h4>Market</h4>
+
+      <ul>
+        <li><a href="/drops.html">New Drops</a></li>
+        <li><a href="/drops.html?category=streetwear">Streetwear</a></li>
+        <li><a href="/drops.html?category=sneakers">Sneakers</a></li>
+        <li><a href="/drops.html?category=decor">Decor</a></li>
+      </ul>
+
+    </div>
+
+
+    <div class="footer-col">
+
+      <h4>Company</h4>
+
+      <ul>
+        <li><a href="/about.html">About Us</a></li>
+        <li><a href="/about.html#mission">Our Mission</a></li>
+        <li><a href="/events.html">Events</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+
+    </div>
+
+
+    <div class="footer-col">
+
+      <h4>Support</h4>
+
+      <ul>
+        <li><a href="/shipping.html">Shipping</a></li>
+        <li><a href="/returns.html">Returns</a></li>
+        <li><a href="/faq.html">FAQ</a></li>
+        <li><a href="/reseller-apply.html">Sell With Us</a></li>
+      </ul>
+
+    </div>
+
+
+    <div class="footer-col">
+
+      <h4>Connect</h4>
+
+      <ul>
+
+        <li>
+          <a
+            href="https://www.instagram.com/darkwavemarket"
+            target="_blank"
+            rel="noopener"
+          >
+            Instagram
+          </a>
+        </li>
+
+        <li><a href="/contact.html">Email Us</a></li>
+        <li><a href="/about.html">Press Kit</a></li>
+        <li><a href="/reseller-apply.html">Brand Applications</a></li>
+
+      </ul>
+
+    </div>
+
+  </div>
+
+
+  <div class="footer-bottom">
+
+    <div class="footer-copy">
+
+      © 2026 Darkwave Market.
+      All rights reserved.
+      SA &amp; World Wide.
+
+      <br>
+
+      <span class="founders">
+        Founded by Chief Flakko &amp; Pablow
+      </span>
+
+    </div>
+
+
+    <div class="footer-socials">
+
+      <a
+        href="https://www.instagram.com/darkwavemarket"
+        target="_blank"
+        rel="noopener"
+      >
+        IG
+      </a>
+
+      <span class="social-placeholder">
+        TWITTER
+      </span>
+
+      <span class="social-placeholder">
+        TIKTOK
+      </span>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+<script type="module">
+
+  import {
+    app,
+    auth,
+    db
+  } from '/assets/js/firebase-config.js';
+
+  import {
+    signOut
+  } from 'firebase/auth';
+
+  import {
+    requireAdmin
+  } from '/assets/js/auth.js';
+
+  import {
+    renderNav
+  } from '/assets/js/nav.js';
+
+
+  // ============================================================
+  // NAV
+  // ============================================================
+
+  renderNav('nav');
+
+
+  // ============================================================
+  // ELEMENTS
+  // ============================================================
+
+  const adminPanel =
+    document.getElementById('adminPanel');
+
+  const adminIntro =
+    document.getElementById('adminIntro');
+
+  const logoutButton =
+    document.getElementById('logoutButton');
+
+
+  // ============================================================
+  // ADMIN SECURITY GATE
+  // ============================================================
+
+  requireAdmin(
+    (user, profile) => {
+
+      const displayName =
+        profile?.displayName ||
+        user.displayName ||
+        'DWM Admin';
+
+
+      adminPanel.style.display =
+        'block';
+
+
+      adminIntro.textContent =
+        `Welcome, ${displayName}. Manage Darkwave Market from the control panel below.`;
+
+    }
+  );
+
+
+  // ============================================================
+  // LOGOUT
+  // ============================================================
+
+  logoutButton.addEventListener(
+    'click',
+    async () => {
+
+      logoutButton.disabled = true;
+
+      logoutButton.textContent =
+        'Signing Out...';
+
+
+      try {
+
+        await signOut(auth);
+
+        window.location.href =
+          '/login.html';
+
+
+      } catch (err) {
+
+        console.error(
+          '[admin] Sign-out error:',
+          err
+        );
+
+
+        logoutButton.disabled =
+          false;
+
+        logoutButton.textContent =
+          'Sign Out';
+
+
+        alert(
+          'Unable to sign out. Try again.'
+        );
+
+      }
+
+    }
+  );
+
+
+  // ============================================================
+  // DEBUG REFERENCES
+  // ============================================================
+
+  window.__DWM_FIREBASE__ =
+    app;
+
+  window.__DWM_AUTH__ =
+    auth;
+
+  window.__DWM_DB__ =
+    db;
+
+</script>
+
+</body>
+</html>

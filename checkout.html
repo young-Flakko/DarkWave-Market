@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>DWM — Checkout</title>
+
+  <meta
+    name="description"
+    content="Complete your order securely on Dark Wave Market."
+  >
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="/assets/img/dwm-logo-new.png"
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+    <link rel="stylesheet" href="/assets/css/shared.css">
+  <link rel="stylesheet" href="/assets/css/pages.css">
+
+  <style>
+    :root {
+      --black: #080808;
+      --black-deep: #050505;
+      --charcoal: #111111;
+      --charcoal-light: #171717;
+
+      --teal: #4a9da8;
+      --teal-bright: #5bbfcc;
+      --teal-dim: #2a6d78;
+
+      --steel: #8a9ba8;
+      --white: #e8e8e8;
+
+      --gray: #555;
+      --gray-light: #888;
+
+      --danger: #cf5858;
+
+      --border: rgba(74, 157, 168, 0.18);
+      --border-strong: rgba(74, 157, 168, 0.38);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+
+      background:
+        radial-gradient(
+          circle at 50% -10%,
+          rgba(74, 157, 168, 0.08),
+          transparent 40%
+        ),
+        #050505;
+
+      color: var(--white);
+
+      font-family: 'Rajdhani', sans-serif;
+    }
+
+    body::before {
+      content: '';
+
+      position: fixed;
+      inset: 0;
+
+      pointer-events: none;
+
+      opacity: 0.025;
+
+      z-index: 9998;
+
+      background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitchTiles'/%3E%3C/filter id='n'/%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button,
+    select {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    #nav {
+      position: relative;
+      z-index: 100;
+    }
+
+    .checkout-hero {
+      padding:
+        clamp(64px, 8vw, 100px)
+        24px
+        54px;
+
+      border-bottom:
+        1px solid
+        var(--border);
+    }
+
+    .checkout-hero-inner {
+      width:
+        min(
+          1280px,
+          100%
+        );
+
+      margin: 0 auto;
+    }
+
+    .hero-eyebrow {
+      margin-bottom: 16px;
+
+      color: var(--teal);
+
+      font-size: 0.62rem;
+      font-weight: 700;
+
+      letter-spacing: 0.5em;
+
+      text-transform: uppercase;
+    }
+
+    .hero-title {
+      font-family:
+        'Cinzel Decorative',
+        serif;
+
+      font-size:
+        clamp(
+          2.8rem,
+          7vw,
+          6rem
+        );
+
+      font-weight: 900;
+
+      line-height: 0.95;
+
+      letter-spacing: 0.02em;
+
+      background:
+        linear-gradient(
+          145deg,
+          #2a6d78 0%,
+          #4a9da8 30%,
+          #7dd4e0 50%,
+          #4a9da8 70%,
+          #2a5a63 100%
+        );
+
+      -webkit-background-clip:
+        text;
+
+      -webkit-text-fill-color:
+        transparent;
+
+      background-clip:
+        text;
+    }
+
+    .hero-copy {
+      max-width: 620px;
+
+      margin-top: 22px;
+
+      color: var(--gray-light);
+
+      font-family:
+        'Cinzel',
+        serif;
+
+      font-size: 0.9rem;
+
+      line-height: 1.8;
+
+      letter-spacing: 0.05em;
+    }
+
+    .checkout-shell {
+      width:
+        min(
+          1280px,
+          calc(100% - 40px)
+        );
+
+      margin: 0 auto;
+
+      padding: 42px 0 100px;
+    }
+
+    .checkout-grid {
+      display: grid;
+
+      grid-template-columns:
+        minmax(0, 1.4fr)
+        minmax(320px, 0.8fr);
+
+      gap: 28px;
+
+      align-items: start;
+    }
+
+    .panel {
+      border:
+        1px solid
+        var(--border);
+
+      background:
+        rgba(255, 255, 255, 0.018);
+    }
+
+    .panel-header {
+      padding: 20px 22px;
+
+      border-bottom:
+        1px solid
+        var(--border);
+    }
+
+    .panel-eyebrow {
+      margin-bottom: 6px;
+
+      color: var(--teal-dim);
+
+      font-size: 0.56rem;
+      font-weight: 700;
+
+      letter-spacing: 0.28em;
+
+      text-transform: uppercase;
+    }
+
+    .panel-title {
+      font-family:
+        'Cinzel',
+        serif;
+
+      font-size: 1.05rem;
+      font-weight: 700;
+
+      letter-spacing: 0.04em;
+    }
+
+    .panel-body {
+      padding: 22px;
+    }
+
+    .section {
+      margin-bottom: 30px;
+    }
+
+    .section:last-child {
+      margin-bottom: 0;
+    }
+
+    .section-heading {
+      margin-bottom: 16px;
+
+      color: var(--white);
+
+      font-size: 0.72rem;
+      font-weight: 700;
+
+      letter-spacing: 0.22em;
+
+      text-transform: uppercase;
+    }
+
+    .form-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+      gap: 14px;
+    }
+
+    .field-full {
+      grid-column: 1 / -1;
+    }
+
+    .field label {
+      display: block;
+
+      margin-bottom: 7px;
+
+      color: var(--teal-dim);
+
+      font-size: 0.55rem;
+      font-weight: 700;
+
+      letter-spacing: 0.2em;
+
+      text-transform: uppercase;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+
+      border:
+        1px solid
+        var(--border);
+
+      outline: none;
+
+      background: #0c0c0c;
+
+      color: var(--white);
+
+      padding: 0 13px;
+
+      transition:
+        border-color 0.2s,
+        background 0.2s;
+    }
+
+    .field input,
+    .field select {
+      height: 46px;
+    }
+
+    .field textarea {
+      min-height: 90px;
+
+      resize: vertical;
+
+      padding-top: 12px;
+      padding-bottom: 12px;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color:
+        var(--teal);
+
+      background:
+        rgba(74, 157, 168, 0.04);
+    }
+
+    .field input::placeholder,
+    .field textarea::placeholder {
+      color: #5b5b5b;
+    }
+
+    .shipping-choice {
+      display: grid;
+
+      gap: 10px;
+    }
+
+    .shipping-option {
+      border:
+        1px solid
+        var(--border);
+
+      padding: 14px;
+
+      display: flex;
+
+      align-items: flex-start;
+
+      gap: 12px;
+
+      background:
+        rgba(255, 255, 255, 0.012);
+    }
+
+    .shipping-option input {
+      margin-top: 3px;
+
+      accent-color:
+        var(--teal);
+    }
+
+    .shipping-option strong {
+      display: block;
+
+      color: var(--white);
+
+      font-size: 0.78rem;
+
+      margin-bottom: 3px;
+    }
+
+    .shipping-option span {
+      color: var(--gray-light);
+
+      font-size: 0.68rem;
+
+      line-height: 1.5;
+    }
+
+    .summary-panel {
+      position: sticky;
+
+      top: 24px;
+    }
+
+    .summary-items {
+      display: grid;
+
+      gap: 14px;
+    }
+
+    .summary-item {
+      display: grid;
+
+      grid-template-columns:
+        72px
+        minmax(0, 1fr);
+
+      gap: 12px;
+
+      padding-bottom: 14px;
+
+      border-bottom:
+        1px solid
+        rgba(74, 157, 168, 0.1);
+    }
+
+    .summary-item:last-child {
+      border-bottom: 0;
+    }
+
+    .summary-image {
+      width: 72px;
+      height: 72px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      background: #151515;
+
+      border:
+        1px solid
+        rgba(74, 157, 168, 0.12);
+
+      overflow: hidden;
+    }
+
+    .summary-image img {
+      display: block;
+
+      width: 100%;
+      height: 100%;
+
+      padding: 7px;
+
+      object-fit: contain;
+      object-position: center;
+    }
+
+    .summary-name {
+      color: var(--white);
+
+      font-family:
+        'Cinzel',
+        serif;
+
+      font-size: 0.72rem;
+      font-weight: 600;
+
+      line-height: 1.4;
+    }
+
+    .summary-meta {
+      margin-top: 5px;
+
+      color: var(--gray-light);
+
+      font-size: 0.63rem;
+
+      line-height: 1.5;
+    }
+
+    .summary-price {
+      margin-top: 7px;
+
+      color: var(--teal-bright);
+
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+
+    .totals {
+      margin-top: 18px;
+
+      padding-top: 18px;
+
+      border-top:
+        1px solid
+        var(--border);
+    }
+
+    .total-row {
+      display: flex;
+
+      justify-content: space-between;
+
+      gap: 18px;
+
+      margin-bottom: 10px;
+
+      color: var(--gray-light);
+
+      font-size: 0.72rem;
+    }
+
+    .total-row strong {
+      color: var(--white);
+    }
+
+    .total-row.final {
+      margin-top: 16px;
+
+      padding-top: 16px;
+
+      border-top:
+        1px solid
+        rgba(74, 157, 168, 0.14);
+
+      color: var(--white);
+
+      font-family:
+        'Cinzel',
+        serif;
+
+      font-size: 0.86rem;
+    }
+
+    .total-row.final strong {
+      color: var(--teal-bright);
+
+      font-size: 1rem;
+    }
+
+    .checkout-btn {
+      width: 100%;
+
+      min-height: 52px;
+
+      margin-top: 20px;
+
+      border:
+        1px solid
+        var(--teal);
+
+      background:
+        var(--teal);
+
+      color: var(--black);
+
+      font-size: 0.68rem;
+      font-weight: 800;
+
+      letter-spacing: 0.24em;
+
+      text-transform: uppercase;
+
+      transition:
+        background 0.2s,
+        box-shadow 0.2s,
+        opacity 0.2s;
+    }
+
+    .checkout-btn:hover:not(:disabled) {
+      background:
+        var(--teal-bright);
+
+      box-shadow:
+        0 0 26px
+        rgba(91, 191, 204, 0.24);
+    }
+
+    .checkout-btn:disabled {
+      cursor: not-allowed;
+
+      opacity: 0.45;
+    }
+
+    .checkout-note {
+      margin-top: 12px;
+
+      color: var(--gray);
+
+      font-size: 0.6rem;
+
+      line-height: 1.6;
+
+      text-align: center;
+    }
+
+    .checkout-feedback {
+      display: none;
+
+      margin-top: 14px;
+
+      padding: 12px 14px;
+
+      border:
+        1px solid
+        rgba(207, 88, 88, 0.35);
+
+      background:
+        rgba(207, 88, 88, 0.06);
+
+      color: #ff9898;
+
+      font-size: 0.68rem;
+
+      line-height: 1.6;
+    }
+
+    .checkout-feedback.show {
+      display: block;
+    }
+
+    .loading-block,
+    .empty-block {
+      padding: 36px 20px;
+
+      text-align: center;
+
+      color: var(--gray-light);
+
+      font-size: 0.72rem;
+    }
+
+    .back-cart {
+      display: inline-block;
+
+      margin-bottom: 18px;
+
+      color: var(--teal-dim);
+
+      text-decoration: none;
+
+      font-size: 0.6rem;
+      font-weight: 700;
+
+      letter-spacing: 0.28em;
+
+      text-transform: uppercase;
+    }
+
+    .back-cart:hover {
+      color: var(--teal-bright);
+    }
+
+    .back-cart::before {
+      content: '← ';
+    }
+
+    @media (max-width: 900px) {
+      .checkout-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .summary-panel {
+        position: static;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .checkout-shell {
+        width:
+          min(
+            100% - 24px,
+            1280px
+          );
+      }
+
+      .checkout-hero {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .field-full {
+        grid-column: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav></nav>
+
+  <div id="nav"></div>
+
+  <header class="checkout-hero">
+
+    <div class="checkout-hero-inner">
+
+      <div class="hero-eyebrow">
+        ◆ Dark Wave Market / Secure Order
+      </div>
+
+      <h1 class="hero-title">
+        CHECKOUT
+      </h1>
+
+      <p class="hero-copy">
+        Review your pieces, confirm your delivery details,
+        and prepare your order for the next stage.
+      </p>
+
+    </div>
+
+  </header>
+
+  <main class="checkout-shell">
+
+    <a
+      href="/cart.html"
+      class="back-cart"
+    >
+      Back to Cart
+    </a>
+
+    <div class="checkout-grid">
+
+      <!-- CUSTOMER + SHIPPING -->
+
+      <section class="panel">
+
+        <div class="panel-header">
+
+          <div class="panel-eyebrow">
+            Step 01
+          </div>
+
+          <h2 class="panel-title">
+            Customer & Delivery
+          </h2>
+
+        </div>
+
+        <div class="panel-body">
+
+          <form
+            id="checkoutForm"
+            novalidate
+          >
+
+            <div class="section">
+
+              <div class="section-heading">
+                Contact Information
+              </div>
+
+              <div class="form-grid">
+
+                <div class="field">
+
+                  <label for="firstName">
+                    First Name
+                  </label>
+
+                  <input
+                    id="firstName"
+                    name="firstName"
+                    type="text"
+                    autocomplete="given-name"
+                    required
+                  >
+
+                </div>
+
+                <div class="field">
+
+                  <label for="lastName">
+                    Last Name
+                  </label>
+
+                  <input
+                    id="lastName"
+                    name="lastName"
+                    type="text"
+                    autocomplete="family-name"
+                    required
+                  >
+
+                </div>
+
+                <div class="field">
+
+                  <label for="email">
+                    Email
+                  </label>
+
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    required
+                  >
+
+                </div>
+
+                <div class="field">
+
+                  <label for="phone">
+                    Phone
+                  </label>
+
+                  <input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    autocomplete="tel"
+                    placeholder="e.g. 082 123 4567"
+                    required
+                  >
+
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="section">
+
+              <div class="section-heading">
+                Delivery Address
+              </div>
+
+              <div class="form-grid">
+
+                <div class="field field-full">
+
+                  <label for="address1">
+                    Street Address
+                  </label>
+
+                  <input
+                    id="address1"
+                    name="address1"
+                    type="text"
+                    autocomplete="address-line1"
+                    required
+                  >
+
+                </div>
+
+                <div class="field field-full">
+
+                  <label for="address2">
+                    Apartment / Unit / Complex
+                  </label>
+
+                  <input
+                    id="address2"
+                    name="address2"
+                    type="text"
+                    autocomplete="address-line2"
+                  >
+
+                </div>
+
+                <div class="field">
+
+                  <label for="city">
+                    City / Town
+                  </label>
+
+                  <input
+                    id="city"
+                    name="city"
+                    type="text"
+                    autocomplete="address-level2"
+                    required
+                  >
+
+                </div>
+
+                <div class="field">
+
+                  <label for="province">
+                    Province
+                  </label>
+
+                  <select
+                    id="province"
+                    name="province"
+                    autocomplete="address-level1"
+                    required
+                  >
+
+                    <option value="">
+                      Select Province
+                    </option>
+
+                    <option value="Eastern Cape">
+                      Eastern Cape
+                    </option>
+
+                    <option value="Free State">
+                      Free State
+                    </option>
+
+                    <option value="Gauteng">
+                      Gauteng
+                    </option>
+
+                    <option value="KwaZulu-Natal">
+                      KwaZulu-Natal
+                    </option>
+
+                    <option value="Limpopo">
+                      Limpopo
+                    </option>
+
+                    <option value="Mpumalanga">
+                      Mpumalanga
+                    </option>
+
+                    <option value="Northern Cape">
+                      Northern Cape
+                    </option>
+
+                    <option value="North West">
+                      North West
+                    </option>
+
+                    <option value="Western Cape">
+                      Western Cape
+                    </option>
+
+                  </select>
+
+                </div>
+
+                <div class="field">
+
+                  <label for="postalCode">
+                    Postal Code
+                  </label>
+
+                  <input
+                    id="postalCode"
+                    name="postalCode"
+                    type="text"
+                    inputmode="numeric"
+                    autocomplete="postal-code"
+                    required
+                  >
+
+                </div>
+
+                <div class="field">
+
+                  <label for="country">
+                    Country
+                  </label>
+
+                  <input
+                    id="country"
+                    name="country"
+                    type="text"
+                    value="South Africa"
+                    readonly
+                  >
+
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="section">
+
+              <div class="section-heading">
+                Shipping
+              </div>
+
+              <div class="shipping-choice">
+
+                <label class="shipping-option">
+
+                  <input
+                    type="radio"
+                    name="shippingMethod"
+                    value="standard"
+                    checked
+                  >
+
+                  <span>
+
+                    <strong>
+                      Standard Delivery
+                    </strong>
+
+                    <span>
+                      Shipping pricing will be finalised before live payments.
+                    </span>
+
+                  </span>
+
+                </label>
+
+              </div>
+
+            </div>
+
+            <div class="section">
+
+              <div class="section-heading">
+                Order Notes
+              </div>
+
+              <div class="field">
+
+                <label for="orderNotes">
+                  Optional
+                </label>
+
+                <textarea
+                  id="orderNotes"
+                  name="orderNotes"
+                  maxlength="500"
+                  placeholder="Delivery instructions, landmark, gate code, etc."
+                ></textarea>
+
+              </div>
+
+            </div>
+
+          </form>
+
+        </div>
+
+      </section>
+
+
+      <!-- ORDER SUMMARY -->
+
+      <aside
+        class="panel summary-panel"
+      >
+
+        <div class="panel-header">
+
+          <div class="panel-eyebrow">
+            Step 02
+          </div>
+
+          <h2 class="panel-title">
+            Order Summary
+          </h2>
+
+        </div>
+
+        <div class="panel-body">
+
+          <div
+            id="checkoutItems"
+            class="summary-items"
+          >
+
+            <div class="loading-block">
+              Preparing your order...
+            </div>
+
+          </div>
+
+          <div class="totals">
+
+            <div class="total-row">
+
+              <span>
+                Subtotal
+              </span>
+
+              <strong id="subtotalValue">
+                R 0.00
+              </strong>
+
+            </div>
+
+            <div class="total-row">
+
+              <span>
+                Shipping
+              </span>
+
+              <strong id="shippingValue">
+                R 0.00
+              </strong>
+
+            </div>
+
+            <div class="total-row final">
+
+              <span>
+                Total
+              </span>
+
+              <strong id="totalValue">
+                R 0.00
+              </strong>
+
+            </div>
+
+          </div>
+
+          <button
+            id="placeOrderBtn"
+            class="checkout-btn"
+            type="button"
+            disabled
+          >
+            Validate Order
+          </button>
+
+          <div class="checkout-note">
+            No payment will be taken yet.
+            This phase validates your cart and prepares the order engine.
+          </div>
+
+          <div
+            id="checkoutFeedback"
+            class="checkout-feedback"
+          ></div>
+
+        </div>
+
+      </aside>
+
+    </div>
+
+  </main>
+
+  <script
+    type="module"
+    src="/assets/js/checkout.js"
+  ></script>
+
+</body>
+</html>

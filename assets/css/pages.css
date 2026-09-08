@@ -1,0 +1,215 @@
+.auth-wrap, .page-wrap {
+  min-height: 100vh;
+  padding: 160px 48px 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.auth-wrap {
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.auth-card {
+  background: var(--charcoal);
+  border: 1px solid rgba(74,157,168,0.15);
+  padding: 48px 40px;
+  position: relative;
+  overflow: hidden;
+  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+}
+
+.auth-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 2px;
+  background: linear-gradient(to right, var(--teal-dim), transparent);
+}
+
+.auth-eyebrow {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.auth-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 700;
+  color: var(--white);
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.auth-subtitle {
+  font-size: 0.85rem;
+  color: var(--gray-light);
+  text-align: center;
+  margin-bottom: 36px;
+  letter-spacing: 0.05em;
+}
+
+.form-group { margin-bottom: 20px; }
+
+.form-label {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--steel);
+  margin-bottom: 8px;
+}
+
+.form-input {
+  width: 100%;
+  background: rgba(74,157,168,0.05);
+  border: 1px solid rgba(74,157,168,0.2);
+  color: var(--white);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  padding: 14px 18px;
+  outline: none;
+  transition: border-color 0.3s, background 0.3s;
+}
+
+.form-input::placeholder { color: var(--gray); }
+.form-input:focus { border-color: var(--teal); background: rgba(74,157,168,0.1); }
+
+.auth-footer {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 0.8rem;
+  color: var(--gray-light);
+  letter-spacing: 0.05em;
+}
+
+.auth-footer a {
+  color: var(--teal);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+.auth-footer a:hover { color: var(--teal-bright); }
+
+.auth-btn {
+  width: 100%;
+  padding: 16px;
+  margin-top: 8px;
+}
+
+.placeholder-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.placeholder-card {
+  background: var(--charcoal);
+  border: 1px solid rgba(74,157,168,0.1);
+  padding: 32px 24px;
+  text-align: center;
+}
+
+.placeholder-card h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+
+.placeholder-card p {
+  font-size: 0.8rem;
+  color: var(--gray-light);
+}
+
+.badge-coming {
+  display: inline-block;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--black);
+  background: var(--teal-dim);
+  padding: 4px 10px;
+  margin-top: 12px;
+}
+
+.store-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 48px;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.store-avatar {
+  width: 96px;
+  height: 96px;
+  background: var(--charcoal);
+  border: 2px solid rgba(74,157,168,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 2rem;
+  color: var(--teal-bright);
+  clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.store-avatar img.store-logo {
+  filter: drop-shadow(0 0 12px rgba(74,157,168,0.35));
+}
+
+.store-avatar-fallback {
+  background: rgba(74,157,168,0.06);
+}
+
+.state {
+  border-radius: 0;
+  font-family: 'Rajdhani', sans-serif;
+}
+
+.state-error {
+  border-color: rgba(139,0,0,0.28) !important;
+  background: rgba(139,0,0,0.05) !important;
+}
+
+.state-suspended {
+  border-color: rgba(200,140,40,0.22) !important;
+  background: rgba(200,140,40,0.04) !important;
+}
+
+.state-empty {
+  border-style: dashed;
+}
+
+.state-loading {
+  border-style: dashed;
+}
+
+@media (max-width: 900px) {
+  .auth-wrap, .page-wrap { padding-left: 24px; padding-right: 24px; }
+  .placeholder-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 600px) {
+  .placeholder-grid { grid-template-columns: 1fr; }
+  .auth-card { padding: 32px 24px; }
+}

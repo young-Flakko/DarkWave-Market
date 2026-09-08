@@ -1,0 +1,654 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ============================================================
+    // AUTH / ROLE HELPERS
+    // ============================================================
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated()
+        && exists(
+          /databases/$(database)/documents/users/$(request.auth.uid)
+        )
+        && get(
+          /databases/$(database)/documents/users/$(request.auth.uid)
+        ).data.role == 'admin';
+    }
+
+    function isSameUser(uid) {
+      return isAuthenticated()
+        && request.auth.uid == uid;
+    }
+
+
+    // ============================================================
+    // USERS
+    // ============================================================
+
+    match /users/{uid} {
+
+      allow read: if
+        isSameUser(uid)
+        || isAdmin();
+
+
+      allow create: if
+        (
+          isSameUser(uid)
+          && request.resource.data.role is string
+          && request.resource.data.role == 'customer'
+        )
+        || isAdmin();
+
+
+      allow update: if
+        isAdmin()
+        || (
+          isSameUser(uid)
+
+          && request.resource.data
+            .diff(resource.data)
+            .affectedKeys()
+            .hasOnly([
+              'displayName',
+              'email',
+              'createdAt',
+              'photoUrl'
+            ])
+        );
+
+
+      allow delete: if
+        isAdmin();
+    }
+
+
+    // ============================================================
+    // STORE HELPERS
+    // ============================================================
+
+    function isStoreOwner(storeData) {
+      return isAuthenticated()
+        && storeData.ownerUid is string
+        && request.auth.uid == storeData.ownerUid;
+    }
+
+
+    function ownsStore(storeId) {
+      return isAuthenticated()
+
+        && storeId is string
+
+        && exists(
+          /databases/$(database)/documents/stores/$(storeId)
+        )
+
+        && get(
+          /databases/$(database)/documents/stores/$(storeId)
+        ).data.ownerUid == request.auth.uid;
+    }
+
+
+    function ownsStoreOrAdmin(storeId) {
+      return ownsStore(storeId)
+        || isAdmin();
+    }
+
+
+    // ============================================================
+    // STORES
+    // ============================================================
+
+    match /stores/{storeId} {
+
+      allow read: if
+        resource.data.status == 'active'
+        || isStoreOwner(resource.data)
+        || isAdmin();
+
+
+      allow create: if
+
+        isAdmin()
+
+        || (
+
+          isAuthenticated()
+
+          && request.resource.data.ownerUid is string
+
+          && request.auth.uid
+            == request.resource.data.ownerUid
+
+          && request.resource.data.status is string
+
+          && request.resource.data.status in [
+            'active',
+            'suspended'
+          ]
+
+          && request.resource.data.slug is string
+
+          && request.resource.data.slug.size() > 0
+
+          && request.resource.data.name is string
+
+          && request.resource.data.name.size() > 0
+
+          && !request.resource.data.keys().hasAny([
+            '__owner_role',
+            '__admin'
+          ])
+
+          && (
+
+            !request.resource.data.keys().hasAny([
+              'isFounderStore'
+            ])
+
+            || request.resource.data.isFounderStore == false
+
+          )
+
+        );
+
+
+      allow update: if
+
+        (
+          isStoreOwner(resource.data)
+          || isAdmin()
+        )
+
+        && (
+
+          isAdmin()
+
+          || !request.resource.data
+            .diff(resource.data)
+            .affectedKeys()
+            .hasAny([
+              'isFounderStore'
+            ])
+        )
+
+        && (
+
+          isAdmin()
+
+          || resource.data.status != 'suspended'
+
+          || request.resource.data.status
+            == resource.data.status
+
+        );
+
+
+      allow delete: if
+        isAdmin();
+    }
+
+
+    // ============================================================
+    // PRODUCT HELPERS
+    // ============================================================
+
+    function storeExists(storeId) {
+      return storeId is string
+
+        && exists(
+          /databases/$(database)/documents/stores/$(storeId)
+        );
+    }
+
+
+    function productIsPublic(productData) {
+      return productData.status == 'live';
+    }
+
+
+    // ============================================================
+    // PRODUCTS
+    // ============================================================
+
+    match /products/{productId} {
+
+      allow read: if
+
+        productIsPublic(resource.data)
+
+        || ownsStoreOrAdmin(
+          resource.data.storeId
+        );
+
+
+      allow create: if
+
+        request.resource.data.storeId is string
+
+        && storeExists(
+          request.resource.data.storeId
+        )
+
+        && ownsStoreOrAdmin(
+          request.resource.data.storeId
+        )
+
+        && request.resource.data.name is string
+
+        && request.resource.data.name.size() > 0
+
+        && request.resource.data.category is string
+
+        && request.resource.data.price is number
+
+        && request.resource.data.price >= 0
+
+        && request.resource.data.currency is string
+
+        && request.resource.data.currency == 'ZAR'
+
+        && request.resource.data.status is string
+
+        && request.resource.data.status in [
+          'live',
+          'sold_out',
+          'draft'
+        ]
+
+        && !request.resource.data.keys().hasAny([
+          'ownerUid',
+          '__owner',
+          '__admin'
+        ]);
+
+
+      allow update: if
+
+        ownsStoreOrAdmin(
+          resource.data.storeId
+        )
+
+        && (
+
+          !request.resource.data
+            .diff(resource.data)
+            .affectedKeys()
+            .hasAny([
+              'storeId'
+            ])
+
+          || ownsStoreOrAdmin(
+            request.resource.data.storeId
+          )
+
+        )
+
+        && request.resource.data.status is string
+
+        && request.resource.data.status in [
+          'live',
+          'sold_out',
+          'draft'
+        ]
+
+        && request.resource.data.currency is string
+
+        && request.resource.data.currency == 'ZAR';
+
+
+      allow delete: if
+
+        ownsStore(
+          resource.data.storeId
+        )
+
+        || isAdmin();
+    }
+
+
+    // ============================================================
+    // RESELLER APPLICATIONS
+    // ============================================================
+
+    match /resellerApplications/{applicationId} {
+
+      allow read: if
+        isAuthenticated()
+        && (
+          request.auth.uid == applicationId
+          || isAdmin()
+        );
+
+
+      allow create: if
+        isAuthenticated()
+        && request.auth.uid == applicationId
+        && request.resource.data.userUid == request.auth.uid
+        && request.resource.data.status == 'pending';
+
+
+      allow update: if
+        isAuthenticated()
+        && (
+          (
+            request.auth.uid == applicationId
+            && resource.data.userUid == request.auth.uid
+            && resource.data.status == 'pending'
+            && request.resource.data.userUid == request.auth.uid
+            && request.resource.data.status == 'pending'
+          )
+
+          || isAdmin()
+        );
+
+
+      allow delete: if
+        isAdmin();
+    }
+
+
+    // ============================================================
+    // ORDER HELPERS
+    // ============================================================
+
+    function sellerParticipatesInOrder(orderData) {
+      return isAuthenticated()
+        && orderData.sellerUids is list
+        && orderData.sellerUids.hasAny([
+          request.auth.uid
+        ]);
+    }
+
+
+    // ============================================================
+    // SELLER ORDER REFERENCES
+    // ============================================================
+
+    match /sellerOrderRefs/{refId} {
+
+      allow read: if
+        isAuthenticated()
+        && (
+          resource.data.sellerUid == request.auth.uid
+          || isAdmin()
+        );
+
+
+      allow create: if
+        isAdmin();
+
+
+      allow update, delete: if
+        isAdmin();
+    }
+
+
+    // ============================================================
+    // ORDERS
+    // ============================================================
+
+    match /orders/{orderId} {
+
+      // ----------------------------------------------------------
+      // READ
+      // Customer: own order
+      // Seller: order containing their store
+      // Admin: all orders
+      // ----------------------------------------------------------
+
+      allow read: if
+        isAuthenticated()
+        && (
+          resource.data.customerUid == request.auth.uid
+
+          || isAdmin()
+
+          || sellerParticipatesInOrder(
+            resource.data
+          )
+        );
+
+
+      // ----------------------------------------------------------
+      // CREATE
+      // Phase 5A client-side test order creation.
+      // ----------------------------------------------------------
+
+      allow create: if
+
+        isAuthenticated()
+
+        && request.resource.data.customerUid
+          == request.auth.uid
+
+        && request.resource.data.orderReference
+          is string
+
+        && request.resource.data.orderReference
+          .size() > 0
+
+        && request.resource.data.currency
+          == 'ZAR'
+
+        && request.resource.data.subtotal
+          is number
+
+        && request.resource.data.subtotal >= 0
+
+        && request.resource.data.shippingTotal
+          is number
+
+        && request.resource.data.shippingTotal >= 0
+
+        && request.resource.data.total
+          is number
+
+        && request.resource.data.total >= 0
+
+        && request.resource.data.paymentStatus
+          == 'pending'
+
+        && request.resource.data.fulfilmentStatus
+          == 'pending'
+
+        && request.resource.data.orderStatus
+          == 'pending_payment'
+
+        && request.resource.data.items
+          is list
+
+        && request.resource.data.items.size() > 0
+
+        && request.resource.data.storeIds
+          is list
+
+        && request.resource.data.customer
+          is map
+
+        && request.resource.data.shipping
+          is map
+
+        && !request.resource.data.keys()
+          .hasAny([
+            '__admin',
+            '__paid',
+            '__trusted'
+          ]);
+
+
+      // ----------------------------------------------------------
+      // PARENT ORDER UPDATE
+      //
+      // Sellers cannot change trusted order fields.
+      // ----------------------------------------------------------
+
+      allow update: if
+        isAdmin();
+
+
+      allow delete: if
+        isAdmin();
+
+
+      // ==========================================================
+      // SHIPMENTS
+      //
+      // orders/{orderId}/shipments/{storeId}
+      // ==========================================================
+
+      match /shipments/{storeId} {
+
+        function parentOrder() {
+          return get(
+            /databases/$(database)/documents/orders/$(orderId)
+          );
+        }
+
+
+        function validShipmentStatus(status) {
+          return status is string
+            && status in [
+              'processing',
+              'shipped',
+              'delivered'
+            ];
+        }
+
+
+        function sellerCanManageShipment() {
+          return isAuthenticated()
+
+            && ownsStore(storeId)
+
+            && parentOrder().data.storeIds is list
+
+            && storeId in parentOrder().data.storeIds;
+        }
+
+
+        // --------------------------------------------------------
+        // READ SHIPMENT
+        //
+        // Customer can see shipment for their order.
+        // Seller can see own store shipment.
+        // Admin can see all.
+        // --------------------------------------------------------
+
+        allow read: if
+          isAuthenticated()
+          && (
+            isAdmin()
+
+            || ownsStore(storeId)
+
+            || parentOrder().data.customerUid
+              == request.auth.uid
+          );
+
+
+        // --------------------------------------------------------
+        // CREATE SHIPMENT
+        // --------------------------------------------------------
+
+        allow create: if
+
+          isAdmin()
+
+          || (
+
+            sellerCanManageShipment()
+
+            && request.resource.data.storeId
+              == storeId
+
+            && validShipmentStatus(
+              request.resource.data.status
+            )
+
+            && request.resource.data.updatedBy
+              == request.auth.uid
+
+            && request.resource.data.keys()
+              .hasOnly([
+                'storeId',
+                'storeName',
+                'status',
+                'carrier',
+                'trackingNumber',
+                'trackingUrl',
+                'shippedAt',
+                'deliveredAt',
+                'createdAt',
+                'updatedAt',
+                'updatedBy'
+              ])
+
+          );
+
+
+        // --------------------------------------------------------
+        // UPDATE SHIPMENT
+        // --------------------------------------------------------
+
+        allow update: if
+
+          isAdmin()
+
+          || (
+
+            sellerCanManageShipment()
+
+            && resource.data.storeId
+              == storeId
+
+            && request.resource.data.storeId
+              == storeId
+
+            && validShipmentStatus(
+              request.resource.data.status
+            )
+
+            && request.resource.data.updatedBy
+              == request.auth.uid
+
+            && request.resource.data
+              .diff(resource.data)
+              .affectedKeys()
+              .hasOnly([
+                'storeName',
+                'status',
+                'carrier',
+                'trackingNumber',
+                'trackingUrl',
+                'shippedAt',
+                'deliveredAt',
+                'updatedAt',
+                'updatedBy'
+              ])
+
+          );
+
+
+        allow delete: if
+          isAdmin();
+      }
+    }
+
+
+    // ============================================================
+    // DEFAULT DENY
+    // ============================================================
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+  }
+}

@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>DWM — Brands</title>
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+  <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+
+  <link rel="stylesheet" href="/assets/css/shared.css">
+  <link rel="stylesheet" href="/assets/css/pages.css">
+</head>
+
+<body>
+
+<nav></nav>
+
+
+<div class="page-wrap">
+
+  <span class="section-label">
+    The Market
+  </span>
+
+  <h1 class="page-title">
+    Partner<br>Brands.
+  </h1>
+
+  <p class="page-desc">
+    Every independent label, every underground designer,
+    every handpicked partner in the wave.
+  </p>
+
+
+  <!-- LOADING / STATUS -->
+
+  <div
+    id="brandsStatus"
+    style="
+      margin-top:30px;
+      margin-bottom:24px;
+      color:var(--gray-light);
+      font-size:0.85rem;
+    "
+  >
+    Loading the market...
+  </div>
+
+
+  <!-- FIRESTORE BRANDS -->
+
+  <div
+    id="brandsGrid"
+    class="placeholder-grid"
+  ></div>
+
+</div>
+
+
+<footer>
+
+  <div class="footer-top">
+
+    <div>
+
+      <div class="footer-brand">
+        DWM
+      </div>
+
+      <div class="footer-tagline">
+        Darkwave Market. The market that never ends.
+        Built for the people, by the people.
+      </div>
+
+    </div>
+
+
+    <div class="footer-col">
+
+      <h4>Market</h4>
+
+      <ul>
+        <li><a href="/drops.html">New Drops</a></li>
+        <li><a href="/drops.html?category=streetwear">Streetwear</a></li>
+        <li><a href="/drops.html?category=sneakers">Sneakers</a></li>
+        <li><a href="/drops.html?category=decor">Decor</a></li>
+      </ul>
+
+    </div>
+
+
+    <div class="footer-col">
+
+      <h4>Company</h4>
+
+      <ul>
+        <li><a href="/about.html">About Us</a></li>
+        <li><a href="/about.html#mission">Our Mission</a></li>
+        <li><a href="/events.html">Events</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+
+    </div>
+
+
+    <div class="footer-col">
+
+      <h4>Support</h4>
+
+      <ul>
+        <li><a href="/shipping.html">Shipping</a></li>
+        <li><a href="/returns.html">Returns</a></li>
+        <li><a href="/faq.html">FAQ</a></li>
+        <li><a href="/reseller-apply.html">Sell With Us</a></li>
+      </ul>
+
+    </div>
+
+
+    <div class="footer-col">
+
+      <h4>Connect</h4>
+
+      <ul>
+
+        <li>
+          <a
+            href="https://www.instagram.com/darkwavemarket"
+            target="_blank"
+            rel="noopener"
+          >
+            Instagram
+          </a>
+        </li>
+
+        <li>
+          <a href="/contact.html">
+            Email Us
+          </a>
+        </li>
+
+        <li>
+          <a href="/about.html">
+            Press Kit
+          </a>
+        </li>
+
+        <li>
+          <a href="/reseller-apply.html">
+            Brand Applications
+          </a>
+        </li>
+
+      </ul>
+
+    </div>
+
+  </div>
+
+
+  <div class="footer-bottom">
+
+    <div class="footer-copy">
+
+      © 2026 Darkwave Market.
+      All rights reserved.
+      SA &amp; World Wide.
+
+      <br>
+
+      <span class="founders">
+        Founded by Chief Flakko &amp; Pablow
+      </span>
+
+    </div>
+
+
+    <div class="footer-socials">
+
+      <a
+        href="https://www.instagram.com/darkwavemarket"
+        target="_blank"
+        rel="noopener"
+      >
+        IG
+      </a>
+
+      <span class="social-placeholder">
+        TWITTER
+      </span>
+
+      <span class="social-placeholder">
+        TIKTOK
+      </span>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+<script type="module">
+
+  import {
+    app,
+    db
+  } from '/assets/js/firebase-config.js';
+
+  import {
+    collection,
+    getDocs,
+    query,
+    where
+  } from 'firebase/firestore';
+
+  import {
+    renderNav
+  } from '/assets/js/nav.js';
+
+
+  // ============================================================
+  // NAV
+  // ============================================================
+
+  renderNav('nav');
+
+
+  // ============================================================
+  // ELEMENTS
+  // ============================================================
+
+  const brandsGrid =
+    document.getElementById('brandsGrid');
+
+  const brandsStatus =
+    document.getElementById('brandsStatus');
+
+
+  // ============================================================
+  // ESCAPE HTML
+  // ============================================================
+
+  function escapeHtml(value = '') {
+
+    return String(value)
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#039;');
+
+  }
+
+
+  // ============================================================
+  // LOAD ACTIVE STORES
+  // ============================================================
+
+  async function loadBrands() {
+
+    brandsGrid.innerHTML = '';
+
+    brandsStatus.textContent =
+      'Loading the market...';
+
+
+    try {
+
+      // --------------------------------------------------------
+      // IMPORTANT:
+      //
+      // Firestore rules allow public store reads only when
+      // status === active.
+      //
+      // Therefore the query itself must include this condition.
+      // --------------------------------------------------------
+
+      const storesQuery =
+        query(
+          collection(
+            db,
+            'stores'
+          ),
+          where(
+            'status',
+            '==',
+            'active'
+          )
+        );
+
+
+      const snapshot =
+        await getDocs(
+          storesQuery
+        );
+
+
+      // --------------------------------------------------------
+      // NO STORES
+      // --------------------------------------------------------
+
+      if (snapshot.empty) {
+
+        brandsStatus.textContent =
+          'No active brands are currently available.';
+
+        brandsGrid.innerHTML =
+          `
+            <div class="placeholder-card">
+
+              <h3>
+                ◆ No Brands Yet
+              </h3>
+
+              <p>
+                New partner stores will appear here
+                once approved by Darkwave Market.
+              </p>
+
+            </div>
+          `;
+
+        return;
+
+      }
+
+
+      // --------------------------------------------------------
+      // BUILD STORE ARRAY
+      // --------------------------------------------------------
+
+      const stores = [];
+
+
+      snapshot.forEach(
+        (storeDoc) => {
+
+          stores.push({
+            id: storeDoc.id,
+            ...storeDoc.data()
+          });
+
+        }
+      );
+
+
+      // --------------------------------------------------------
+      // SORT
+      //
+      // Founder store first, then alphabetical.
+      // --------------------------------------------------------
+
+      stores.sort(
+        (a, b) => {
+
+          if (
+            a.founder === true &&
+            b.founder !== true
+          ) {
+            return -1;
+          }
+
+
+          if (
+            b.founder === true &&
+            a.founder !== true
+          ) {
+            return 1;
+          }
+
+
+          return String(
+            a.name || ''
+          ).localeCompare(
+            String(
+              b.name || ''
+            )
+          );
+
+        }
+      );
+
+
+      brandsStatus.textContent =
+        `${stores.length} active brand${stores.length === 1 ? '' : 's'} in the market.`;
+
+
+      // --------------------------------------------------------
+      // RENDER STORES
+      // --------------------------------------------------------
+
+      stores.forEach(
+        (store) => {
+
+          const card =
+            document.createElement('a');
+
+
+          card.href =
+            `/store.html?store=${encodeURIComponent(store.slug || '')}`;
+
+
+          card.className =
+            'placeholder-card';
+
+
+          card.style.textDecoration =
+            'none';
+
+
+          card.style.display =
+            'block';
+
+
+          const brandName =
+            escapeHtml(
+              store.name ||
+              'Untitled Brand'
+            );
+
+
+          const logoUrl =
+            store.logoUrl ||
+            '/assets/img/dwm-logo-new.png';
+
+
+          const founderLabel =
+            store.founder === true
+              ? 'FOUNDER STORE'
+              : 'DWM PARTNER';
+
+
+          card.innerHTML = `
+
+            <div
+              style="
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                min-height:100px;
+                margin-bottom:12px;
+              "
+            >
+
+              <img
+                src="${escapeHtml(logoUrl)}"
+                alt="${brandName}"
+                style="
+                  max-width:90px;
+                  max-height:90px;
+                  object-fit:contain;
+                "
+                onerror="
+                  this.onerror=null;
+                  this.src='/assets/img/dwm-logo-new.png';
+                "
+              >
+
+            </div>
+
+
+            <h3>
+              ◆ ${brandName}
+            </h3>
+
+
+            <p>
+              ${founderLabel}
+            </p>
+
+
+            <span class="badge-coming">
+              LIVE
+            </span>
+
+          `;
+
+
+          brandsGrid.appendChild(
+            card
+          );
+
+        }
+      );
+
+
+    } catch (err) {
+
+      console.error(
+        '[brands] Firestore error:',
+        err
+      );
+
+
+      brandsStatus.textContent =
+        'Unable to load partner brands.';
+
+
+      brandsGrid.innerHTML =
+        `
+          <div class="placeholder-card">
+
+            <h3>
+              ◆ Market Unavailable
+            </h3>
+
+            <p>
+              We could not load the brand directory.
+              Please try again shortly.
+            </p>
+
+          </div>
+        `;
+
+    }
+
+  }
+
+
+  // ============================================================
+  // START
+  // ============================================================
+
+  loadBrands();
+
+
+  // ============================================================
+  // DEBUG
+  // ============================================================
+
+  window.__DWM_FIREBASE__ =
+    app;
+
+  window.__DWM_DB__ =
+    db;
+
+</script>
+
+</body>
+</html>

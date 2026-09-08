@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DWM — Shipping</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+<link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+<link rel="stylesheet" href="/assets/css/shared.css">
+<link rel="stylesheet" href="/assets/css/pages.css">
+</head>
+<body>
+
+<nav></nav>
+
+<div class="page-wrap">
+  <span class="section-label">Support</span>
+  <h1 class="page-title">Shipping &amp;<br>Delivery.</h1>
+  <p class="page-desc">How the wave reaches your door. Full shipping policy, rates, and couriers live with checkout in the next phase.</p>
+
+  <div class="placeholder-grid">
+    <div class="placeholder-card">
+      <h3>📍 South Africa</h3>
+      <p>Main cities 2–4 business days<br>Outlying areas 3–7 days</p>
+      <span class="badge-coming">R 00</span>
+    </div>
+    <div class="placeholder-card">
+      <h3>🌍 International</h3>
+      <p>DHL / Aramex<br>5–14 business days</p>
+      <span class="badge-coming">From $00</span>
+    </div>
+    <div class="placeholder-card">
+      <h3>📦 Free Shipping</h3>
+      <p>Threshold to be set<br>With live checkout</p>
+      <span class="badge-coming">TBA</span>
+    </div>
+    <div class="placeholder-card">
+      <h3>🔒 Packaging</h3>
+      <p>Branded DWM packaging<br>Signature on drop items</p>
+      <span class="badge-coming">Coming</span>
+    </div>
+    <div class="placeholder-card">
+      <h3>🧾 Tracking</h3>
+      <p>Email + SMS tracking<br>Provided at dispatch</p>
+      <span class="badge-coming">Phase 3</span>
+    </div>
+    <div class="placeholder-card">
+      <h3>❓ Questions</h3>
+      <p>support@darkwavemarket.co.za<br>DM @darkwavemarket</p>
+      <span class="badge-coming">Open</span>
+    </div>
+  </div>
+
+  <section style="margin-top:64px;">
+    <div class="divider-wrap" style="margin: 0 0 32px;">
+      <div class="divider-line"></div>
+      <span class="divider-text">Shipping FAQs</span>
+      <div class="divider-line"></div>
+    </div>
+    <div style="max-width:760px;margin:0 auto;">
+      <p style="color:var(--gray-light);margin-bottom:16px;">
+        <strong style="color:var(--white);">Do you ship worldwide?</strong> Yes. Rates and lead times live with checkout.
+      </p>
+      <p style="color:var(--gray-light);margin-bottom:16px;">
+        <strong style="color:var(--white);">Can I collect in person?</strong> Pop-up collections will be available at DWM events.
+      </p>
+      <p style="color:var(--gray-light);">
+        More on our <a href="faq.html" style="color:var(--teal);text-decoration:none;">FAQ page</a>.
+      </p>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">DWM</div>
+      <div class="footer-tagline">Darkwave Market. The market that never ends. Built for the people, by the people.</div>
+    </div>
+    <div class="footer-col">
+      <h4>Market</h4>
+      <ul>
+        <li><a href="drops.html">New Drops</a></li>
+        <li><a href="drops.html?category=streetwear">Streetwear</a></li>
+        <li><a href="drops.html?category=sneakers">Sneakers</a></li>
+        <li><a href="drops.html?category=decor">Decor</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="about.html#mission">Our Mission</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="shipping.html">Shipping</a></li>
+        <li><a href="returns.html">Returns</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="reseller-apply.html">Sell With Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="https://www.instagram.com/darkwavemarket" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a href="contact.html">Email Us</a></li>
+        <li><a href="about.html">Press Kit</a></li>
+        <li><a href="reseller-apply.html">Brand Applications</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 Darkwave Market. All rights reserved. SA &amp; World Wide.<br><span class="founders">Founded by Chief Flakko &amp; Pablow</span></div>
+    <div class="footer-socials">
+      <a href="https://www.instagram.com/darkwavemarket" target="_blank" rel="noopener">IG</a>
+          <span class="social-placeholder">TWITTER</span>
+          <span class="social-placeholder">TIKTOK</span>
+    </div>
+  </div>
+</footer>
+
+<script type="module">
+  import { app } from '/assets/js/firebase-config.js';
+  import { renderNav } from '/assets/js/nav.js';
+  renderNav('nav');
+  window.__DWM_FIREBASE__ = app;
+</script>
+
+</body>
+</html>

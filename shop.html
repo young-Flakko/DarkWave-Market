@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>DWM — Shop</title>
+
+  <meta
+    name="description"
+    content="Shop live products from verified stores on Dark Wave Market."
+  >
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="/assets/img/dwm-logo-new.png"
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+    <link rel="stylesheet" href="/assets/css/shared.css">
+  <link rel="stylesheet" href="/assets/css/pages.css">
+
+  <style>
+    :root {
+      --black: #080808;
+      --black-deep: #050505;
+      --charcoal: #111111;
+      --charcoal-light: #171717;
+
+      --teal: #4a9da8;
+      --teal-bright: #5bbfcc;
+      --teal-dim: #2a6d78;
+
+      --steel: #8a9ba8;
+
+      --white: #e8e8e8;
+
+      --gray: #555;
+      --gray-light: #888;
+
+      --danger: #cf5858;
+
+      --border: rgba(74, 157, 168, 0.18);
+      --border-strong: rgba(74, 157, 168, 0.38);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+
+      background:
+        radial-gradient(
+          circle at 50% -10%,
+          rgba(74, 157, 168, 0.08),
+          transparent 38%
+        ),
+        #050505;
+
+      color: var(--white);
+
+      font-family: 'Rajdhani', sans-serif;
+    }
+
+    body::before {
+      content: '';
+
+      position: fixed;
+      inset: 0;
+
+      pointer-events: none;
+
+      opacity: 0.025;
+
+      z-index: 9998;
+
+      background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitchTiles'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button,
+    select {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    /* =========================================================
+       NAV MOUNT
+    ========================================================= */
+
+    #nav {
+      position: relative;
+      z-index: 100;
+    }
+
+    /* =========================================================
+       HERO
+    ========================================================= */
+
+    .shop-hero {
+      position: relative;
+
+      overflow: hidden;
+
+      padding:
+        clamp(72px, 10vw, 130px)
+        24px
+        clamp(58px, 8vw, 90px);
+
+      border-bottom: 1px solid var(--border);
+    }
+
+    .shop-hero::before {
+      content: '';
+
+      position: absolute;
+
+      width: 540px;
+      height: 540px;
+
+      left: 50%;
+      top: -340px;
+
+      transform: translateX(-50%);
+
+      border-radius: 50%;
+
+      background:
+        rgba(74, 157, 168, 0.12);
+
+      filter: blur(110px);
+
+      pointer-events: none;
+    }
+
+    .shop-hero-inner {
+      width: min(1380px, 100%);
+
+      margin: 0 auto;
+
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-eyebrow {
+      margin-bottom: 18px;
+
+      color: var(--teal);
+
+      font-size: 0.66rem;
+      font-weight: 700;
+
+      letter-spacing: 0.55em;
+
+      text-transform: uppercase;
+    }
+
+    .hero-title {
+      font-family: 'Cinzel Decorative', serif;
+
+      font-size:
+        clamp(
+          3rem,
+          8vw,
+          7.2rem
+        );
+
+      font-weight: 900;
+
+      line-height: 0.9;
+
+      letter-spacing: 0.02em;
+
+      background:
+        linear-gradient(
+          145deg,
+          #2a6d78 0%,
+          #4a9da8 30%,
+          #7dd4e0 50%,
+          #4a9da8 68%,
+          #2a5a63 100%
+        );
+
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+
+      background-clip: text;
+
+      filter:
+        drop-shadow(
+          0 0 35px
+          rgba(74, 157, 168, 0.18)
+        );
+    }
+
+    .hero-bottom {
+      margin-top: 30px;
+
+      display: flex;
+
+      justify-content: space-between;
+      align-items: flex-end;
+
+      gap: 30px;
+    }
+
+    .hero-copy {
+      max-width: 620px;
+
+      color: var(--gray-light);
+
+      font-family: 'Cinzel', serif;
+
+      font-size:
+        clamp(
+          0.82rem,
+          1.4vw,
+          1rem
+        );
+
+      line-height: 1.9;
+
+      letter-spacing: 0.06em;
+    }
+
+    .hero-copy strong {
+      color: var(--teal-bright);
+      font-weight: 600;
+    }
+
+    .hero-stat {
+      min-width: 170px;
+
+      text-align: right;
+    }
+
+    .hero-stat-number {
+      color: var(--white);
+
+      font-family: 'Cinzel', serif;
+
+      font-size: 2.1rem;
+      font-weight: 700;
+    }
+
+    .hero-stat-label {
+      margin-top: 5px;
+
+      color: var(--teal-dim);
+
+      font-size: 0.58rem;
+      font-weight: 700;
+
+      letter-spacing: 0.34em;
+
+      text-transform: uppercase;
+    }
+
+    /* =========================================================
+       SHOP SHELL
+    ========================================================= */
+
+    .shop-shell {
+      width: min(1380px, calc(100% - 40px));
+
+      margin: 0 auto;
+
+      padding: 44px 0 100px;
+    }
+
+    /* =========================================================
+       TOOLBAR
+    ========================================================= */
+
+    .shop-toolbar {
+      display: grid;
+
+      grid-template-columns:
+        minmax(240px, 1fr)
+        auto;
+
+      gap: 18px;
+
+      align-items: center;
+
+      margin-bottom: 18px;
+    }
+
+    .search-wrap {
+      position: relative;
+    }
+
+    .search-icon {
+      position: absolute;
+
+      left: 18px;
+      top: 50%;
+
+      transform: translateY(-50%);
+
+      color: var(--teal-dim);
+
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      height: 52px;
+
+      padding:
+        0
+        52px
+        0
+        48px;
+
+      border:
+        1px solid
+        var(--border);
+
+      outline: none;
+
+      background:
+        rgba(255, 255, 255, 0.018);
+
+      color: var(--white);
+
+      font-size: 0.86rem;
+      font-weight: 500;
+
+      letter-spacing: 0.08em;
+
+      transition:
+        border-color 0.2s ease,
+        background 0.2s ease;
+    }
+
+    .search-input::placeholder {
+      color: #5d6265;
+    }
+
+    .search-input:focus {
+      border-color: var(--teal);
+
+      background:
+        rgba(74, 157, 168, 0.045);
+    }
+
+    .clear-search {
+      position: absolute;
+
+      right: 10px;
+      top: 50%;
+
+      transform: translateY(-50%);
+
+      width: 32px;
+      height: 32px;
+
+      border: 0;
+
+      background: transparent;
+
+      color: var(--gray);
+
+      font-size: 1rem;
+
+      display: none;
+    }
+
+    .clear-search.show {
+      display: block;
+    }
+
+    .clear-search:hover {
+      color: var(--teal-bright);
+    }
+
+    .toolbar-right {
+      display: flex;
+
+      gap: 10px;
+
+      align-items: center;
+    }
+
+    .filter-toggle,
+    .reset-btn {
+      min-height: 52px;
+
+      padding: 0 20px;
+
+      border:
+        1px solid
+        var(--border);
+
+      background:
+        rgba(255, 255, 255, 0.018);
+
+      color: var(--steel);
+
+      font-size: 0.64rem;
+      font-weight: 700;
+
+      letter-spacing: 0.22em;
+
+      text-transform: uppercase;
+
+      transition:
+        color 0.2s,
+        border-color 0.2s,
+        background 0.2s;
+    }
+
+    .filter-toggle:hover,
+    .reset-btn:hover {
+      color: var(--teal-bright);
+
+      border-color: var(--border-strong);
+
+      background:
+        rgba(74, 157, 168, 0.05);
+    }
+
+    .filter-toggle.active {
+      color: var(--teal-bright);
+
+      border-color: var(--teal-dim);
+
+      background:
+        rgba(74, 157, 168, 0.08);
+    }
+
+    /* =========================================================
+       FILTER PANEL
+    ========================================================= */
+
+    .filter-panel {
+      display: grid;
+
+      grid-template-columns:
+        repeat(5, minmax(0, 1fr));
+
+      gap: 14px;
+
+      max-height: 0;
+
+      overflow: hidden;
+
+      opacity: 0;
+
+      margin-bottom: 0;
+
+      transition:
+        max-height 0.35s ease,
+        opacity 0.25s ease,
+        margin-bottom 0.35s ease;
+    }
+
+    .filter-panel.open {
+      max-height: 400px;
+
+      opacity: 1;
+
+      margin-bottom: 30px;
+    }
+
+    .filter-box {
+      min-width: 0;
+    }
+
+    .filter-label {
+      display: block;
+
+      margin-bottom: 8px;
+
+      color: var(--teal-dim);
+
+      font-size: 0.56rem;
+      font-weight: 700;
+
+      letter-spacing: 0.27em;
+
+      text-transform: uppercase;
+    }
+
+    .filter-select,
+    .price-input {
+      width: 100%;
+      height: 46px;
+
+      border:
+        1px solid
+        var(--border);
+
+      outline: none;
+
+      padding: 0 13px;
+
+      background: #0c0c0c;
+
+      color: var(--white);
+
+      font-size: 0.76rem;
+      font-weight: 500;
+
+      letter-spacing: 0.05em;
+    }
+
+    .filter-select:focus,
+    .price-input:focus {
+      border-color: var(--teal);
+    }
+
+    .stock-filter {
+      height: 46px;
+
+      padding: 0 14px;
+
+      border:
+        1px solid
+        var(--border);
+
+      background: #0c0c0c;
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+    }
+
+    .stock-filter input {
+      accent-color: var(--teal);
+    }
+
+    .stock-filter label {
+      color: var(--steel);
+
+      font-size: 0.72rem;
+      font-weight: 600;
+
+      letter-spacing: 0.1em;
+
+      text-transform: uppercase;
+
+      cursor: pointer;
+    }
+
+    /* =========================================================
+       RESULTS BAR
+    ========================================================= */
+
+    .results-bar {
+      display: flex;
+
+      justify-content: space-between;
+      align-items: center;
+
+      gap: 20px;
+
+      padding: 20px 0;
+
+      margin-bottom: 18px;
+
+      border-top:
+        1px solid
+        rgba(74, 157, 168, 0.1);
+
+      border-bottom:
+        1px solid
+        rgba(74, 157, 168, 0.1);
+    }
+
+    .results-left {
+      display: flex;
+
+      align-items: center;
+
+      gap: 14px;
+    }
+
+    .results-count {
+      color: var(--white);
+
+      font-family: 'Cinzel', serif;
+
+      font-size: 0.78rem;
+      font-weight: 600;
+
+      letter-spacing: 0.08em;
+    }
+
+    .results-count span {
+      color: var(--teal-bright);
+    }
+
+    .active-filter-label {
+      color: var(--gray-light);
+
+      font-size: 0.61rem;
+      font-weight: 600;
+
+      letter-spacing: 0.14em;
+
+      text-transform: uppercase;
+    }
+
+    .sort-inline {
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+    }
+
+    .sort-inline label {
+      color: var(--gray);
+
+      font-size: 0.56rem;
+      font-weight: 700;
+
+      letter-spacing: 0.22em;
+
+      text-transform: uppercase;
+    }
+
+    .sort-inline select {
+      height: 36px;
+
+      min-width: 175px;
+
+      padding: 0 10px;
+
+      border:
+        1px solid
+        var(--border);
+
+      background: #0c0c0c;
+
+      color: var(--steel);
+
+      outline: none;
+
+      font-size: 0.68rem;
+      font-weight: 600;
+
+      letter-spacing: 0.06em;
+    }
+
+    /* =========================================================
+       PRODUCT GRID
+    ========================================================= */
+
+    .product-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+      gap: 18px;
+    }
+
+    /*
+      data.js already returns .drop-card markup.
+      These styles make the shared cards work inside Shop.
+    */
+
+    .drop-card {
+      height: 100%;
+
+      border:
+        1px solid
+        rgba(74, 157, 168, 0.14);
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.018),
+          rgba(255, 255, 255, 0.008)
+        );
+
+      overflow: hidden;
+
+      transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+    .drop-card:hover {
+      transform: translateY(-5px);
+
+      border-color:
+        rgba(91, 191, 204, 0.42);
+
+      box-shadow:
+        0 20px 45px
+        rgba(0, 0, 0, 0.28);
+    }
+
+    .drop-img {
+      border-bottom:
+        1px solid
+        rgba(74, 157, 168, 0.1);
+    }
+
+    .drop-info {
+      padding: 18px;
+    }
+
+    .drop-cat {
+      color: var(--teal-dim);
+
+      font-size: 0.57rem;
+      font-weight: 700;
+
+      letter-spacing: 0.27em;
+
+      text-transform: uppercase;
+
+      margin-bottom: 8px;
+    }
+
+    .drop-name {
+      min-height: 42px;
+
+      color: var(--white);
+
+      font-family: 'Cinzel', serif;
+
+      font-size: 0.88rem;
+      font-weight: 600;
+
+      line-height: 1.45;
+
+      letter-spacing: 0.035em;
+    }
+
+    .drop-footer {
+      display: flex;
+
+      justify-content: space-between;
+      align-items: flex-end;
+
+      gap: 12px;
+
+      margin-top: 20px;
+
+      padding-top: 14px;
+
+      border-top:
+        1px solid
+        rgba(74, 157, 168, 0.09);
+    }
+
+    .drop-price {
+      color: var(--teal-bright);
+
+      font-size: 0.92rem;
+      font-weight: 700;
+
+      letter-spacing: 0.04em;
+    }
+
+    .drop-num-label {
+      color: var(--gray);
+
+      font-size: 0.53rem;
+      font-weight: 700;
+
+      letter-spacing: 0.18em;
+
+      text-transform: uppercase;
+    }
+
+    .badge-live {
+      padding: 6px 10px;
+
+      border:
+        1px solid
+        rgba(91, 191, 204, 0.35);
+
+      background:
+        rgba(74, 157, 168, 0.12);
+
+      color: var(--teal-bright);
+
+      font-size: 0.54rem;
+      font-weight: 800;
+
+      letter-spacing: 0.18em;
+
+      text-transform: uppercase;
+    }
+
+    /* =========================================================
+       STATES
+    ========================================================= */
+
+    .shop-state {
+      grid-column: 1 / -1;
+    }
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+
+    .shop-footer {
+      border-top: 1px solid var(--border);
+
+      padding: 38px 24px;
+
+      text-align: center;
+
+      color: var(--gray);
+
+      font-size: 0.58rem;
+      font-weight: 600;
+
+      letter-spacing: 0.3em;
+
+      text-transform: uppercase;
+    }
+
+    .shop-footer strong {
+      color: var(--teal-dim);
+    }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+
+    @media (max-width: 1100px) {
+      .product-grid {
+        grid-template-columns:
+          repeat(3, minmax(0, 1fr));
+      }
+
+      .filter-panel {
+        grid-template-columns:
+          repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 800px) {
+      .shop-hero {
+        padding-top: 70px;
+      }
+
+      .hero-bottom {
+        display: block;
+      }
+
+      .hero-stat {
+        margin-top: 30px;
+
+        text-align: left;
+      }
+
+      .shop-toolbar {
+        grid-template-columns: 1fr;
+      }
+
+      .toolbar-right {
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .filter-panel {
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+      }
+
+      .product-grid {
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      .shop-shell {
+        width:
+          min(
+            100% - 24px,
+            1380px
+          );
+
+        padding-top: 26px;
+      }
+
+      .shop-hero {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .hero-title {
+        font-size:
+          clamp(
+            2.6rem,
+            17vw,
+            4.2rem
+          );
+      }
+
+      .filter-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .filter-panel.open {
+        max-height: 700px;
+      }
+
+      .results-bar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .results-left {
+        align-items: flex-start;
+        flex-direction: column;
+
+        gap: 5px;
+      }
+
+      .sort-inline {
+        width: 100%;
+
+        justify-content: space-between;
+      }
+
+      .sort-inline select {
+        flex: 1;
+      }
+
+      .product-grid {
+        grid-template-columns: 1fr;
+
+        gap: 14px;
+      }
+
+      .drop-name {
+        min-height: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav></nav>
+
+  <!-- Existing DWM nav.js mounts here -->
+  <div id="nav"></div>
+
+
+  <!-- =======================================================
+       HERO
+  ======================================================== -->
+
+  <header class="shop-hero">
+
+    <div class="shop-hero-inner">
+
+      <div class="hero-eyebrow">
+        ◆ Dark Wave Market / The Market
+      </div>
+
+      <h1 class="hero-title">
+        SHOP
+      </h1>
+
+      <div class="hero-bottom">
+
+        <p class="hero-copy">
+          Explore live pieces from across the
+          <strong>Dark Wave Market.</strong>
+          Independent stores. Limited drops.
+          One marketplace.
+        </p>
+
+        <div class="hero-stat">
+
+          <div
+            class="hero-stat-number"
+            id="heroProductCount"
+          >
+            —
+          </div>
+
+          <div class="hero-stat-label">
+            Live Listings
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- =======================================================
+       SHOP
+  ======================================================== -->
+
+  <main class="shop-shell">
+
+    <!-- SEARCH + FILTER BUTTON -->
+
+    <section class="shop-toolbar">
+
+      <div class="search-wrap">
+
+        <span class="search-icon">
+          ⌕
+        </span>
+
+        <input
+          id="shopSearch"
+          class="search-input"
+          type="search"
+          autocomplete="off"
+          placeholder="Search the market..."
+          aria-label="Search products"
+        >
+
+        <button
+          id="clearSearch"
+          class="clear-search"
+          type="button"
+          aria-label="Clear search"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <div class="toolbar-right">
+
+        <button
+          id="filterToggle"
+          class="filter-toggle"
+          type="button"
+        >
+          Filters
+        </button>
+
+        <button
+          id="resetFilters"
+          class="reset-btn"
+          type="button"
+        >
+          Reset
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- FILTERS -->
+
+    <section
+      id="filterPanel"
+      class="filter-panel"
+      aria-label="Shop filters"
+    >
+
+      <div class="filter-box">
+
+        <label
+          class="filter-label"
+          for="categoryFilter"
+        >
+          Category
+        </label>
+
+        <select
+          id="categoryFilter"
+          class="filter-select"
+        >
+          <option value="">
+            All Categories
+          </option>
+        </select>
+
+      </div>
+
+
+      <div class="filter-box">
+
+        <label
+          class="filter-label"
+          for="storeFilter"
+        >
+          Store
+        </label>
+
+        <select
+          id="storeFilter"
+          class="filter-select"
+        >
+          <option value="">
+            All Stores
+          </option>
+        </select>
+
+      </div>
+
+
+      <div class="filter-box">
+
+        <label
+          class="filter-label"
+          for="minPrice"
+        >
+          Min Price
+        </label>
+
+        <input
+          id="minPrice"
+          class="price-input"
+          type="number"
+          inputmode="numeric"
+          min="0"
+          step="1"
+          placeholder="R 0"
+        >
+
+      </div>
+
+
+      <div class="filter-box">
+
+        <label
+          class="filter-label"
+          for="maxPrice"
+        >
+          Max Price
+        </label>
+
+        <input
+          id="maxPrice"
+          class="price-input"
+          type="number"
+          inputmode="numeric"
+          min="0"
+          step="1"
+          placeholder="Any"
+        >
+
+      </div>
+
+
+      <div class="filter-box">
+
+        <span class="filter-label">
+          Availability
+        </span>
+
+        <div class="stock-filter">
+
+          <input
+            id="stockOnly"
+            type="checkbox"
+          >
+
+          <label for="stockOnly">
+            In Stock Only
+          </label>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- RESULT INFO -->
+
+    <section class="results-bar">
+
+      <div class="results-left">
+
+        <div
+          id="resultsCount"
+          class="results-count"
+        >
+          <span>0</span> products
+        </div>
+
+        <div
+          id="activeFilterLabel"
+          class="active-filter-label"
+        >
+          All live listings
+        </div>
+
+      </div>
+
+
+      <div class="sort-inline">
+
+        <label for="sortFilter">
+          Sort
+        </label>
+
+        <select id="sortFilter">
+
+          <option value="newest">
+            Newest
+          </option>
+
+          <option value="price-low">
+            Price: Low → High
+          </option>
+
+          <option value="price-high">
+            Price: High → Low
+          </option>
+
+          <option value="name">
+            Name: A → Z
+          </option>
+
+        </select>
+
+      </div>
+
+    </section>
+
+
+    <!-- PRODUCTS -->
+
+    <section
+      id="productGrid"
+      class="product-grid"
+      aria-live="polite"
+    >
+
+      <div class="shop-state">
+        Loading the market...
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <footer class="shop-footer">
+    <strong>Dark Wave Market</strong>
+    &nbsp;◆&nbsp;
+    Independent stores. One wave.
+  </footer>
+
+
+  <script
+    type="module"
+    src="/assets/js/shop.js"
+  ></script>
+
+</body>
+</html>

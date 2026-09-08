@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>DWM — My Account</title>
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+  <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+
+  <link rel="stylesheet" href="/assets/css/shared.css">
+  <link rel="stylesheet" href="/assets/css/pages.css">
+</head>
+
+<body>
+
+<nav></nav>
+
+<div class="page-wrap">
+
+  <span class="section-label">
+    My Account
+  </span>
+
+  <h1 class="page-title">
+    Your Dashboard.
+  </h1>
+
+  <p class="page-desc" id="accountIntro">
+    Loading your DWM account...
+  </p>
+
+
+  <div class="placeholder-grid">
+
+    <!-- PROFILE -->
+
+    <div class="placeholder-card">
+
+      <h3>👤 Profile</h3>
+
+      <p>
+        <strong>Name:</strong>
+        <span id="profileName">
+          Loading...
+        </span>
+      </p>
+
+      <p>
+        <strong>Email:</strong>
+        <span id="profileEmail">
+          Loading...
+        </span>
+      </p>
+
+      <p>
+        <strong>Role:</strong>
+        <span id="profileRole">
+          Loading...
+        </span>
+      </p>
+
+    </div>
+
+
+    <!-- ORDERS -->
+
+    <div class="placeholder-card">
+
+      <h3>📦 Orders</h3>
+
+      <p>
+        Track active and past DWM purchases.
+      </p>
+
+      <a
+        href="/my-orders.html"
+        class="btn-primary"
+      >
+        MY ORDERS
+      </a>
+
+    </div>
+
+
+    <!-- SAVED DROPS -->
+
+    <div class="placeholder-card">
+
+      <h3>⭐ Saved Drops</h3>
+
+      <p>
+        Drops you starred for quick access.
+      </p>
+
+      <span class="badge-coming">
+        Coming Soon
+      </span>
+
+    </div>
+
+
+    <!-- NOTIFICATIONS -->
+
+    <div class="placeholder-card">
+
+      <h3>🔔 Notifications</h3>
+
+      <p>
+        Configure drop alerts &amp; email updates.
+      </p>
+
+      <span class="badge-coming">
+        Coming Soon
+      </span>
+
+    </div>
+
+
+    <!-- WALLET -->
+
+    <div class="placeholder-card">
+
+      <h3>💳 Wallet</h3>
+
+      <p>
+        Payment methods &amp; store credit.
+      </p>
+
+      <span class="badge-coming">
+        Coming Soon
+      </span>
+
+    </div>
+
+
+    <!-- ADMIN PANEL -->
+
+    <div
+      class="placeholder-card"
+      id="adminCard"
+      style="display:none;"
+    >
+
+      <h3>⚙️ Admin</h3>
+
+      <p>
+        Manage Darkwave Market stores,
+        products, sellers, and platform data.
+      </p>
+
+      <a
+        href="/admin.html"
+        class="btn-primary"
+        style="
+          display:inline-block;
+          margin-top:10px;
+          text-decoration:none;
+        "
+      >
+        Open Admin Panel
+      </a>
+
+    </div>
+
+
+    <!-- SELLER DASHBOARD -->
+
+    <div
+      class="placeholder-card"
+      id="resellerCard"
+      style="display:none;"
+    >
+
+      <h3>🌊 Seller Dashboard</h3>
+
+      <p>
+        Manage your DWM store and product drops.
+      </p>
+
+      <a
+        href="/seller.html"
+        class="btn-primary"
+        style="
+          display:inline-block;
+          margin-top:10px;
+          text-decoration:none;
+        "
+      >
+        Open Seller Dashboard
+      </a>
+
+    </div>
+
+
+    <!-- SIGN OUT -->
+
+    <div class="placeholder-card">
+
+      <h3>🚪 Sign Out</h3>
+
+      <p>
+        End your current DWM session.
+      </p>
+
+      <button
+        id="logoutButton"
+        type="button"
+        class="btn-primary"
+        style="margin-top:10px;"
+      >
+        Sign Out
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<footer>
+
+  <div class="footer-top">
+
+    <div>
+
+      <div class="footer-brand">
+        DWM
+      </div>
+
+      <div class="footer-tagline">
+        Darkwave Market. The market that never ends.
+        Built for the people, by the people.
+      </div>
+
+    </div>
+
+
+    <div class="footer-col">
+
+      <h4>Market</h4>
+
+      <ul>
+        <li><a href="/drops.html">New Drops</a></li>
+        <li><a href="/drops.html?category=streetwear">Streetwear</a></li>
+        <li><a href="/drops.html?category=sneakers">Sneakers</a></li>
+        <li><a href="/drops.html?category=decor">Decor</a></li>
+      </ul>
+
+    </div>
+
+
+    <div class="footer-col">
+
+      <h4>Company</h4>
+
+      <ul>
+        <li><a href="/about.html">About Us</a></li>
+        <li><a href="/about.html#mission">Our Mission</a></li>
+        <li><a href="/events.html">Events</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+
+    </div>
+
+
+    <div class="footer-col">
+
+      <h4>Support</h4>
+
+      <ul>
+        <li><a href="/shipping.html">Shipping</a></li>
+        <li><a href="/returns.html">Returns</a></li>
+        <li><a href="/faq.html">FAQ</a></li>
+        <li><a href="/reseller-apply.html">Sell With Us</a></li>
+      </ul>
+
+    </div>
+
+
+    <div class="footer-col">
+
+      <h4>Connect</h4>
+
+      <ul>
+
+        <li>
+          <a
+            href="https://www.instagram.com/darkwavemarket"
+            target="_blank"
+            rel="noopener"
+          >
+            Instagram
+          </a>
+        </li>
+
+        <li><a href="/contact.html">Email Us</a></li>
+        <li><a href="/about.html">Press Kit</a></li>
+        <li><a href="/reseller-apply.html">Brand Applications</a></li>
+
+      </ul>
+
+    </div>
+
+  </div>
+
+
+  <div class="footer-bottom">
+
+    <div class="footer-copy">
+
+      © 2026 Darkwave Market.
+      All rights reserved.
+      SA &amp; World Wide.
+
+      <br>
+
+      <span class="founders">
+        Founded by Chief Flakko &amp; Pablow
+      </span>
+
+    </div>
+
+
+    <div class="footer-socials">
+
+      <a
+        href="https://www.instagram.com/darkwavemarket"
+        target="_blank"
+        rel="noopener"
+      >
+        IG
+      </a>
+
+      <span class="social-placeholder">
+        TWITTER
+      </span>
+
+      <span class="social-placeholder">
+        TIKTOK
+      </span>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+<script type="module">
+
+  import {
+    app,
+    auth
+  } from '/assets/js/firebase-config.js';
+
+  import {
+    signOut
+  } from 'firebase/auth';
+
+  import {
+    requireAuth
+  } from '/assets/js/auth.js';
+
+  import {
+    renderNav
+  } from '/assets/js/nav.js';
+
+
+  // ============================================================
+  // NAV
+  // ============================================================
+
+  renderNav('nav');
+
+
+  // ============================================================
+  // ELEMENTS
+  // ============================================================
+
+  const accountIntro =
+    document.getElementById('accountIntro');
+
+  const profileName =
+    document.getElementById('profileName');
+
+  const profileEmail =
+    document.getElementById('profileEmail');
+
+  const profileRole =
+    document.getElementById('profileRole');
+
+  const adminCard =
+    document.getElementById('adminCard');
+
+  const resellerCard =
+    document.getElementById('resellerCard');
+
+  const logoutButton =
+    document.getElementById('logoutButton');
+
+
+  // ============================================================
+  // PROTECT ACCOUNT PAGE
+  // ============================================================
+
+  requireAuth(
+    (user, profile) => {
+
+      const displayName =
+        profile?.displayName ||
+        user.displayName ||
+        'DWM Member';
+
+
+      const email =
+        profile?.email ||
+        user.email ||
+        'No email';
+
+
+      const role =
+        profile?.role ||
+        'customer';
+
+
+      // --------------------------------------------------------
+      // PROFILE DATA
+      // --------------------------------------------------------
+
+      profileName.textContent =
+        displayName;
+
+
+      profileEmail.textContent =
+        email;
+
+
+      profileRole.textContent =
+        role.toUpperCase();
+
+
+      accountIntro.textContent =
+        `Welcome back, ${displayName}. Manage your Darkwave Market account below.`;
+
+
+      // --------------------------------------------------------
+      // ADMIN ACCESS
+      // --------------------------------------------------------
+
+      if (role === 'admin') {
+
+        adminCard.style.display =
+          'block';
+
+      }
+
+
+      // --------------------------------------------------------
+      // SELLER ACCESS
+      //
+      // Reseller gets seller dashboard.
+      // Admin also gets seller dashboard access.
+      // --------------------------------------------------------
+
+      if (
+        role === 'reseller' ||
+        role === 'admin'
+      ) {
+
+        resellerCard.style.display =
+          'block';
+
+      }
+
+    }
+  );
+
+
+  // ============================================================
+  // LOGOUT
+  // ============================================================
+
+  logoutButton.addEventListener(
+    'click',
+    async () => {
+
+      logoutButton.disabled =
+        true;
+
+
+      logoutButton.textContent =
+        'Signing Out...';
+
+
+      try {
+
+        await signOut(auth);
+
+
+        window.location.href =
+          '/login.html';
+
+
+      } catch (err) {
+
+        console.error(
+          '[account] Sign-out error:',
+          err
+        );
+
+
+        logoutButton.disabled =
+          false;
+
+
+        logoutButton.textContent =
+          'Sign Out';
+
+
+        alert(
+          'Unable to sign out. Try again.'
+        );
+
+      }
+
+    }
+  );
+
+
+  // ============================================================
+  // DEBUG
+  // ============================================================
+
+  window.__DWM_FIREBASE__ =
+    app;
+
+  window.__DWM_AUTH__ =
+    auth;
+
+</script>
+
+</body>
+</html>

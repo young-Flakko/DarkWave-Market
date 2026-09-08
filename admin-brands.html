@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>DWM — Brand Applications</title>
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+  <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+
+  <link rel="stylesheet" href="/assets/css/shared.css">
+  <link rel="stylesheet" href="/assets/css/pages.css">
+</head>
+
+<body>
+
+<nav></nav>
+
+<div
+  class="page-wrap"
+  id="adminContent"
+  style="display:none;"
+>
+
+  <span class="section-label">
+    Administration / Brands
+  </span>
+
+  <h1 class="page-title">
+    Brand<br>Applications.
+  </h1>
+
+  <p class="page-desc">
+    Review applications from independent sellers seeking access
+    to Darkwave Market.
+  </p>
+
+
+  <div
+    style="
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin:30px 0;
+    "
+  >
+
+    <button
+      class="btn-primary"
+      type="button"
+      data-filter="pending"
+    >
+      Pending
+    </button>
+
+    <button
+      class="btn-primary"
+      type="button"
+      data-filter="approved"
+    >
+      Approved
+    </button>
+
+    <button
+      class="btn-primary"
+      type="button"
+      data-filter="rejected"
+    >
+      Rejected
+    </button>
+
+    <button
+      class="btn-primary"
+      type="button"
+      data-filter="all"
+    >
+      All
+    </button>
+
+  </div>
+
+
+  <div
+    id="applicationsStatus"
+    style="
+      margin-bottom:24px;
+      color:var(--gray-light);
+      font-size:0.85rem;
+    "
+  >
+    Loading applications...
+  </div>
+
+
+  <div
+    id="applicationsGrid"
+    class="placeholder-grid"
+  ></div>
+
+
+  <div style="margin-top:40px;">
+    <a
+      href="/admin.html"
+      class="btn-primary"
+      style="
+        display:inline-block;
+        text-decoration:none;
+      "
+    >
+      ← Admin Panel
+    </a>
+  </div>
+
+</div>
+
+
+<footer>
+
+  <div class="footer-top">
+
+    <div>
+      <div class="footer-brand">DWM</div>
+
+      <div class="footer-tagline">
+        Darkwave Market. The market that never ends.
+        Built for the people, by the people.
+      </div>
+    </div>
+
+
+    <div class="footer-col">
+      <h4>Market</h4>
+
+      <ul>
+        <li><a href="/drops.html">New Drops</a></li>
+        <li><a href="/drops.html?category=streetwear">Streetwear</a></li>
+        <li><a href="/drops.html?category=sneakers">Sneakers</a></li>
+        <li><a href="/drops.html?category=decor">Decor</a></li>
+      </ul>
+    </div>
+
+
+    <div class="footer-col">
+      <h4>Company</h4>
+
+      <ul>
+        <li><a href="/about.html">About Us</a></li>
+        <li><a href="/about.html#mission">Our Mission</a></li>
+        <li><a href="/events.html">Events</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+    </div>
+
+
+    <div class="footer-col">
+      <h4>Support</h4>
+
+      <ul>
+        <li><a href="/shipping.html">Shipping</a></li>
+        <li><a href="/returns.html">Returns</a></li>
+        <li><a href="/faq.html">FAQ</a></li>
+        <li><a href="/reseller-apply.html">Sell With Us</a></li>
+      </ul>
+    </div>
+
+
+    <div class="footer-col">
+      <h4>Connect</h4>
+
+      <ul>
+        <li>
+          <a
+            href="https://www.instagram.com/darkwavemarket"
+            target="_blank"
+            rel="noopener"
+          >
+            Instagram
+          </a>
+        </li>
+
+        <li><a href="/contact.html">Email Us</a></li>
+        <li><a href="/about.html">Press Kit</a></li>
+        <li><a href="/reseller-apply.html">Brand Applications</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+
+  <div class="footer-bottom">
+
+    <div class="footer-copy">
+      © 2026 Darkwave Market. All rights reserved.
+      SA &amp; World Wide.
+      <br>
+
+      <span class="founders">
+        Founded by Chief Flakko &amp; Pablow
+      </span>
+    </div>
+
+
+    <div class="footer-socials">
+
+      <a
+        href="https://www.instagram.com/darkwavemarket"
+        target="_blank"
+        rel="noopener"
+      >
+        IG
+      </a>
+
+      <span class="social-placeholder">
+        TWITTER
+      </span>
+
+      <span class="social-placeholder">
+        TIKTOK
+      </span>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+<script type="module">
+
+  import {
+    app,
+    auth,
+    db
+  } from '/assets/js/firebase-config.js';
+
+  import {
+    collection,
+    doc,
+    getDoc,
+    getDocs,
+    query,
+    where,
+    writeBatch,
+    serverTimestamp
+  } from 'firebase/firestore';
+
+  import {
+    requireAdmin
+  } from '/assets/js/auth.js';
+
+  import {
+    renderNav
+  } from '/assets/js/nav.js';
+
+
+  // ============================================================
+  // NAV
+  // ============================================================
+
+  renderNav('nav');
+
+
+  // ============================================================
+  // ELEMENTS / STATE
+  // ============================================================
+
+  const adminContent =
+    document.getElementById('adminContent');
+
+  const applicationsGrid =
+    document.getElementById('applicationsGrid');
+
+  const applicationsStatus =
+    document.getElementById('applicationsStatus');
+
+
+  let currentAdmin = null;
+
+  let currentFilter = 'pending';
+
+
+  // ============================================================
+  // HELPERS
+  // ============================================================
+
+  function escapeHtml(value = '') {
+
+    return String(value)
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#039;');
+
+  }
+
+
+  function makeSlug(name, uid) {
+
+    let slug =
+      String(name || '')
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+
+
+    if (!slug) {
+      slug = 'dwm-store';
+    }
+
+
+    // Append a short UID fragment so two brands
+    // cannot accidentally receive the same slug.
+
+    return `${slug}-${uid.slice(0, 6).toLowerCase()}`;
+
+  }
+
+
+  function formatDate(timestamp) {
+
+    if (!timestamp) {
+      return 'Unknown';
+    }
+
+
+    try {
+
+      return timestamp
+        .toDate()
+        .toLocaleString();
+
+    } catch {
+
+      return 'Unknown';
+
+    }
+
+  }
+
+
+  // ============================================================
+  // LOAD APPLICATIONS
+  // ============================================================
+
+  async function loadApplications() {
+
+    applicationsGrid.innerHTML = '';
+
+    applicationsStatus.textContent =
+      'Loading applications...';
+
+
+    try {
+
+      let applicationsQuery;
+
+
+      if (currentFilter === 'all') {
+
+        applicationsQuery =
+          query(
+            collection(
+              db,
+              'resellerApplications'
+            )
+          );
+
+      } else {
+
+        applicationsQuery =
+          query(
+            collection(
+              db,
+              'resellerApplications'
+            ),
+            where(
+              'status',
+              '==',
+              currentFilter
+            )
+          );
+
+      }
+
+
+      const snapshot =
+        await getDocs(
+          applicationsQuery
+        );
+
+
+      if (snapshot.empty) {
+
+        applicationsStatus.textContent =
+          `No ${currentFilter === 'all' ? '' : currentFilter + ' '}applications found.`;
+
+        return;
+
+      }
+
+
+      const applications = [];
+
+
+      snapshot.forEach((applicationDoc) => {
+
+        applications.push({
+          id: applicationDoc.id,
+          ...applicationDoc.data()
+        });
+
+      });
+
+
+      applications.sort((a, b) => {
+
+        const aTime =
+          a.submittedAt?.seconds || 0;
+
+        const bTime =
+          b.submittedAt?.seconds || 0;
+
+        return bTime - aTime;
+
+      });
+
+
+      applicationsStatus.textContent =
+        `${applications.length} application${applications.length === 1 ? '' : 's'} found.`;
+
+
+      for (const application of applications) {
+
+        await renderApplication(
+          application
+        );
+
+      }
+
+
+    } catch (err) {
+
+      console.error(
+        '[admin-brands] Load error:',
+        err
+      );
+
+
+      applicationsStatus.textContent =
+        'Unable to load reseller applications.';
+
+
+      applicationsGrid.innerHTML =
+        `
+          <div class="placeholder-card">
+            <h3>Unable to Load</h3>
+            <p>
+              Check Firestore permissions and browser console.
+            </p>
+          </div>
+        `;
+
+    }
+
+  }
+
+
+  // ============================================================
+  // RENDER APPLICATION
+  // ============================================================
+
+  async function renderApplication(application) {
+
+    let existingRole =
+      'unknown';
+
+
+    try {
+
+      const userSnapshot =
+        await getDoc(
+          doc(
+            db,
+            'users',
+            application.userUid
+          )
+        );
+
+
+      if (userSnapshot.exists()) {
+
+        existingRole =
+          userSnapshot.data()?.role ||
+          'customer';
+
+      }
+
+    } catch (err) {
+
+      console.error(
+        '[admin-brands] Unable to read applicant profile:',
+        err
+      );
+
+    }
+
+
+    const card =
+      document.createElement('div');
+
+
+    card.className =
+      'placeholder-card';
+
+
+    card.dataset.applicationId =
+      application.id;
+
+
+    const isPending =
+      application.status === 'pending';
+
+
+    const protectedAdmin =
+      existingRole === 'admin';
+
+
+    card.innerHTML = `
+
+      <h3>
+        ◆ ${escapeHtml(application.businessName)}
+      </h3>
+
+      <p>
+        <strong>Status:</strong>
+        ${escapeHtml(
+          String(application.status || 'unknown').toUpperCase()
+        )}
+      </p>
+
+      <p>
+        <strong>Account Role:</strong>
+        ${escapeHtml(
+          existingRole.toUpperCase()
+        )}
+      </p>
+
+      <p>
+        <strong>Contact:</strong>
+        ${escapeHtml(application.contactEmail)}
+      </p>
+
+      <p>
+        <strong>Account:</strong>
+        ${escapeHtml(application.applicantEmail)}
+      </p>
+
+      <p>
+        <strong>Sells:</strong>
+        ${escapeHtml(application.whatYouSell)}
+      </p>
+
+      <p>
+        <strong>Instagram:</strong>
+        ${escapeHtml(application.instagramHandle)}
+      </p>
+
+      <p>
+        <strong>Submitted:</strong>
+        ${escapeHtml(
+          formatDate(application.submittedAt)
+        )}
+      </p>
+
+      ${
+        protectedAdmin
+          ? `
+            <div
+              style="
+                margin-top:14px;
+                padding:12px;
+                border:1px solid rgba(255,120,120,0.35);
+                color:#d98b8b;
+                font-size:0.75rem;
+                line-height:1.5;
+              "
+            >
+              ADMIN ACCOUNT — approval is disabled
+              to prevent replacing the admin role.
+            </div>
+          `
+          : ''
+      }
+
+      ${
+        isPending
+          ? `
+            <div
+              style="
+                display:flex;
+                gap:10px;
+                margin-top:18px;
+                flex-wrap:wrap;
+              "
+            >
+
+              <button
+                class="btn-primary approve-btn"
+                type="button"
+                ${protectedAdmin ? 'disabled' : ''}
+              >
+                Approve
+              </button>
+
+              <button
+                class="btn-primary reject-btn"
+                type="button"
+              >
+                Reject
+              </button>
+
+            </div>
+          `
+          : ''
+      }
+
+    `;
+
+
+    applicationsGrid.appendChild(
+      card
+    );
+
+
+    if (!isPending) {
+      return;
+    }
+
+
+    const approveButton =
+      card.querySelector(
+        '.approve-btn'
+      );
+
+    const rejectButton =
+      card.querySelector(
+        '.reject-btn'
+      );
+
+
+    if (
+      approveButton &&
+      !protectedAdmin
+    ) {
+
+      approveButton.addEventListener(
+        'click',
+        () => approveApplication(
+          application,
+          approveButton,
+          rejectButton
+        )
+      );
+
+    }
+
+
+    if (rejectButton) {
+
+      rejectButton.addEventListener(
+        'click',
+        () => rejectApplication(
+          application,
+          approveButton,
+          rejectButton
+        )
+      );
+
+    }
+
+  }
+
+
+  // ============================================================
+  // APPROVE APPLICATION
+  // ============================================================
+
+  async function approveApplication(
+    application,
+    approveButton,
+    rejectButton
+  ) {
+
+    const confirmed =
+      window.confirm(
+        `Approve ${application.businessName} as a DWM reseller?`
+      );
+
+
+    if (!confirmed) {
+      return;
+    }
+
+
+    approveButton.disabled = true;
+
+    if (rejectButton) {
+      rejectButton.disabled = true;
+    }
+
+
+    approveButton.textContent =
+      'Approving...';
+
+
+    try {
+
+      // --------------------------------------------------------
+      // VERIFY USER STILL IS NOT ADMIN
+      // --------------------------------------------------------
+
+      const userRef =
+        doc(
+          db,
+          'users',
+          application.userUid
+        );
+
+
+      const userSnapshot =
+        await getDoc(userRef);
+
+
+      if (!userSnapshot.exists()) {
+
+        throw new Error(
+          'Applicant user profile does not exist.'
+        );
+
+      }
+
+
+      const userData =
+        userSnapshot.data();
+
+
+      if (userData.role === 'admin') {
+
+        throw new Error(
+          'Admin accounts cannot be converted to reseller accounts.'
+        );
+
+      }
+
+
+      // --------------------------------------------------------
+      // CREATE STORE REFERENCE
+      // --------------------------------------------------------
+
+      const storeRef =
+        doc(
+          collection(
+            db,
+            'stores'
+          )
+        );
+
+
+      const storeSlug =
+        makeSlug(
+          application.businessName,
+          application.userUid
+        );
+
+
+      const applicationRef =
+        doc(
+          db,
+          'resellerApplications',
+          application.id
+        );
+
+
+      // --------------------------------------------------------
+      // ATOMIC APPROVAL
+      //
+      // All three writes succeed together or none do.
+      // --------------------------------------------------------
+
+      const batch =
+        writeBatch(db);
+
+
+      batch.set(
+        storeRef,
+        {
+          name:
+            application.businessName,
+
+          slug:
+            storeSlug,
+
+          ownerUid:
+            application.userUid,
+
+          status:
+            'active',
+
+          founder:
+            false,
+
+          logoUrl:
+            '/assets/img/dwm-logo-new.png',
+
+          createdAt:
+            serverTimestamp(),
+
+          updatedAt:
+            serverTimestamp()
+        }
+      );
+
+
+      batch.update(
+        userRef,
+        {
+          role:
+            'reseller',
+
+          storeId:
+            storeRef.id,
+
+          updatedAt:
+            serverTimestamp()
+        }
+      );
+
+
+      batch.update(
+        applicationRef,
+        {
+          status:
+            'approved',
+
+          storeId:
+            storeRef.id,
+
+          storeSlug:
+            storeSlug,
+
+          reviewedBy:
+            currentAdmin.uid,
+
+          reviewedAt:
+            serverTimestamp(),
+
+          updatedAt:
+            serverTimestamp()
+        }
+      );
+
+
+      await batch.commit();
+
+
+      alert(
+        `${application.businessName} has been approved.`
+      );
+
+
+      await loadApplications();
+
+
+    } catch (err) {
+
+      console.error(
+        '[admin-brands] Approval error:',
+        err
+      );
+
+
+      alert(
+        err.message ||
+        'Unable to approve application.'
+      );
+
+
+      approveButton.disabled =
+        false;
+
+      approveButton.textContent =
+        'Approve';
+
+
+      if (rejectButton) {
+        rejectButton.disabled = false;
+      }
+
+    }
+
+  }
+
+
+  // ============================================================
+  // REJECT APPLICATION
+  // ============================================================
+
+  async function rejectApplication(
+    application,
+    approveButton,
+    rejectButton
+  ) {
+
+    const confirmed =
+      window.confirm(
+        `Reject ${application.businessName}'s application?`
+      );
+
+
+    if (!confirmed) {
+      return;
+    }
+
+
+    if (approveButton) {
+      approveButton.disabled = true;
+    }
+
+
+    rejectButton.disabled =
+      true;
+
+    rejectButton.textContent =
+      'Rejecting...';
+
+
+    try {
+
+      const batch =
+        writeBatch(db);
+
+
+      batch.update(
+        doc(
+          db,
+          'resellerApplications',
+          application.id
+        ),
+        {
+          status:
+            'rejected',
+
+          reviewedBy:
+            currentAdmin.uid,
+
+          reviewedAt:
+            serverTimestamp(),
+
+          updatedAt:
+            serverTimestamp()
+        }
+      );
+
+
+      await batch.commit();
+
+
+      alert(
+        `${application.businessName}'s application was rejected.`
+      );
+
+
+      await loadApplications();
+
+
+    } catch (err) {
+
+      console.error(
+        '[admin-brands] Reject error:',
+        err
+      );
+
+
+      alert(
+        'Unable to reject application.'
+      );
+
+
+      rejectButton.disabled =
+        false;
+
+      rejectButton.textContent =
+        'Reject';
+
+
+      if (approveButton) {
+        approveButton.disabled = false;
+      }
+
+    }
+
+  }
+
+
+  // ============================================================
+  // FILTER BUTTONS
+  // ============================================================
+
+  document
+    .querySelectorAll(
+      '[data-filter]'
+    )
+    .forEach((button) => {
+
+      button.addEventListener(
+        'click',
+        async () => {
+
+          currentFilter =
+            button.dataset.filter;
+
+          await loadApplications();
+
+        }
+      );
+
+    });
+
+
+  // ============================================================
+  // ADMIN SECURITY
+  // ============================================================
+
+  requireAdmin(
+    async (user) => {
+
+      currentAdmin =
+        user;
+
+
+      adminContent.style.display =
+        'block';
+
+
+      await loadApplications();
+
+    }
+  );
+
+
+  // ============================================================
+  // DEBUG
+  // ============================================================
+
+  window.__DWM_FIREBASE__ =
+    app;
+
+  window.__DWM_AUTH__ =
+    auth;
+
+  window.__DWM_DB__ =
+    db;
+
+</script>
+
+</body>
+</html>
