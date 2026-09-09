@@ -37,6 +37,9 @@ const resetBtn =
 const categoryFilter =
   document.getElementById('categoryFilter');
 
+const categoryChips =
+  document.getElementById('categoryChips');
+
 const storeFilter =
   document.getElementById('storeFilter');
 
@@ -153,6 +156,8 @@ async function init() {
 
     buildCategoryOptions();
 
+    buildCategoryChips();
+
     buildStoreOptions();
 
     applyFilters();
@@ -268,6 +273,120 @@ function buildCategoryOptions() {
     );
 
   });
+
+}
+
+
+/* =========================================================
+   QUICK CATEGORY CHIPS
+========================================================= */
+
+function buildCategoryChips() {
+
+  if (!categoryChips) {
+    return;
+  }
+
+  const categories =
+    [
+      ...new Set(
+        allProducts
+          .map((product) =>
+            normalizeCategoryToLabel(
+              product?.data?.category
+            )
+          )
+          .filter(Boolean)
+      )
+    ]
+      .sort(
+        (a, b) =>
+          a.localeCompare(b)
+      );
+
+
+  const options = [
+    '',
+    ...categories
+  ];
+
+
+  categoryChips.innerHTML =
+    options
+      .map((category) => {
+
+        const label =
+          category || 'All';
+
+        return `
+          <button
+            type="button"
+            class="shop-category-chip ${
+              category ===
+              categoryFilter.value
+                ? 'active'
+                : ''
+            }"
+            data-shop-category="${category}"
+          >
+            ${label}
+          </button>
+        `;
+
+      })
+      .join('');
+
+
+  categoryChips
+    .querySelectorAll(
+      '[data-shop-category]'
+    )
+    .forEach((button) => {
+
+      button.addEventListener(
+        'click',
+        () => {
+
+          categoryFilter.value =
+            button.getAttribute(
+              'data-shop-category'
+            ) || '';
+
+          applyFilters();
+
+          updateCategoryChipState();
+
+        }
+      );
+
+    });
+
+}
+
+
+function updateCategoryChipState() {
+
+  if (!categoryChips) {
+    return;
+  }
+
+
+  categoryChips
+    .querySelectorAll(
+      '[data-shop-category]'
+    )
+    .forEach((button) => {
+
+      button.classList.toggle(
+        'active',
+        (
+          button.getAttribute(
+            'data-shop-category'
+          ) || ''
+        ) === categoryFilter.value
+      );
+
+    });
 
 }
 
@@ -598,11 +717,37 @@ function applyFilters() {
 
   sortProducts();
 
+  filteredProducts.sort(
+    (a, b) => {
+
+      const stockA =
+        getStock(a);
+
+      const stockB =
+        getStock(b);
+
+      const soldA =
+        stockA <= 0
+          ? 1
+          : 0;
+
+      const soldB =
+        stockB <= 0
+          ? 1
+          : 0;
+
+      return soldA - soldB;
+
+    }
+  );
+
   renderProducts();
 
   updateResultsBar();
 
   updateClearSearch();
+
+  updateCategoryChipState();
 
 }
 

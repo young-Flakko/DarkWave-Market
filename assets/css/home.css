@@ -508,3 +508,1403 @@
     transform: none !important;
   }
 }
+
+
+/* ================ DWM LIVE HERO RIPPLE SYSTEM ================ */
+
+.hero {
+  isolation: isolate;
+}
+
+.hero-canvas-slot {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero-lines {
+  z-index: 0;
+}
+
+.hero-eyebrow,
+.dwm-title,
+.hero-tagline,
+.hero-cta-group,
+.scroll-indicator {
+  z-index: 3;
+}
+
+.hero-logo-wrap {
+  width: min(640px, 90vw);
+  min-height: min(500px, 72vw);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.hero-logo-picture {
+  position: relative;
+  z-index: 3;
+  display: block;
+}
+
+.hero-logo-img {
+  width: min(500px, 76vw);
+  max-height: 62vh;
+  object-fit: contain;
+  filter:
+    drop-shadow(0 0 22px rgba(74,157,168,0.40))
+    drop-shadow(0 18px 45px rgba(0,0,0,0.55));
+}
+
+.hero-logo-img:hover {
+  filter:
+    drop-shadow(0 0 36px rgba(91,191,204,0.62))
+    drop-shadow(0 22px 52px rgba(0,0,0,0.60));
+}
+
+.hero-logo-glow {
+  width: min(640px, 86vw);
+  height: min(640px, 86vw);
+  z-index: 0;
+}
+
+.hero-ripples {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(660px, 88vw);
+  aspect-ratio: 1 / 1;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero-ripple {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 34%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  border: 1px solid rgba(91,191,204,0.46);
+  box-shadow:
+    0 0 12px rgba(91,191,204,0.20),
+    inset 0 0 12px rgba(91,191,204,0.10);
+  transform: translate(-50%, -50%) scale(0.35);
+  opacity: 0;
+  animation: dwmRipple 5.8s linear infinite;
+}
+
+.hero-ripple::after {
+  content: '';
+  position: absolute;
+  inset: 7%;
+  border-radius: inherit;
+  border: 1px solid rgba(74,157,168,0.14);
+}
+
+.hero-ripple-2 {
+  animation-delay: -1.45s;
+}
+
+.hero-ripple-3 {
+  animation-delay: -2.9s;
+}
+
+.hero-ripple-4 {
+  animation-delay: -4.35s;
+}
+
+@keyframes dwmRipple {
+  0% {
+    transform: translate(-50%, -50%) scale(0.32);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 0.60;
+  }
+
+  55% {
+    opacity: 0.24;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(3.15);
+    opacity: 0;
+  }
+}
+
+html[data-theme="light"] .hero {
+  background:
+    radial-gradient(
+      circle at 50% 46%,
+      rgba(86, 52, 138, 0.10) 0%,
+      rgba(86, 52, 138, 0.035) 30%,
+      transparent 58%
+    ),
+    linear-gradient(
+      to bottom,
+      #ddd9e2 0%,
+      #d8d4dd 28%,
+      #d1ccd7 58%,
+      #c7c1cf 100%
+    );
+}
+
+html[data-theme="light"] .hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(
+      ellipse at 0% 18%,
+      rgba(11, 9, 14, 0.32) 0%,
+      rgba(11, 9, 14, 0.16) 16%,
+      transparent 34%
+    ),
+    radial-gradient(
+      ellipse at 100% 26%,
+      rgba(16, 12, 20, 0.30) 0%,
+      rgba(16, 12, 20, 0.14) 16%,
+      transparent 35%
+    ),
+    radial-gradient(
+      ellipse at 8% 92%,
+      rgba(14, 10, 18, 0.28) 0%,
+      rgba(14, 10, 18, 0.13) 18%,
+      transparent 36%
+    ),
+    radial-gradient(
+      ellipse at 96% 88%,
+      rgba(12, 9, 16, 0.30) 0%,
+      rgba(12, 9, 16, 0.14) 17%,
+      transparent 35%
+    );
+  filter: blur(18px);
+  opacity: 0.84;
+}
+
+html[data-theme="light"] .hero::after {
+  background:
+    radial-gradient(
+      circle,
+      rgba(87,52,138,0.22) 0%,
+      rgba(59,35,103,0.11) 38%,
+      rgba(37,19,66,0.045) 58%,
+      transparent 76%
+    );
+}
+
+html[data-theme="light"] .hero-logo-glow {
+  background:
+    radial-gradient(
+      circle,
+      rgba(111,66,171,0.36) 0%,
+      rgba(87,52,138,0.23) 30%,
+      rgba(53,32,95,0.10) 56%,
+      transparent 76%
+    );
+  filter: blur(34px);
+}
+
+html[data-theme="light"] .hero-ripple {
+  border-color: rgba(87,52,138,0.52);
+  box-shadow:
+    0 0 14px rgba(87,52,138,0.20),
+    inset 0 0 14px rgba(87,52,138,0.08);
+}
+
+html[data-theme="light"] .hero-ripple::after {
+  border-color: rgba(59,35,103,0.16);
+}
+
+html[data-theme="light"] .hero-logo-img {
+  filter:
+    drop-shadow(0 0 24px rgba(87,52,138,0.30))
+    drop-shadow(0 20px 48px rgba(24,16,31,0.28));
+}
+
+html[data-theme="light"] .hero-logo-img:hover {
+  filter:
+    drop-shadow(0 0 38px rgba(87,52,138,0.44))
+    drop-shadow(0 24px 54px rgba(24,16,31,0.30));
+}
+
+html[data-theme="light"] .hero-lines {
+  background-image:
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 60px,
+      rgba(53,32,95,0.035) 60px,
+      rgba(53,32,95,0.035) 61px
+    );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-ripple {
+    animation: none !important;
+    opacity: 0.18;
+    transform: translate(-50%, -50%) scale(2.1);
+  }
+}
+
+/* =========================================================
+   DWM ROYAL MIDNIGHT — FINAL HERO TUNING
+========================================================= */
+
+html[data-theme="light"] .hero {
+
+  background:
+    radial-gradient(
+      circle at 50% 43%,
+      rgba(98, 58, 145, 0.17) 0%,
+      rgba(69, 38, 111, 0.07) 27%,
+      transparent 55%
+    ),
+
+    linear-gradient(
+      to bottom,
+      #d2cdd6 0%,
+      #c8c2cd 28%,
+      #bcb6c2 60%,
+      #aea8b5 100%
+    );
+}
+
+
+/*
+  BLACK STORM / CLOUD ACCENTS
+*/
+
+html[data-theme="light"] .hero::before {
+  content: '';
+  position: absolute;
+  inset: -10%;
+  z-index: 0;
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      ellipse at 0% 18%,
+      rgba(5, 4, 7, 0.44) 0%,
+      rgba(12, 9, 15, 0.23) 17%,
+      transparent 36%
+    ),
+
+    radial-gradient(
+      ellipse at 100% 23%,
+      rgba(5, 4, 7, 0.40) 0%,
+      rgba(12, 9, 15, 0.20) 18%,
+      transparent 37%
+    ),
+
+    radial-gradient(
+      ellipse at 5% 88%,
+      rgba(5, 4, 7, 0.38) 0%,
+      rgba(12, 9, 15, 0.19) 19%,
+      transparent 39%
+    ),
+
+    radial-gradient(
+      ellipse at 97% 84%,
+      rgba(5, 4, 7, 0.42) 0%,
+      rgba(12, 9, 15, 0.20) 18%,
+      transparent 38%
+    );
+
+  filter: blur(30px);
+
+  animation:
+    dwmLightStorm 12s ease-in-out infinite alternate;
+}
+
+
+@keyframes dwmLightStorm {
+
+  0% {
+    transform:
+      translate3d(-1%, 0, 0)
+      scale(1);
+    opacity: 0.76;
+  }
+
+  100% {
+    transform:
+      translate3d(1%, -1%, 0)
+      scale(1.04);
+    opacity: 0.96;
+  }
+
+}
+
+
+/*
+  PURPLE HERO ENERGY
+*/
+
+html[data-theme="light"] .hero::after {
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(98, 58, 145, 0.26) 0%,
+      rgba(69, 38, 111, 0.13) 36%,
+      rgba(40, 21, 67, 0.05) 58%,
+      transparent 76%
+    );
+
+}
+
+
+/*
+  LIGHT CREST — compensate for different PNG crop/padding
+*/
+
+html[data-theme="light"] .hero-logo-img {
+
+  width:
+    min(440px, 70vw);
+
+  filter:
+    drop-shadow(
+      0 0 25px
+      rgba(98, 58, 145, 0.34)
+    )
+    drop-shadow(
+      0 20px 48px
+      rgba(20, 14, 25, 0.30)
+    );
+
+}
+
+
+html[data-theme="light"] .hero-logo-img:hover {
+
+  filter:
+    drop-shadow(
+      0 0 42px
+      rgba(98, 58, 145, 0.50)
+    )
+    drop-shadow(
+      0 24px 54px
+      rgba(20, 14, 25, 0.34)
+    );
+
+}
+
+
+/*
+  PURPLE LIVE RIPPLE SYSTEM
+*/
+
+html[data-theme="light"] .hero-ripple {
+
+  border-color:
+    rgba(98, 58, 145, 0.58);
+
+  box-shadow:
+    0 0 16px
+      rgba(98, 58, 145, 0.25),
+
+    inset 0 0 14px
+      rgba(69, 38, 111, 0.10);
+
+}
+
+
+html[data-theme="light"] .hero-ripple::after {
+
+  border-color:
+    rgba(69, 38, 111, 0.20);
+
+}
+
+
+html[data-theme="light"] .hero-logo-glow {
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(112, 65, 168, 0.38) 0%,
+      rgba(82, 43, 127, 0.23) 30%,
+      rgba(53, 28, 83, 0.10) 55%,
+      transparent 76%
+    );
+
+}
+
+
+/*
+  HERO TEXT — DARK, NOT WASHED OUT
+*/
+
+html[data-theme="light"] .hero-eyebrow {
+
+  color: #493755;
+
+}
+
+html[data-theme="light"] .hero-eyebrow::before,
+html[data-theme="light"] .hero-eyebrow::after {
+
+  color: #5e4770;
+
+}
+
+
+html[data-theme="light"] .hero-tagline {
+
+  color: #29232e;
+
+  font-weight: 400;
+
+}
+
+
+html[data-theme="light"] .hero-tagline span {
+
+  color: #45266f;
+
+  font-weight: 700;
+
+}
+
+
+html[data-theme="light"] .scroll-indicator span {
+
+  color: #342d39;
+
+}
+
+
+html[data-theme="light"] .scroll-line {
+
+  background:
+    linear-gradient(
+      to bottom,
+      #45266f,
+      transparent
+    );
+
+}
+
+
+html[data-theme="light"] .hero-lines {
+
+  opacity: 0.55;
+
+  background-image:
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 60px,
+      rgba(48, 27, 75, 0.055) 60px,
+      rgba(48, 27, 75, 0.055) 61px
+    );
+
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+  html[data-theme="light"] .hero::before {
+    animation: none !important;
+  }
+
+}
+
+
+/* ============================================================
+   DWM VISION HERO — STORM / WAVE ENVIRONMENT
+   Final visual layer. Intentionally overrides earlier hero art.
+============================================================ */
+
+.hero {
+  isolation: isolate;
+  background:
+    radial-gradient(
+      ellipse at 50% 42%,
+      rgba(22, 126, 145, 0.16) 0%,
+      rgba(5, 34, 48, 0.09) 31%,
+      transparent 58%
+    ),
+    linear-gradient(
+      135deg,
+      #020507 0%,
+      #050b10 38%,
+      #07101b 72%,
+      #030609 100%
+    );
+}
+
+/* Moving storm perimeter */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: -14%;
+  z-index: 0;
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      ellipse at 0% 18%,
+      rgba(0, 0, 0, .94) 0%,
+      rgba(3, 15, 19, .74) 13%,
+      transparent 35%
+    ),
+    radial-gradient(
+      ellipse at 100% 24%,
+      rgba(0, 0, 0, .92) 0%,
+      rgba(3, 15, 19, .70) 15%,
+      transparent 37%
+    ),
+    radial-gradient(
+      ellipse at 4% 96%,
+      rgba(0, 0, 0, .98) 0%,
+      rgba(2, 22, 28, .78) 18%,
+      transparent 40%
+    ),
+    radial-gradient(
+      ellipse at 98% 92%,
+      rgba(0, 0, 0, .98) 0%,
+      rgba(2, 20, 27, .76) 18%,
+      transparent 40%
+    );
+
+  filter: blur(38px);
+  opacity: .92;
+  transform: scale(1.05);
+  animation: dwmStormDrift 15s ease-in-out infinite alternate;
+}
+
+/* Main energy aura */
+.hero::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: min(880px, 92vw);
+  height: min(880px, 92vw);
+  z-index: 0;
+  pointer-events: none;
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(50, 210, 229, .17) 0%,
+      rgba(15, 139, 164, .12) 23%,
+      rgba(4, 64, 82, .07) 44%,
+      transparent 70%
+    );
+
+  filter: blur(16px);
+  animation: dwmAura 6s ease-in-out infinite alternate;
+}
+
+@keyframes dwmStormDrift {
+  0% {
+    transform: translate3d(-1.5%, -1%, 0) scale(1.04);
+  }
+
+  50% {
+    transform: translate3d(1%, 1.5%, 0) scale(1.09);
+  }
+
+  100% {
+    transform: translate3d(2%, -1%, 0) scale(1.05);
+  }
+}
+
+@keyframes dwmAura {
+  from {
+    transform: translate(-50%, -50%) scale(.90);
+    opacity: .62;
+  }
+
+  to {
+    transform: translate(-50%, -50%) scale(1.08);
+    opacity: 1;
+  }
+}
+
+
+/* ------------------------------------------------------------
+   ENERGY FIELD
+------------------------------------------------------------ */
+
+.hero-logo-wrap {
+  width: min(660px, 90vw);
+  min-height: min(520px, 72vw);
+  padding: 24px;
+}
+
+/* vertical energy beam */
+.hero-logo-wrap::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: -32%;
+  bottom: -32%;
+  width: 2px;
+  transform: translateX(-50%);
+  z-index: 1;
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      to bottom,
+      transparent,
+      rgba(85, 220, 235, .10) 16%,
+      rgba(98, 235, 248, .72) 49%,
+      rgba(85, 220, 235, .12) 82%,
+      transparent
+    );
+
+  box-shadow:
+    0 0 8px rgba(72, 221, 239, .55),
+    0 0 28px rgba(41, 179, 201, .25);
+
+  animation: dwmBeam 4s ease-in-out infinite alternate;
+}
+
+@keyframes dwmBeam {
+  from {
+    opacity: .28;
+  }
+
+  to {
+    opacity: .85;
+  }
+}
+
+
+/* Crest stays IDENTICAL size in both themes */
+.hero-logo-picture {
+  width: min(500px, 76vw);
+  display: block;
+  position: relative;
+  z-index: 4;
+}
+
+.hero-logo-img {
+  width: 100% !important;
+  height: auto !important;
+  max-height: 62vh !important;
+  object-fit: contain;
+  display: block;
+
+  filter:
+    drop-shadow(0 0 18px rgba(62, 213, 232, .46))
+    drop-shadow(0 0 48px rgba(20, 136, 157, .23))
+    drop-shadow(0 24px 50px rgba(0, 0, 0, .72));
+
+  animation:
+    fadeUp 1.2s ease .2s both,
+    dwmCrestFloat 6s ease-in-out 1.4s infinite;
+}
+
+@keyframes dwmCrestFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+
+/* ------------------------------------------------------------
+   DEEPER LIVE RIPPLE FIELD
+------------------------------------------------------------ */
+
+.hero-ripples {
+  width: min(800px, 94vw);
+  z-index: 2;
+}
+
+.hero-ripple {
+  width: 29%;
+  border:
+    1px solid rgba(68, 214, 232, .58);
+
+  box-shadow:
+    0 0 10px rgba(54, 213, 232, .27),
+    0 0 28px rgba(24, 136, 157, .12),
+    inset 0 0 12px rgba(65, 217, 235, .11);
+
+  animation-duration: 6.8s;
+}
+
+.hero-ripple::after {
+  border-color:
+    rgba(80, 224, 240, .20);
+}
+
+
+/* faint technological rings */
+.hero-ripples::before,
+.hero-ripples::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.hero-ripples::before {
+  width: 72%;
+  height: 72%;
+
+  border:
+    1px dashed rgba(75, 213, 230, .14);
+
+  animation:
+    dwmRingRotate 35s linear infinite;
+}
+
+.hero-ripples::after {
+  width: 91%;
+  height: 91%;
+
+  border:
+    1px solid rgba(70, 205, 225, .08);
+
+  box-shadow:
+    inset 0 0 60px rgba(40, 186, 207, .035);
+
+  animation:
+    dwmRingRotateReverse 48s linear infinite;
+}
+
+@keyframes dwmRingRotate {
+  to {
+    transform:
+      translate(-50%, -50%)
+      rotate(360deg);
+  }
+}
+
+@keyframes dwmRingRotateReverse {
+  to {
+    transform:
+      translate(-50%, -50%)
+      rotate(-360deg);
+  }
+}
+
+
+/* ============================================================
+   ROYAL MIDNIGHT LIGHT HERO
+============================================================ */
+
+html[data-theme="light"] .hero {
+  color: #19151d;
+
+  background:
+    radial-gradient(
+      ellipse at 50% 44%,
+      rgba(112, 62, 170, .17) 0%,
+      rgba(91, 48, 146, .08) 28%,
+      transparent 57%
+    ),
+    linear-gradient(
+      145deg,
+      #e4e0e8 0%,
+      #d7d2dc 36%,
+      #ccc6d2 68%,
+      #beb7c5 100%
+    );
+}
+
+
+/* BLACK ACCENT CLOUDS */
+html[data-theme="light"] .hero::before {
+  background:
+    radial-gradient(
+      ellipse at -4% 13%,
+      rgba(16, 13, 19, .68) 0%,
+      rgba(30, 24, 35, .42) 13%,
+      transparent 35%
+    ),
+    radial-gradient(
+      ellipse at 104% 20%,
+      rgba(15, 12, 18, .65) 0%,
+      rgba(31, 24, 37, .39) 14%,
+      transparent 36%
+    ),
+    radial-gradient(
+      ellipse at 1% 100%,
+      rgba(12, 10, 15, .76) 0%,
+      rgba(31, 24, 38, .46) 17%,
+      transparent 39%
+    ),
+    radial-gradient(
+      ellipse at 100% 98%,
+      rgba(12, 9, 15, .76) 0%,
+      rgba(31, 23, 38, .45) 17%,
+      transparent 39%
+    );
+
+  filter: blur(42px);
+  opacity: .92;
+}
+
+
+/* Purple aura */
+html[data-theme="light"] .hero::after {
+  background:
+    radial-gradient(
+      circle,
+      rgba(135, 70, 202, .24) 0%,
+      rgba(99, 47, 158, .15) 26%,
+      rgba(73, 34, 119, .07) 47%,
+      transparent 71%
+    );
+}
+
+
+/* purple vertical beam */
+html[data-theme="light"] .hero-logo-wrap::before {
+  background:
+    linear-gradient(
+      to bottom,
+      transparent,
+      rgba(100, 50, 157, .10) 15%,
+      rgba(119, 61, 181, .66) 50%,
+      rgba(91, 43, 145, .11) 84%,
+      transparent
+    );
+
+  box-shadow:
+    0 0 9px rgba(111, 55, 174, .48),
+    0 0 30px rgba(85, 40, 137, .22);
+}
+
+
+/* Purple crest lighting — same dimensions as dark */
+html[data-theme="light"] .hero-logo-picture {
+  width: min(500px, 76vw);
+}
+
+html[data-theme="light"] .hero-logo-img {
+  width: 100% !important;
+
+  filter:
+    drop-shadow(0 0 19px rgba(108, 52, 170, .38))
+    drop-shadow(0 0 48px rgba(84, 37, 137, .19))
+    drop-shadow(0 24px 45px rgba(28, 20, 33, .32));
+}
+
+
+/* purple waves */
+html[data-theme="light"] .hero-ripple {
+  border-color:
+    rgba(100, 49, 159, .56);
+
+  box-shadow:
+    0 0 12px rgba(103, 51, 163, .25),
+    0 0 30px rgba(80, 35, 132, .11),
+    inset 0 0 12px rgba(102, 51, 162, .10);
+}
+
+html[data-theme="light"] .hero-ripple::after {
+  border-color:
+    rgba(82, 39, 132, .18);
+}
+
+html[data-theme="light"] .hero-ripples::before {
+  border-color:
+    rgba(82, 39, 132, .18);
+}
+
+html[data-theme="light"] .hero-ripples::after {
+  border-color:
+    rgba(82, 39, 132, .11);
+
+  box-shadow:
+    inset 0 0 60px
+    rgba(91, 44, 145, .045);
+}
+
+
+/* readable dark typography */
+html[data-theme="light"] .hero-eyebrow {
+  color: #51316f;
+}
+
+html[data-theme="light"] .hero-tagline {
+  color: #29232d;
+}
+
+html[data-theme="light"] .hero-tagline span {
+  color: #572b86;
+}
+
+
+/* subtle purple grid */
+html[data-theme="light"] .hero-lines {
+  opacity: .72;
+
+  background-image:
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 60px,
+      rgba(68, 35, 105, .045) 60px,
+      rgba(68, 35, 105, .045) 61px
+    );
+}
+
+
+/* ------------------------------------------------------------
+   MOBILE
+------------------------------------------------------------ */
+
+@media (max-width: 700px) {
+
+  .hero-logo-wrap {
+    width: min(94vw, 560px);
+    min-height: 390px;
+  }
+
+  .hero-logo-picture,
+  html[data-theme="light"] .hero-logo-picture {
+    width: min(82vw, 440px);
+  }
+
+  .hero-ripples {
+    width: 104vw;
+  }
+
+}
+
+
+/* ------------------------------------------------------------
+   ACCESSIBILITY
+------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .hero::before,
+  .hero::after,
+  .hero-logo-wrap::before,
+  .hero-logo-img,
+  .hero-ripples::before,
+  .hero-ripples::after {
+    animation: none !important;
+  }
+
+}
+
+/* ============================================================
+   DWM LIGHT HERO — ROYAL STORM VISION BOARD
+   Dark hero above remains unchanged.
+============================================================ */
+
+html[data-theme="light"] .hero {
+  background:
+    radial-gradient(
+      ellipse at 50% 42%,
+      rgba(126,55,174,.18) 0%,
+      rgba(107,55,143,.10) 23%,
+      rgba(255,255,255,.08) 43%,
+      transparent 62%
+    ),
+    linear-gradient(
+      135deg,
+      #aaa4b0 0%,
+      #d5d0da 28%,
+      #ddd8e1 52%,
+      #c8c2cd 75%,
+      #a8a1ad 100%
+    );
+}
+
+
+/* Black/purple storm banks around the perimeter */
+
+html[data-theme="light"] .hero::before {
+  background:
+    radial-gradient(
+      ellipse at -5% 8%,
+      rgba(17,12,20,.90) 0%,
+      rgba(32,21,38,.62) 15%,
+      rgba(73,42,85,.24) 27%,
+      transparent 43%
+    ),
+
+    radial-gradient(
+      ellipse at 105% 12%,
+      rgba(15,10,18,.88) 0%,
+      rgba(34,21,41,.58) 16%,
+      rgba(79,43,94,.23) 28%,
+      transparent 44%
+    ),
+
+    radial-gradient(
+      ellipse at -2% 103%,
+      rgba(14,10,17,.94) 0%,
+      rgba(34,21,40,.67) 18%,
+      rgba(85,45,100,.26) 31%,
+      transparent 47%
+    ),
+
+    radial-gradient(
+      ellipse at 102% 102%,
+      rgba(13,9,16,.94) 0%,
+      rgba(34,20,40,.65) 18%,
+      rgba(87,46,102,.25) 31%,
+      transparent 47%
+    ),
+
+    radial-gradient(
+      ellipse at 50% 110%,
+      rgba(55,30,67,.36),
+      transparent 42%
+    );
+
+  filter: blur(34px);
+  opacity: .82;
+}
+
+
+/* Purple aura behind crest */
+
+html[data-theme="light"] .hero::after {
+  background:
+    radial-gradient(
+      circle,
+      rgba(139,60,194,.26) 0%,
+      rgba(108,43,158,.17) 23%,
+      rgba(83,40,117,.09) 43%,
+      transparent 69%
+    );
+
+  filter: blur(13px);
+}
+
+
+/* Purple energy beam */
+
+html[data-theme="light"] .hero-logo-wrap::before {
+  background:
+    linear-gradient(
+      to bottom,
+      transparent,
+      rgba(108,45,151,.09) 15%,
+      rgba(132,56,185,.58) 49%,
+      rgba(108,45,151,.10) 83%,
+      transparent
+    );
+
+  box-shadow:
+    0 0 9px rgba(120,48,171,.42),
+    0 0 30px rgba(88,35,128,.18);
+}
+
+
+/* Same physical crest dimensions as dark mode */
+
+html[data-theme="light"] .hero-logo-picture {
+  width: min(500px, 76vw) !important;
+}
+
+html[data-theme="light"] .hero-logo-img {
+  width: 100% !important;
+  height: auto !important;
+  max-height: 62vh !important;
+
+  filter:
+    drop-shadow(0 0 18px rgba(133,55,187,.43))
+    drop-shadow(0 0 48px rgba(96,38,139,.24))
+    drop-shadow(0 24px 48px rgba(39,20,47,.30));
+}
+
+
+/* Purple live ripples */
+
+html[data-theme="light"] .hero-ripple {
+  border-color:
+    rgba(113,47,160,.48);
+
+  box-shadow:
+    0 0 10px rgba(128,50,181,.24),
+    0 0 28px rgba(91,35,130,.11),
+    inset 0 0 12px rgba(124,49,174,.10);
+}
+
+html[data-theme="light"] .hero-ripple::after {
+  border-color:
+    rgba(104,41,151,.18);
+}
+
+html[data-theme="light"] .hero-ripples::before {
+  border-color:
+    rgba(92,36,132,.20);
+}
+
+html[data-theme="light"] .hero-ripples::after {
+  border-color:
+    rgba(92,36,132,.12);
+
+  box-shadow:
+    inset 0 0 70px
+    rgba(107,42,151,.055);
+}
+
+
+/* Dark hero copy — no washed-out gray */
+
+html[data-theme="light"] .hero-eyebrow {
+  color: #512373;
+}
+
+html[data-theme="light"] .hero-tagline {
+  color: #342e39;
+}
+
+html[data-theme="light"] .hero-tagline span {
+  color: #59217f;
+  font-weight: 700;
+}
+
+html[data-theme="light"] .scroll-indicator span {
+  color: #403647;
+}
+
+
+/* Fine atmospheric dust */
+
+html[data-theme="light"] .hero-lines {
+  opacity: .78;
+
+  background-image:
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 60px,
+      rgba(75,37,102,.055) 60px,
+      rgba(75,37,102,.055) 61px
+    );
+}
+
+
+/* ============================================================
+   DWM MOBILE HERO — FINAL AUTHORITY
+============================================================ */
+
+@media (max-width: 700px) {
+
+  .hero {
+    min-height: calc(100svh - 76px);
+    padding: 34px 18px 92px;
+    overflow: hidden;
+  }
+
+  .hero-eyebrow {
+    margin-top: 12px;
+    margin-bottom: 20px;
+    font-size: 0.54rem;
+    letter-spacing: 0.34em;
+    text-align: center;
+  }
+
+  .hero-logo-wrap {
+    width: min(84vw, 360px) !important;
+    min-height: 300px !important;
+    height: auto;
+    padding: 10px !important;
+    margin: 0 auto;
+  }
+
+  .hero-logo-picture,
+  html[data-theme="light"] .hero-logo-picture {
+    width: min(78vw, 330px) !important;
+    margin: 0 auto;
+  }
+
+  .hero-logo-img {
+    width: min(78vw, 330px) !important;
+    max-width: 330px !important;
+    max-height: 42vh !important;
+    object-fit: contain;
+  }
+
+  .hero-logo-glow {
+    width: min(94vw, 390px) !important;
+    height: min(94vw, 390px) !important;
+  }
+
+  .hero-ripples {
+    width: min(118vw, 480px) !important;
+  }
+
+  .hero-tagline {
+    width: min(92vw, 420px);
+    margin: 18px auto 0;
+    font-size: clamp(0.86rem, 4vw, 1rem);
+    line-height: 1.75;
+    text-align: center;
+  }
+
+  .hero-cta-group {
+    width: 100%;
+    margin-top: 28px !important;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hero-cta-group .btn-primary,
+  .hero-cta-group .btn-secondary {
+    width: min(84vw, 320px);
+    min-height: 48px;
+    justify-content: center;
+    margin: 0;
+  }
+
+  .scroll-indicator {
+    display: none;
+  }
+
+}
+
+
+/* ============================================================
+   DWM iPHONE / SAFARI MOBILE STABILITY
+   Safari-only safety layer
+============================================================ */
+
+@supports (-webkit-touch-callout: none) {
+
+  @media (max-width: 700px) {
+
+    html,
+    body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+
+    /*
+      Safari's address/bottom bars change viewport height.
+      svh keeps the hero stable instead of jumping.
+    */
+
+    .hero {
+      min-height:
+        calc(100svh - 76px) !important;
+
+      height: auto !important;
+
+      padding-top:
+        max(34px, env(safe-area-inset-top));
+
+      padding-right: 18px;
+
+      padding-bottom:
+        calc(
+          110px +
+          env(safe-area-inset-bottom)
+        );
+
+      padding-left: 18px;
+    }
+
+
+    /*
+      Prevent giant crest on shorter iPhones.
+    */
+
+    .hero-logo-wrap {
+      width:
+        min(82vw, 340px) !important;
+
+      min-height:
+        270px !important;
+
+      height: auto !important;
+    }
+
+
+    .hero-logo-picture {
+      width:
+        min(76vw, 320px) !important;
+    }
+
+
+    .hero-logo-img {
+      width:
+        min(76vw, 320px) !important;
+
+      max-width:
+        320px !important;
+
+      max-height:
+        38svh !important;
+
+      height: auto !important;
+
+      object-fit: contain;
+    }
+
+
+    /*
+      Keep CTA clear of Safari's bottom toolbar.
+    */
+
+    .hero-cta-group {
+      position: relative;
+
+      z-index: 10;
+
+      margin-top:
+        24px !important;
+
+      padding-bottom:
+        env(safe-area-inset-bottom);
+    }
+
+
+    /*
+      Options drawer uses the actual dynamic
+      Safari viewport and respects the iPhone notch/home bar.
+    */
+
+    .dwm-options-drawer {
+      height: 100dvh !important;
+
+      max-height: 100dvh !important;
+
+      overflow-y: auto;
+
+      -webkit-overflow-scrolling:
+        touch;
+
+      padding-top:
+        calc(
+          24px +
+          env(safe-area-inset-top)
+        );
+
+      padding-bottom:
+        calc(
+          30px +
+          env(safe-area-inset-bottom)
+        );
+    }
+
+  }
+
+}

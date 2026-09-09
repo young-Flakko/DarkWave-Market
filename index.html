@@ -22,12 +22,27 @@
   <div class="dwm-title">
     <div class="hero-logo-wrap">
       <div class="hero-logo-glow" aria-hidden="true"></div>
-      <img src="/assets/img/dwm-logo-new.png" alt="DWM — Darkwave Market" class="hero-logo-img" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'dwm-letters',textContent:'DWM'}));">
-    </div>
-    <div class="hero-subtitle-row">
-      <div class="hero-subtitle-line"></div>
-      <span class="hero-subtitle">Darkwave Market</span>
-      <div class="hero-subtitle-line right"></div>
+
+      <div class="hero-ripples" aria-hidden="true">
+        <span class="hero-ripple hero-ripple-1"></span>
+        <span class="hero-ripple hero-ripple-2"></span>
+        <span class="hero-ripple hero-ripple-3"></span>
+        <span class="hero-ripple hero-ripple-4"></span>
+      </div>
+
+      <picture class="hero-logo-picture">
+        <source
+          srcset="/assets/img/dwm-crest-light.png"
+          media="(prefers-color-scheme: light)"
+        >
+        <img
+          src="/assets/img/dwm-crest-dark.png"
+          alt="DWM"
+          class="hero-logo-img"
+          data-dwm-hero-logo
+          onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'dwm-letters',textContent:'DWM'}));"
+        >
+      </picture>
     </div>
   </div>
   <p class="hero-tagline">A curated marketplace for the culture. <span>Limited drops.</span> Independent brands. The wave doesn't stop — neither do we.</p>

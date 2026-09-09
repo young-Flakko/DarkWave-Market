@@ -2,11 +2,16 @@ import {
   collection,
   doc,
   getDoc,
-  addDoc,
   serverTimestamp
 } from 'firebase/firestore';
 
 import {
+  getFunctions,
+  httpsCallable
+} from 'firebase/functions';
+
+import {
+  app,
   db
 } from './firebase-config.js';
 
@@ -34,6 +39,32 @@ import {
 
 const CART_KEY =
   'dwm_cart';
+
+
+/*
+  PUBLIC LAUNCH SAFETY SWITCH
+
+  Keep false while createTrustedOrder is not deployed.
+
+  When Firebase Functions is ready and tested,
+  change this to true.
+*/
+const CHECKOUT_LIVE =
+  false;
+
+
+const functions =
+  getFunctions(
+    app,
+    'europe-west2'
+  );
+
+
+const createTrustedOrder =
+  httpsCallable(
+    functions,
+    'createTrustedOrder'
+  );
 
 
 /* =========================================================
@@ -1492,6 +1523,22 @@ function buildOrderPayload() {
 async function createOrder() {
 
   if (
+    !CHECKOUT_LIVE
+  ) {
+
+    setFeedback(
+      'Checkout is coming soon. Your cart has been saved.'
+    );
+
+    placeOrderBtn.textContent =
+      'Checkout Coming Soon';
+
+    return;
+
+  }
+
+
+  if (
     orderSubmitting
   ) {
     return;
@@ -1580,18 +1627,61 @@ async function createOrder() {
 
   try {
 
-    const payload =
-      buildOrderPayload();
+    /*
+      SECURITY BOUNDARY:
+
+      The browser sends only the cart identity,
+      quantities and customer delivery details.
+
+      Product prices, seller ownership, totals
+      and trusted order state are rebuilt by
+      createTrustedOrder on the server.
+    */
+
+    const cart =
+      getCart();
 
 
-    const orderRef =
-      await addDoc(
-        collection(
-          db,
-          'orders'
+    const trustedRequest = {
+      cart:
+        cart.map(
+          (item) => ({
+            productId:
+              item.productId,
+
+            quantity:
+              item.quantity
+          })
         ),
-        payload
+
+      customer:
+        getCustomerData(),
+
+      shipping:
+        getShippingData(),
+
+      orderNotes:
+        getOrderNotes()
+    };
+
+
+    const response =
+      await createTrustedOrder(
+        trustedRequest
       );
+
+
+    const trustedOrder =
+      response?.data;
+
+
+    if (
+      !trustedOrder?.orderId
+    ) {
+      throw new Error(
+        'Trusted order service returned no order ID.'
+      );
+    }
 
 
     /*
@@ -1617,7 +1707,7 @@ async function createOrder() {
 
     window.location.href =
       `/order-success.html?order=${encodeURIComponent(
-        orderRef.id
+        trustedOrder.orderId
       )}`;
 
   } catch (error) {
@@ -1656,6 +1746,16 @@ placeOrderBtn.addEventListener(
   'click',
   createOrder
 );
+
+
+if (
+  !CHECKOUT_LIVE
+) {
+
+  placeOrderBtn.textContent =
+    'Checkout Coming Soon';
+
+}
 
 
 /* =========================================================

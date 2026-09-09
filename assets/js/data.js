@@ -582,7 +582,8 @@ export function makeProductCardHtml(
   p,
   {
     storeName = null,
-    showBadge = true
+    showBadge = true,
+    showFavorite = false
   } = {}
 ) {
 
@@ -762,6 +763,23 @@ export function makeProductCardHtml(
         ${badge}
 
         ${extraBadge}
+
+        ${
+          showFavorite && productId
+            ? `
+              <button
+                type="button"
+                class="dwm-favorite-btn"
+                data-dwm-favorite-product="${escapeAttr(productId)}"
+                aria-label="Save ${escapeAttr(safeName)} to saved drops"
+                aria-pressed="false"
+                title="Save drop"
+              >
+                ♡
+              </button>
+            `
+            : ''
+        }
 
         <img
           src="${escapeAttr(safeImg)}"

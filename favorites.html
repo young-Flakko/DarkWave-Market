@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>DWM — Favorites</title>
+
+  <meta
+    name="description"
+    content="Saved drops and products on Dark Wave Market."
+  >
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="/assets/img/dwm-logo-new.png"
+  >
+
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap"
+  >
+
+  <link
+    rel="stylesheet"
+    href="/assets/css/shared.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="/assets/css/pages.css"
+  >
+
+  <style>
+    .favorites-shell {
+      width: min(1380px, calc(100% - 48px));
+      margin: 0 auto;
+      padding: 110px 0 100px;
+    }
+
+    .favorites-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 30px;
+      padding-bottom: 28px;
+      margin-bottom: 30px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .favorites-eyebrow {
+      color: var(--teal-dim);
+      font-size: .6rem;
+      font-weight: 700;
+      letter-spacing: .34em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .favorites-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      line-height: .95;
+      color: var(--white);
+    }
+
+    .favorites-count {
+      color: var(--teal-bright);
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+
+    .favorites-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 18px;
+    }
+
+    .favorite-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .favorite-action {
+      min-height: 40px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--steel);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .58rem;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .favorite-action.primary {
+      border-color: var(--border-strong);
+      color: var(--teal-bright);
+      background: rgba(74,157,168,.06);
+    }
+
+    .favorite-action:disabled {
+      opacity: .4;
+      cursor: not-allowed;
+    }
+
+    .favorites-empty {
+      grid-column: 1 / -1;
+      padding: 90px 24px;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+
+    .favorites-empty h2 {
+      margin-bottom: 12px;
+      font-family: 'Cinzel', serif;
+    }
+
+    .favorites-empty p {
+      color: var(--gray-light);
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 1100px) {
+      .favorites-grid {
+        grid-template-columns: repeat(3, minmax(0,1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .favorites-grid {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+      }
+
+      .favorites-head {
+        display: block;
+      }
+
+      .favorites-count {
+        margin-top: 18px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .favorites-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav></nav>
+
+  <main class="favorites-shell">
+
+    <header class="favorites-head">
+      <div>
+        <div class="favorites-eyebrow">
+          Saved Wave
+        </div>
+
+        <h1 class="favorites-title">
+          FAVORITES
+        </h1>
+      </div>
+
+      <div
+        id="favoritesCount"
+        class="favorites-count"
+      >
+        0 saved
+      </div>
+    </header>
+
+    <section
+      id="favoritesGrid"
+      class="favorites-grid"
+    ></section>
+
+  </main>
+
+  <script
+    type="module"
+    src="/assets/js/favorites-page.js"
+  ></script>
+
+</body>
+</html>

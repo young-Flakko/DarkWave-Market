@@ -85,14 +85,161 @@ export async function initDropsPage() {
       return;
     }
 
-    const gridHtml = `<div class="drops-grid">
-        ${visible.map(p => {
-          const store = activeStoreMap.get(p.data.storeId);
-          const storeName = store && store.data ? store.data.name : null;
-          return makeProductCardHtml(p, { storeName, showBadge: true });
-        }).join('')}
-      </div>`;
-    setReleasedGridHtml(gridHtml);
+    // Group released products by active storefront.
+    const storefrontGroups = new Map();
+
+    visible.forEach((product) => {
+      const storeId = product.data.storeId;
+      const store = activeStoreMap.get(storeId);
+
+      if (!store || !store.data) return;
+
+      if (!storefrontGroups.has(storeId)) {
+        storefrontGroups.set(storeId, {
+          store,
+          products: []
+        });
+      }
+
+      storefrontGroups
+        .get(storeId)
+        .products
+        .push(product);
+    });
+
+    // Largest / most active storefronts first.
+    const groups = [...storefrontGroups.values()]
+      .sort((a, b) => {
+        return b.products.length - a.products.length;
+      });
+
+    const storefrontHtml = groups.map(({ store, products }) => {
+      const data = store.data || {};
+
+      const storeName =
+        escapeHtml(data.name || 'DWM Store');
+
+      const storeSlug =
+        sanitizeSlug(
+          data.slug ||
+          data.name ||
+          store.id
+        );
+
+      const storeLogoRaw =
+        String(
+          data.logoUrl ||
+          data.logo ||
+          ''
+        ).trim();
+
+      /*
+        If a store still uses the generic DWM placeholder,
+        render both DWM theme crests and let CSS switch them.
+
+        Real reseller-uploaded logos remain untouched.
+      */
+      const usesDwmPlaceholder =
+        !storeLogoRaw ||
+        storeLogoRaw.includes(
+          'dwm-logo-new.png'
+        );
+
+      const storeLogoHtml =
+        usesDwmPlaceholder
+          ? `
+              <img
+                src="/assets/img/dwm-crest-dark.png"
+                alt=""
+                class="drop-store-logo-theme drop-store-logo-dark"
+                loading="lazy"
+              >
+
+              <img
+                src="/assets/img/dwm-crest-light.png"
+                alt=""
+                class="drop-store-logo-theme drop-store-logo-light"
+                loading="lazy"
+              >
+            `
+          : `
+              <img
+                src="${escapeHtml(storeLogoRaw)}"
+                alt=""
+                class="drop-store-logo-custom"
+                loading="lazy"
+                onerror="this.src='/assets/img/dwm-crest-dark.png'"
+              >
+            `;
+
+      const productWord =
+        products.length === 1
+          ? 'DROP'
+          : 'DROPS';
+
+      return `
+        <section
+          class="drop-storefront"
+          data-store-id="${escapeHtml(store.id)}"
+        >
+          <header class="drop-storefront-header">
+
+            <a
+              class="drop-storefront-brand"
+              href="/store.html?store=${encodeURIComponent(storeSlug)}"
+              aria-label="Visit ${storeName}"
+            >
+              <div class="drop-storefront-logo">
+                ${storeLogoHtml}
+              </div>
+
+              <div class="drop-storefront-identity">
+                <span class="drop-storefront-kicker">
+                  Storefront
+                </span>
+
+                <h3 class="drop-storefront-name">
+                  ${storeName}
+                </h3>
+
+                <span class="drop-storefront-count">
+                  ${products.length} ${productWord}
+                </span>
+              </div>
+            </a>
+
+            <a
+              class="drop-storefront-link"
+              href="/store.html?store=${encodeURIComponent(storeSlug)}"
+            >
+              View Store
+              <span aria-hidden="true">→</span>
+            </a>
+
+          </header>
+
+          <div class="drops-grid">
+            ${products.map((product) =>
+              makeProductCardHtml(
+                product,
+                {
+                  storeName: data.name || null,
+                  showBadge: true,
+                  showFavorite: true
+                }
+              )
+            ).join('')}
+          </div>
+
+        </section>
+      `;
+    }).join('');
+
+    setReleasedGridHtml(
+      `<div class="drop-storefronts">
+        ${storefrontHtml}
+      </div>`
+    );
   } catch (err) {
     console.error('[drops.js] Firestore error:', err);
     setReleasedGridHtml(makeStateBlock('error', 'Unable to load drops.',

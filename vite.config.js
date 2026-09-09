@@ -13,6 +13,7 @@ export default defineConfig({
         signup: resolve(__dirname, 'signup.html'),
         account: resolve(__dirname, 'account.html'),
         admin: resolve(__dirname, 'admin.html'),
+        adminBrands: resolve(__dirname, 'admin-brands.html'),
         store: resolve(__dirname, 'store.html'),
         events: resolve(__dirname, 'events.html'),
         brands: resolve(__dirname, 'brands.html'),
@@ -21,7 +22,15 @@ export default defineConfig({
         shipping: resolve(__dirname, 'shipping.html'),
         returns: resolve(__dirname, 'returns.html'),
         faq: resolve(__dirname, 'faq.html'),
-        resellerApply: resolve(__dirname, 'reseller-apply.html')
+        resellerApply: resolve(__dirname, 'reseller-apply.html'),
+        cart: resolve(__dirname, 'cart.html'),
+        favorites: resolve(__dirname, 'favorites.html'),
+        checkout: resolve(__dirname, 'checkout.html'),
+        product: resolve(__dirname, 'product.html'),
+        orderSuccess: resolve(__dirname, 'order-success.html'),
+        myOrders: resolve(__dirname, 'my-orders.html'),
+        seller: resolve(__dirname, 'seller.html'),
+        sellerOrders: resolve(__dirname, 'seller-orders.html')
       }
     }
   },

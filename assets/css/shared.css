@@ -500,3 +500,1296 @@ footer {
     transition: none !important;
   }
 }
+
+
+/* ================ DWM ROYAL MIDNIGHT LIGHT MODE ================ */
+
+.nav-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.nav-theme-toggle {
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(74, 157, 168, 0.35);
+  background: rgba(74, 157, 168, 0.06);
+  color: var(--teal-bright);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+.nav-theme-toggle:hover {
+  border-color: var(--teal-bright);
+  background: rgba(74, 157, 168, 0.14);
+  box-shadow: 0 0 20px rgba(91, 191, 204, 0.18);
+  transform: translateY(-1px);
+}
+
+
+/*
+  LIGHT MODE IDENTITY
+
+  Dark mode stays untouched.
+
+  In light mode the original DWM teal variables become
+  Royal Midnight Purple variables. Existing components
+  therefore inherit the purple identity automatically.
+*/
+
+html[data-theme="light"] {
+  color-scheme: light;
+
+  --black: #f7f5fa;
+  --charcoal: #ffffff;
+  --dark: #eeeaf3;
+
+  --teal: #3b2367;
+  --teal-bright: #57348a;
+  --teal-dim: #79669a;
+
+  --steel: #554d61;
+  --white: #17121f;
+
+  --gray: #726a7b;
+  --gray-light: #5f5769;
+
+  --blood: #8b1e3f;
+}
+
+
+html[data-theme="light"] body {
+  background:
+    linear-gradient(
+      to bottom,
+      #faf9fc 0%,
+      #f7f5fa 20%,
+      #f2eff6 45%,
+      #ece8f2 70%,
+      #e6e1ed 100%
+    );
+
+  color: var(--white);
+}
+
+
+html[data-theme="light"] body::before {
+  opacity: 0.018;
+}
+
+
+html[data-theme="light"] body::after {
+  background:
+    radial-gradient(
+      ellipse at center,
+      transparent 42%,
+      rgba(53, 32, 95, 0.045) 72%,
+      rgba(37, 19, 66, 0.08) 100%
+    );
+}
+
+
+html[data-theme="light"] nav {
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(250, 249, 252, 0.97),
+      rgba(250, 249, 252, 0.86),
+      transparent
+    );
+
+  border-bottom:
+    1px solid rgba(53, 32, 95, 0.14);
+}
+
+
+html[data-theme="light"] .nav-logo-glow {
+  background:
+    radial-gradient(
+      circle,
+      rgba(53, 32, 95, 0.38) 0%,
+      rgba(87, 52, 138, 0.18) 40%,
+      transparent 70%
+    );
+}
+
+
+html[data-theme="light"] .nav-logo-img {
+  filter:
+    drop-shadow(
+      0 0 8px
+      rgba(53, 32, 95, 0.24)
+    );
+}
+
+
+html[data-theme="light"] .nav-logo-wrap:hover .nav-logo-img {
+  filter:
+    drop-shadow(
+      0 0 14px
+      rgba(87, 52, 138, 0.36)
+    );
+}
+
+
+html[data-theme="light"] .nav-logo-fallback {
+  text-shadow:
+    0 0 20px
+    rgba(87, 52, 138, 0.28);
+}
+
+
+html[data-theme="light"] .nav-cta,
+html[data-theme="light"] .btn-primary {
+  color: #ffffff;
+}
+
+
+html[data-theme="light"] .nav-cta:hover,
+html[data-theme="light"] .btn-primary:hover {
+  box-shadow:
+    0 0 28px
+    rgba(53, 32, 95, 0.28);
+}
+
+
+html[data-theme="light"] .nav-ig:hover,
+html[data-theme="light"] .btn-secondary:hover {
+  background:
+    rgba(53, 32, 95, 0.08);
+}
+
+
+html[data-theme="light"] .nav-theme-toggle {
+  color: #3b2367;
+  border-color:
+    rgba(53, 32, 95, 0.28);
+  background:
+    rgba(53, 32, 95, 0.05);
+}
+
+
+html[data-theme="light"] .nav-theme-toggle:hover {
+  color: #57348a;
+  border-color: #57348a;
+  background:
+    rgba(53, 32, 95, 0.10);
+  box-shadow:
+    0 0 20px
+    rgba(53, 32, 95, 0.14);
+}
+
+
+/*
+  nav.js currently renders the cart button with inline colors.
+  These overrides deliberately beat those inline declarations
+  so the cart joins Royal Midnight mode too.
+*/
+
+html[data-theme="light"] .nav-cart-link {
+  color: #3b2367 !important;
+  border-color:
+    rgba(53, 32, 95, 0.30) !important;
+  background:
+    rgba(53, 32, 95, 0.05) !important;
+}
+
+
+html[data-theme="light"] .nav-cart-link:hover {
+  color: #57348a !important;
+  border-color:
+    rgba(87, 52, 138, 0.72) !important;
+}
+
+
+html[data-theme="light"] footer {
+  border-top:
+    1px solid rgba(53, 32, 95, 0.14);
+}
+
+
+html[data-theme="light"] .footer-brand {
+  text-shadow:
+    0 0 20px
+    rgba(53, 32, 95, 0.16);
+}
+
+
+html[data-theme="light"] .footer-bottom {
+  border-top:
+    1px solid rgba(53, 32, 95, 0.10);
+}
+
+
+@media (max-width: 600px) {
+
+  .nav-actions {
+    gap: 8px;
+  }
+
+  .nav-theme-toggle {
+    width: 34px;
+    height: 34px;
+  }
+
+}
+
+/* =========================================================
+   DWM ROYAL MIDNIGHT — FINAL LIGHT MODE TUNING
+========================================================= */
+
+html[data-theme="light"] {
+  --black: #cbc6cf;
+  --charcoal: #d5d0d9;
+  --dark: #c1bbc7;
+
+  --teal: #45266f;
+  --teal-bright: #623a91;
+  --teal-dim: #72578e;
+
+  --steel: #403847;
+  --white: #19151d;
+
+  --gray: #514a56;
+  --gray-light: #39333e;
+}
+
+
+/* Global light-mode atmosphere */
+
+html[data-theme="light"] body {
+  color: #1b171f;
+
+  background:
+    radial-gradient(
+      ellipse at 10% 15%,
+      rgba(20, 17, 23, 0.16),
+      transparent 30%
+    ),
+    radial-gradient(
+      ellipse at 92% 32%,
+      rgba(20, 17, 23, 0.13),
+      transparent 32%
+    ),
+    linear-gradient(
+      145deg,
+      #d8d4dc 0%,
+      #cbc6d0 35%,
+      #beb8c4 70%,
+      #b2acb9 100%
+    );
+
+  background-attachment: fixed;
+}
+
+
+/* Darker readable typography */
+
+html[data-theme="light"] .section-title,
+html[data-theme="light"] .page-title {
+  color: #19151d;
+}
+
+html[data-theme="light"] .page-desc,
+html[data-theme="light"] .footer-tagline,
+html[data-theme="light"] .footer-copy,
+html[data-theme="light"] .footer-socials a,
+html[data-theme="light"] .footer-col ul li a {
+  color: #48414d;
+}
+
+html[data-theme="light"] .nav-links a {
+  color: #39323f;
+}
+
+html[data-theme="light"] .nav-links a:hover,
+html[data-theme="light"] .nav-links a.nav-active {
+  color: #45266f;
+}
+
+
+/* Light-mode nav */
+
+html[data-theme="light"] nav {
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(207, 202, 212, 0.97),
+      rgba(207, 202, 212, 0.82),
+      transparent
+    );
+
+  border-bottom:
+    1px solid rgba(69, 38, 111, 0.18);
+}
+
+
+/* Purple primary actions */
+
+html[data-theme="light"] .nav-cta,
+html[data-theme="light"] .btn-primary {
+  background: #45266f;
+  color: #ffffff;
+}
+
+html[data-theme="light"] .nav-cta:hover,
+html[data-theme="light"] .btn-primary:hover {
+  background: #623a91;
+
+  box-shadow:
+    0 0 30px
+    rgba(69, 38, 111, 0.30);
+}
+
+html[data-theme="light"] .btn-secondary {
+  color: #45266f;
+  border-color: rgba(69, 38, 111, 0.48);
+}
+
+html[data-theme="light"] .btn-secondary:hover {
+  background: rgba(69, 38, 111, 0.10);
+  border-color: #45266f;
+}
+
+
+/* ============================================================
+   DWM LIGHT — ROYAL STORM FINAL AUTHORITY
+   Vision-board treatment
+============================================================ */
+
+html[data-theme="light"] {
+  --black: #c9c4ce;
+  --charcoal: #d7d2dc;
+  --dark: #bdb7c4;
+
+  --teal: #48206f;
+  --teal-bright: #6d329b;
+  --teal-dim: #76558e;
+
+  --steel: #302a35;
+  --white: #151119;
+  --gray: #48414e;
+  --gray-light: #312b36;
+}
+
+html[data-theme="light"] body {
+  color: #17131b;
+
+  background:
+    radial-gradient(
+      ellipse at 50% 12%,
+      rgba(255,255,255,.38),
+      transparent 38%
+    ),
+    radial-gradient(
+      ellipse at 0% 30%,
+      rgba(25,18,30,.22),
+      transparent 34%
+    ),
+    radial-gradient(
+      ellipse at 100% 38%,
+      rgba(28,18,34,.20),
+      transparent 36%
+    ),
+    linear-gradient(
+      145deg,
+      #c9c4ce 0%,
+      #ddd8e1 42%,
+      #c8c2cd 72%,
+      #aaa3b0 100%
+    );
+
+  background-attachment: fixed;
+}
+
+/* Darker readable copy everywhere */
+
+html[data-theme="light"] p,
+html[data-theme="light"] li,
+html[data-theme="light"] label,
+html[data-theme="light"] .page-desc,
+html[data-theme="light"] .mission-text,
+html[data-theme="light"] .cat-count,
+html[data-theme="light"] .footer-copy,
+html[data-theme="light"] .footer-tagline {
+  color: #37313b;
+}
+
+html[data-theme="light"] h1,
+html[data-theme="light"] h2,
+html[data-theme="light"] h3,
+html[data-theme="light"] h4,
+html[data-theme="light"] .section-title,
+html[data-theme="light"] .page-title {
+  color: #17131b;
+}
+
+/* Glassy silver nav */
+
+html[data-theme="light"] nav {
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(213,208,219,.96),
+      rgba(202,196,208,.89),
+      rgba(194,188,201,.76)
+    );
+
+  border-bottom:
+    1px solid rgba(63,32,91,.20);
+
+  box-shadow:
+    0 8px 34px rgba(24,15,31,.08);
+}
+
+html[data-theme="light"] .nav-links a {
+  color: #29232e;
+}
+
+html[data-theme="light"] .nav-links a:hover,
+html[data-theme="light"] .nav-links a.nav-active {
+  color: #57227f;
+}
+
+/* Nav crest sizing */
+
+.nav-logo-img {
+  height: 54px;
+  width: 54px;
+  max-height: none;
+  object-fit: contain;
+}
+
+html[data-theme="light"] .nav-logo-img {
+  filter:
+    drop-shadow(0 0 7px rgba(91,38,133,.32))
+    drop-shadow(0 4px 10px rgba(28,16,34,.18));
+}
+
+
+/* ============================================================
+   DWM LIGHT — FORM / SELECT FIX
+============================================================ */
+
+html[data-theme="light"] select {
+  color: #211a27 !important;
+  background-color: #d7d1dc !important;
+  border-color: rgba(72, 32, 111, 0.28) !important;
+  color-scheme: light;
+}
+
+html[data-theme="light"] select:hover,
+html[data-theme="light"] select:focus {
+  color: #17121c !important;
+  background-color: #e0dbe4 !important;
+  border-color: #623a91 !important;
+
+  box-shadow:
+    0 0 0 1px rgba(98, 58, 145, 0.14),
+    0 0 18px rgba(98, 58, 145, 0.10);
+}
+
+/* Native dropdown menu entries */
+
+html[data-theme="light"] select option {
+  color: #211a27 !important;
+  background: #ded9e2 !important;
+}
+
+/* Selected/highlighted option */
+
+html[data-theme="light"] select option:checked {
+  color: #ffffff !important;
+  background: #54267b !important;
+}
+
+/* Inputs + textareas should follow the same light palette */
+
+html[data-theme="light"] input,
+html[data-theme="light"] textarea {
+  color: #211a27 !important;
+  background-color: rgba(226, 221, 230, 0.72) !important;
+  border-color: rgba(72, 32, 111, 0.22) !important;
+}
+
+html[data-theme="light"] input::placeholder,
+html[data-theme="light"] textarea::placeholder {
+  color: #68606d !important;
+  opacity: 1;
+}
+
+html[data-theme="light"] input:focus,
+html[data-theme="light"] textarea:focus {
+  border-color: #623a91 !important;
+  background-color: #e3dee7 !important;
+  outline: none;
+
+  box-shadow:
+    0 0 0 1px rgba(98, 58, 145, 0.12),
+    0 0 16px rgba(98, 58, 145, 0.08);
+}
+
+
+
+/* ============================================================
+   DWM ROYAL MIDNIGHT — FINAL NATIVE FORM CONTROLS
+   Light mode only. Dark mode remains untouched.
+============================================================ */
+
+html[data-theme="light"] select {
+  color-scheme: light;
+
+  color: #211a27 !important;
+
+  background-color:
+    #d8d2dc !important;
+
+  border-color:
+    rgba(72,32,111,.30) !important;
+}
+
+html[data-theme="light"] select:hover,
+html[data-theme="light"] select:focus {
+  color: #17121c !important;
+
+  background-color:
+    #e1dce5 !important;
+
+  border-color:
+    #623a91 !important;
+
+  outline: none;
+
+  box-shadow:
+    0 0 0 1px
+      rgba(98,58,145,.14),
+    0 0 18px
+      rgba(98,58,145,.09);
+}
+
+
+/*
+  Windows / Edge native option menu.
+*/
+
+html[data-theme="light"] select option {
+  color: #211a27 !important;
+
+  background-color:
+    #e0dae4 !important;
+}
+
+html[data-theme="light"]
+select option:checked {
+  color: #ffffff !important;
+
+  background-color:
+    #54267b !important;
+}
+
+
+/* Other fields follow the same Royal Midnight palette */
+
+html[data-theme="light"] input,
+html[data-theme="light"] textarea {
+  color: #211a27 !important;
+
+  background-color:
+    rgba(225,219,229,.80) !important;
+
+  border-color:
+    rgba(72,32,111,.24) !important;
+}
+
+html[data-theme="light"]
+input::placeholder,
+html[data-theme="light"]
+textarea::placeholder {
+  color: #625a67 !important;
+  opacity: 1;
+}
+
+html[data-theme="light"] input:focus,
+html[data-theme="light"] textarea:focus {
+  color: #17121c !important;
+
+  background-color:
+    #e4dfe7 !important;
+
+  border-color:
+    #623a91 !important;
+
+  outline: none;
+
+  box-shadow:
+    0 0 0 1px
+      rgba(98,58,145,.12),
+    0 0 16px
+      rgba(98,58,145,.08);
+}
+
+
+
+/* ============================================================
+   DWM OPTIONS DRAWER
+============================================================ */
+
+.dwm-options-trigger {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+}
+
+.dwm-options-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9990;
+
+  background:
+    rgba(0, 0, 0, 0.56);
+
+  opacity: 0;
+
+  transition:
+    opacity 0.25s ease;
+}
+
+.dwm-options-backdrop.open {
+  opacity: 1;
+}
+
+.dwm-options-drawer {
+  position: fixed;
+
+  top: 0;
+  left: 0;
+
+  z-index: 9991;
+
+  width:
+    min(390px, 88vw);
+
+  height: 100dvh;
+
+  padding:
+    30px
+    24px;
+
+  border-right:
+    1px solid
+    rgba(91, 191, 204, 0.24);
+
+  background:
+    linear-gradient(
+      160deg,
+      rgba(8, 18, 22, 0.99),
+      rgba(4, 7, 9, 0.995)
+    );
+
+  box-shadow:
+    30px 0 80px
+    rgba(0, 0, 0, 0.5);
+
+  transform:
+    translateX(-105%);
+
+  transition:
+    transform 0.3s ease;
+
+  overflow-y: auto;
+}
+
+.dwm-options-drawer.open {
+  transform:
+    translateX(0);
+}
+
+.dwm-options-head {
+  display: flex;
+
+  justify-content:
+    space-between;
+
+  align-items:
+    flex-start;
+
+  gap: 20px;
+
+  padding-bottom: 26px;
+
+  border-bottom:
+    1px solid
+    rgba(74, 157, 168, 0.16);
+}
+
+.dwm-options-kicker {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color:
+    var(--teal-dim);
+
+  font-size: 0.58rem;
+  font-weight: 700;
+
+  letter-spacing:
+    0.35em;
+
+  text-transform:
+    uppercase;
+}
+
+.dwm-options-head strong {
+  color:
+    var(--white);
+
+  font-size: 1rem;
+
+  letter-spacing:
+    0.25em;
+}
+
+.dwm-options-close {
+  width: 42px;
+  height: 42px;
+
+  border:
+    1px solid
+    rgba(74, 157, 168, 0.22);
+
+  background:
+    transparent;
+
+  color:
+    var(--steel);
+
+  font-size: 1.35rem;
+
+  cursor: pointer;
+}
+
+.dwm-options-menu {
+  display: grid;
+
+  gap: 10px;
+
+  margin-top: 24px;
+}
+
+.dwm-options-menu a,
+.dwm-options-menu button {
+  width: 100%;
+
+  min-height: 68px;
+
+  display: grid;
+
+  grid-template-columns:
+    1fr auto;
+
+  align-items: center;
+
+  gap: 5px 18px;
+
+  padding:
+    15px
+    17px;
+
+  border:
+    1px solid
+    rgba(74, 157, 168, 0.14);
+
+  background:
+    rgba(255, 255, 255, 0.018);
+
+  color:
+    var(--white);
+
+  text-decoration:
+    none;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  font: inherit;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.dwm-options-menu a:hover,
+.dwm-options-menu button:hover {
+  border-color:
+    rgba(91, 191, 204, 0.46);
+
+  background:
+    rgba(74, 157, 168, 0.07);
+
+  transform:
+    translateX(3px);
+}
+
+.dwm-options-menu span {
+  font-size: 0.78rem;
+  font-weight: 700;
+
+  letter-spacing:
+    0.15em;
+
+  text-transform:
+    uppercase;
+}
+
+.dwm-options-menu small {
+  grid-column: 1;
+
+  color:
+    var(--gray-light);
+
+  font-size: 0.62rem;
+
+  letter-spacing:
+    0.08em;
+}
+
+.dwm-options-menu b {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+
+  min-width: 30px;
+
+  text-align: right;
+
+  color:
+    var(--teal-bright);
+}
+
+body.dwm-options-open {
+  overflow: hidden;
+}
+
+
+/* LIGHT */
+
+html[data-theme="light"]
+.dwm-options-drawer {
+  border-right-color:
+    rgba(72, 32, 111, 0.2);
+
+  background:
+    linear-gradient(
+      155deg,
+      rgba(245, 241, 247, 0.995),
+      rgba(222, 216, 227, 0.995)
+    );
+
+  box-shadow:
+    30px 0 80px
+    rgba(39, 25, 47, 0.2);
+}
+
+html[data-theme="light"]
+.dwm-options-menu a,
+html[data-theme="light"]
+.dwm-options-menu button {
+  border-color:
+    rgba(72, 32, 111, 0.15);
+
+  background:
+    rgba(255, 255, 255, 0.28);
+}
+
+html[data-theme="light"]
+.dwm-options-menu a:hover,
+html[data-theme="light"]
+.dwm-options-menu button:hover {
+  border-color:
+    rgba(72, 32, 111, 0.42);
+
+  background:
+    rgba(72, 32, 111, 0.06);
+}
+
+
+/* ============================================================
+   DWM FAVORITE BUTTON
+============================================================ */
+
+.dwm-favorite-btn {
+  position: absolute;
+
+  top: 12px;
+  right: 12px;
+
+  z-index: 8;
+
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border:
+    1px solid
+    rgba(91, 191, 204, 0.34);
+
+  background:
+    rgba(5, 9, 11, 0.78);
+
+  color:
+    var(--white);
+
+  font-size: 1.15rem;
+  line-height: 1;
+
+  cursor: pointer;
+
+  backdrop-filter:
+    blur(8px);
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.dwm-favorite-btn:hover {
+  transform:
+    scale(1.08);
+
+  border-color:
+    var(--teal-bright);
+
+  color:
+    var(--teal-bright);
+}
+
+.dwm-favorite-btn.is-favorite {
+  background:
+    rgba(74, 157, 168, 0.16);
+
+  border-color:
+    var(--teal-bright);
+
+  color:
+    var(--teal-bright);
+}
+
+
+/* The live badge normally occupies the same corner. */
+.drop-img .badge-live {
+  right: 58px !important;
+}
+
+
+html[data-theme="light"]
+.dwm-favorite-btn {
+  border-color:
+    rgba(72, 32, 111, 0.28);
+
+  background:
+    rgba(245, 241, 247, 0.82);
+
+  color:
+    #312538;
+}
+
+html[data-theme="light"]
+.dwm-favorite-btn:hover,
+html[data-theme="light"]
+.dwm-favorite-btn.is-favorite {
+  border-color:
+    #6d329b;
+
+  color:
+    #6d329b;
+
+  background:
+    rgba(109, 50, 155, 0.09);
+}
+
+
+/* ============================================================
+   DWM SHOP — QUICK CATEGORY NAV
+============================================================ */
+
+.shop-quick-nav {
+  display: flex;
+
+  align-items: center;
+
+  gap: 18px;
+
+  margin:
+    6px 0
+    24px;
+
+  padding:
+    16px 0;
+
+  border-top:
+    1px solid
+    rgba(74, 157, 168, 0.08);
+
+  border-bottom:
+    1px solid
+    rgba(74, 157, 168, 0.08);
+}
+
+.shop-quick-label {
+  flex: 0 0 auto;
+
+  color:
+    var(--gray);
+
+  font-size: 0.56rem;
+  font-weight: 700;
+
+  letter-spacing:
+    0.28em;
+
+  text-transform:
+    uppercase;
+}
+
+.shop-category-chips {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  overflow-x: auto;
+
+  scrollbar-width:
+    none;
+}
+
+.shop-category-chips::-webkit-scrollbar {
+  display: none;
+}
+
+.shop-category-chip {
+  flex: 0 0 auto;
+
+  min-height: 36px;
+
+  padding:
+    0 15px;
+
+  border:
+    1px solid
+    rgba(74, 157, 168, 0.16);
+
+  background:
+    rgba(255, 255, 255, 0.012);
+
+  color:
+    var(--steel);
+
+  font-size: 0.58rem;
+  font-weight: 700;
+
+  letter-spacing:
+    0.18em;
+
+  text-transform:
+    uppercase;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.shop-category-chip:hover,
+.shop-category-chip.active {
+  border-color:
+    rgba(91, 191, 204, 0.54);
+
+  background:
+    rgba(74, 157, 168, 0.08);
+
+  color:
+    var(--teal-bright);
+}
+
+html[data-theme="light"]
+.shop-category-chip {
+  border-color:
+    rgba(72, 32, 111, 0.15);
+
+  color:
+    #51475a;
+}
+
+html[data-theme="light"]
+.shop-category-chip:hover,
+html[data-theme="light"]
+.shop-category-chip.active {
+  border-color:
+    rgba(109, 50, 155, 0.46);
+
+  background:
+    rgba(109, 50, 155, 0.07);
+
+  color:
+    #60258d;
+}
+
+@media (max-width: 700px) {
+  .shop-quick-nav {
+    display: block;
+  }
+
+  .shop-quick-label {
+    margin-bottom: 12px;
+  }
+}
+
+/* ============================================================
+   DWM MOBILE NAV — FINAL AUTHORITY
+============================================================ */
+
+@media (max-width: 700px) {
+
+  nav {
+    min-height: 76px;
+    padding: 12px 16px !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .nav-logo-wrap {
+    width: 64px !important;
+    min-width: 64px;
+    height: 54px !important;
+    flex: 0 0 auto;
+  }
+
+  .nav-logo-inner {
+    width: 64px !important;
+    height: 54px !important;
+  }
+
+  .nav-logo-img {
+    width: 62px !important;
+    height: 52px !important;
+    max-width: 62px !important;
+    object-fit: contain;
+  }
+
+  .nav-links {
+    display: none !important;
+  }
+
+  .nav-actions {
+    margin-left: auto;
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .nav-theme-toggle,
+  .nav-cart-link,
+  .nav-ig {
+    display: none !important;
+  }
+
+  .nav-cta {
+    min-height: 42px;
+    padding: 0 16px !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.58rem !important;
+    letter-spacing: 0.18em !important;
+    white-space: nowrap;
+  }
+
+  .dwm-options-drawer {
+    width: min(340px, 88vw);
+    padding: 24px 18px;
+  }
+
+}
+
+
+/* ============================================================
+   DWM iPHONE / SAFARI NAV SAFETY
+============================================================ */
+
+@supports (-webkit-touch-callout: none) {
+
+  @media (max-width: 700px) {
+
+    nav {
+      width: 100%;
+
+      max-width: 100vw;
+
+      box-sizing: border-box;
+
+      padding-left:
+        max(
+          16px,
+          env(safe-area-inset-left)
+        ) !important;
+
+      padding-right:
+        max(
+          16px,
+          env(safe-area-inset-right)
+        ) !important;
+
+      overflow: hidden;
+    }
+
+
+    .nav-logo-wrap {
+      flex-shrink: 0;
+    }
+
+
+    .nav-actions {
+      min-width: 0;
+
+      flex-shrink: 1;
+    }
+
+
+    .nav-cta {
+      max-width: 125px;
+
+      overflow: hidden;
+
+      text-overflow: ellipsis;
+    }
+
+  }
+
+}

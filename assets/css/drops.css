@@ -303,3 +303,352 @@
 @media (max-width: 600px) {
   .drops-grid, .peek-grid { grid-template-columns: 1fr; }
 }
+
+
+/* ============================================================
+   DWM DROPS — STOREFRONT GROUPING
+============================================================ */
+
+.drop-storefronts {
+  display: flex;
+  flex-direction: column;
+  gap: 72px;
+}
+
+.drop-storefront {
+  position: relative;
+}
+
+.drop-storefront + .drop-storefront {
+  padding-top: 64px;
+  border-top: 1px solid rgba(74,157,168,0.14);
+}
+
+
+/* STORE HEADER */
+
+.drop-storefront-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+
+  margin-bottom: 24px;
+  padding: 18px 0 20px;
+
+  border-bottom: 1px solid rgba(74,157,168,0.16);
+}
+
+.drop-storefront-brand {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+
+  color: inherit;
+  text-decoration: none;
+
+  min-width: 0;
+}
+
+
+/* STORE LOGO */
+
+.drop-storefront-logo {
+  width: 68px;
+  height: 68px;
+
+  flex: 0 0 68px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  border: 1px solid rgba(74,157,168,0.24);
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(74,157,168,0.12),
+      transparent 70%
+    ),
+    var(--charcoal);
+}
+
+.drop-storefront-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+
+  padding: 7px;
+
+  transition:
+    transform .35s ease,
+    filter .35s ease;
+}
+
+.drop-storefront-brand:hover
+.drop-storefront-logo img {
+  transform: scale(1.06);
+
+  filter:
+    drop-shadow(
+      0 0 12px rgba(74,157,168,.35)
+    );
+}
+
+
+/* STORE IDENTITY */
+
+.drop-storefront-identity {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.drop-storefront-kicker {
+  margin-bottom: 5px;
+
+  font-size: .54rem;
+  font-weight: 700;
+
+  letter-spacing: .42em;
+  text-transform: uppercase;
+
+  color: var(--teal-dim);
+}
+
+.drop-storefront-name {
+  margin: 0;
+
+  font-family: 'Cinzel', serif;
+
+  font-size:
+    clamp(1.15rem, 2.3vw, 1.75rem);
+
+  line-height: 1.1;
+
+  font-weight: 700;
+
+  color: var(--white);
+}
+
+.drop-storefront-count {
+  margin-top: 7px;
+
+  font-size: .56rem;
+  font-weight: 600;
+
+  letter-spacing: .28em;
+  text-transform: uppercase;
+
+  color: var(--gray);
+}
+
+
+/* VIEW STORE */
+
+.drop-storefront-link {
+  flex: 0 0 auto;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 12px 16px;
+
+  border:
+    1px solid rgba(74,157,168,.28);
+
+  color: var(--teal);
+
+  font-size: .57rem;
+  font-weight: 700;
+
+  letter-spacing: .28em;
+  text-transform: uppercase;
+
+  text-decoration: none;
+
+  transition:
+    background .25s ease,
+    border-color .25s ease,
+    color .25s ease;
+}
+
+.drop-storefront-link span {
+  font-size: .9rem;
+
+  transition:
+    transform .25s ease;
+}
+
+.drop-storefront-link:hover {
+  background:
+    rgba(74,157,168,.08);
+
+  border-color:
+    rgba(74,157,168,.55);
+
+  color:
+    var(--teal-bright);
+}
+
+.drop-storefront-link:hover span {
+  transform: translateX(4px);
+}
+
+
+/* LIGHT MODE */
+
+html[data-theme="light"]
+.drop-storefront + .drop-storefront {
+  border-top-color:
+    rgba(72,32,111,.18);
+}
+
+html[data-theme="light"]
+.drop-storefront-header {
+  border-bottom-color:
+    rgba(72,32,111,.18);
+}
+
+html[data-theme="light"]
+.drop-storefront-logo {
+  background:
+    radial-gradient(
+      circle,
+      rgba(109,50,155,.14),
+      transparent 72%
+    ),
+    rgba(255,255,255,.18);
+
+  border-color:
+    rgba(72,32,111,.22);
+}
+
+html[data-theme="light"]
+.drop-storefront-link {
+  border-color:
+    rgba(72,32,111,.28);
+
+  color:
+    #48206f;
+}
+
+html[data-theme="light"]
+.drop-storefront-link:hover {
+  background:
+    rgba(72,32,111,.08);
+
+  border-color:
+    rgba(72,32,111,.5);
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 700px) {
+
+  .drop-storefronts {
+    gap: 52px;
+  }
+
+  .drop-storefront + .drop-storefront {
+    padding-top: 48px;
+  }
+
+  .drop-storefront-header {
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .drop-storefront-logo {
+    width: 54px;
+    height: 54px;
+    flex-basis: 54px;
+  }
+
+  .drop-storefront-link {
+    padding: 10px 11px;
+
+    font-size: .5rem;
+    letter-spacing: .2em;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .drop-storefront-header {
+    flex-direction: column;
+  }
+
+  .drop-storefront-link {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+
+/* ============================================================
+   DWM STOREFRONT — THEME-AWARE PLACEHOLDER CRESTS
+============================================================ */
+
+.drop-storefront-logo {
+  position: relative;
+}
+
+.drop-storefront-logo
+.drop-store-logo-theme,
+.drop-storefront-logo
+.drop-store-logo-custom {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 7px;
+}
+
+/* Dark is default */
+
+.drop-store-logo-dark {
+  display: block;
+}
+
+.drop-store-logo-light {
+  display: none;
+}
+
+/* Royal Midnight gets the purple crest */
+
+html[data-theme="light"]
+.drop-store-logo-dark {
+  display: none;
+}
+
+html[data-theme="light"]
+.drop-store-logo-light {
+  display: block;
+}
+
+/* Different glow depending on mode */
+
+.drop-storefront-logo
+.drop-store-logo-dark {
+  filter:
+    drop-shadow(
+      0 0 8px
+      rgba(74,157,168,.28)
+    );
+}
+
+html[data-theme="light"]
+.drop-storefront-logo
+.drop-store-logo-light {
+  filter:
+    drop-shadow(
+      0 0 9px
+      rgba(98,50,145,.30)
+    );
+}
+

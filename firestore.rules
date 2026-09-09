@@ -421,7 +421,7 @@ service cloud.firestore {
       // Phase 5A client-side test order creation.
       // ----------------------------------------------------------
 
-      allow create: if
+      allow create: if false &&
 
         isAuthenticated()
 
