@@ -181,6 +181,243 @@
     </div>
 
 
+    <!-- NOTIFICATIONS -->
+
+    <div class="placeholder-card" style="grid-column:1/-1;">
+
+      <h3>🔔 Send Notification</h3>
+
+      <p>
+        Send an in-app notification to DWM users.
+      </p>
+
+      <form
+        id="adminNotificationForm"
+        style="
+          display:grid;
+          gap:14px;
+          margin-top:18px;
+        "
+      >
+
+        <label>
+          <span
+            style="
+              display:block;
+              margin-bottom:6px;
+              font-size:.75rem;
+              text-transform:uppercase;
+              letter-spacing:.12em;
+            "
+          >
+            Title
+          </span>
+
+          <input
+            id="notificationTitle"
+            type="text"
+            maxlength="120"
+            required
+            placeholder="New DWM Drop"
+            style="width:100%;"
+          >
+        </label>
+
+
+        <label>
+          <span
+            style="
+              display:block;
+              margin-bottom:6px;
+              font-size:.75rem;
+              text-transform:uppercase;
+              letter-spacing:.12em;
+            "
+          >
+            Message
+          </span>
+
+          <textarea
+            id="notificationMessage"
+            maxlength="1000"
+            required
+            rows="4"
+            placeholder="Tell the wave what's happening..."
+            style="
+              width:100%;
+              resize:vertical;
+            "
+          ></textarea>
+        </label>
+
+
+        <div
+          style="
+            display:grid;
+            grid-template-columns:
+              repeat(auto-fit,minmax(180px,1fr));
+            gap:12px;
+          "
+        >
+
+          <label>
+            <span
+              style="
+                display:block;
+                margin-bottom:6px;
+                font-size:.75rem;
+                text-transform:uppercase;
+                letter-spacing:.12em;
+              "
+            >
+              Type
+            </span>
+
+            <select
+              id="notificationType"
+              required
+              style="width:100%;"
+            >
+              <option value="announcement">
+                Announcement
+              </option>
+
+              <option value="promotion">
+                Promotion
+              </option>
+
+              <option value="drop">
+                Drop
+              </option>
+
+              <option value="maintenance">
+                Maintenance
+              </option>
+
+              <option value="account">
+                Account / Order Notice
+              </option>
+            </select>
+          </label>
+
+
+          <label>
+            <span
+              style="
+                display:block;
+                margin-bottom:6px;
+                font-size:.75rem;
+                text-transform:uppercase;
+                letter-spacing:.12em;
+              "
+            >
+              Audience
+            </span>
+
+            <select
+              id="notificationAudience"
+              required
+              style="width:100%;"
+            >
+              <option value="self">
+                Myself — Test
+              </option>
+
+              <option value="all">
+                All Users
+              </option>
+
+              <option value="customers">
+                Buyers / Customers
+              </option>
+
+              <option value="sellers">
+                Sellers
+              </option>
+
+              <option value="specific">
+                Specific User
+              </option>
+            </select>
+          </label>
+
+        </div>
+
+
+        <label
+          id="specificUserWrap"
+          hidden
+        >
+          <span
+            style="
+              display:block;
+              margin-bottom:6px;
+              font-size:.75rem;
+              text-transform:uppercase;
+              letter-spacing:.12em;
+            "
+          >
+            User
+          </span>
+
+          <select
+            id="notificationTargetUser"
+            style="width:100%;"
+          >
+            <option value="">
+              Select user...
+            </option>
+          </select>
+        </label>
+
+
+        <label>
+          <span
+            style="
+              display:block;
+              margin-bottom:6px;
+              font-size:.75rem;
+              text-transform:uppercase;
+              letter-spacing:.12em;
+            "
+          >
+            Link — Optional
+          </span>
+
+          <input
+            id="notificationLink"
+            type="text"
+            maxlength="500"
+            placeholder="/drops.html"
+            style="width:100%;"
+          >
+        </label>
+
+
+        <div>
+          <button
+            id="sendNotificationButton"
+            type="submit"
+            class="btn-primary"
+          >
+            Send Notification
+          </button>
+
+          <span
+            id="notificationSendStatus"
+            style="
+              display:inline-block;
+              margin-left:12px;
+              font-size:.8rem;
+            "
+          ></span>
+        </div>
+
+      </form>
+
+    </div>
+
+
     <!-- SIGN OUT -->
 
     <div class="placeholder-card">
@@ -349,6 +586,13 @@
   } from 'firebase/auth';
 
   import {
+    addDoc,
+    collection,
+    getDocs,
+    serverTimestamp
+  } from 'firebase/firestore';
+
+  import {
     requireAdmin
   } from '/assets/js/auth.js';
 
@@ -377,13 +621,70 @@
   const logoutButton =
     document.getElementById('logoutButton');
 
+  const notificationForm =
+    document.getElementById(
+      'adminNotificationForm'
+    );
+
+  const notificationTitle =
+    document.getElementById(
+      'notificationTitle'
+    );
+
+  const notificationMessage =
+    document.getElementById(
+      'notificationMessage'
+    );
+
+  const notificationType =
+    document.getElementById(
+      'notificationType'
+    );
+
+  const notificationAudience =
+    document.getElementById(
+      'notificationAudience'
+    );
+
+  const notificationTargetUser =
+    document.getElementById(
+      'notificationTargetUser'
+    );
+
+  const specificUserWrap =
+    document.getElementById(
+      'specificUserWrap'
+    );
+
+  const notificationLink =
+    document.getElementById(
+      'notificationLink'
+    );
+
+  const sendNotificationButton =
+    document.getElementById(
+      'sendNotificationButton'
+    );
+
+  const notificationSendStatus =
+    document.getElementById(
+      'notificationSendStatus'
+    );
+
+  let currentAdminUser = null;
+
+  let adminUsers = [];
+
 
   // ============================================================
   // ADMIN SECURITY GATE
   // ============================================================
 
   requireAdmin(
-    (user, profile) => {
+    async (user, profile) => {
+
+      currentAdminUser =
+        user;
 
       const displayName =
         profile?.displayName ||
@@ -397,6 +698,319 @@
 
       adminIntro.textContent =
         `Welcome, ${displayName}. Manage Darkwave Market from the control panel below.`;
+
+      try {
+
+        const snapshot =
+          await getDocs(
+            collection(
+              db,
+              'users'
+            )
+          );
+
+        adminUsers =
+          snapshot.docs.map(
+            (item) => ({
+              id: item.id,
+              ...item.data()
+            })
+          );
+
+        notificationTargetUser.innerHTML =
+          '<option value="">Select user...</option>';
+
+        adminUsers
+          .sort(
+            (a, b) =>
+              String(
+                a.displayName ||
+                a.email ||
+                ''
+              ).localeCompare(
+                String(
+                  b.displayName ||
+                  b.email ||
+                  ''
+                )
+              )
+          )
+          .forEach(
+            (profile) => {
+
+              const option =
+                document.createElement(
+                  'option'
+                );
+
+              option.value =
+                profile.id;
+
+              option.textContent =
+                profile.displayName ||
+                profile.email ||
+                profile.id;
+
+              notificationTargetUser
+                .appendChild(
+                  option
+                );
+
+            }
+          );
+
+      } catch (error) {
+
+        console.error(
+          '[admin] unable to load users:',
+          error
+        );
+
+      }
+
+    }
+  );
+
+
+  // ============================================================
+  // ADMIN NOTIFICATIONS
+  // ============================================================
+
+  notificationAudience.addEventListener(
+    'change',
+    () => {
+
+      specificUserWrap.hidden =
+        notificationAudience.value
+        !== 'specific';
+
+    }
+  );
+
+
+  async function getSellerUids() {
+
+    const storesSnapshot =
+      await getDocs(
+        collection(
+          db,
+          'stores'
+        )
+      );
+
+    return new Set(
+      storesSnapshot.docs
+        .map(
+          (item) =>
+            item.data()?.ownerUid
+        )
+        .filter(Boolean)
+    );
+
+  }
+
+
+  notificationForm.addEventListener(
+    'submit',
+    async (event) => {
+
+      event.preventDefault();
+
+      if (!currentAdminUser) {
+        alert(
+          'Admin session unavailable.'
+        );
+        return;
+      }
+
+
+      const title =
+        notificationTitle.value.trim();
+
+      const message =
+        notificationMessage.value.trim();
+
+      const type =
+        notificationType.value;
+
+      const audience =
+        notificationAudience.value;
+
+      const link =
+        notificationLink.value.trim();
+
+
+      if (!title || !message) {
+        return;
+      }
+
+
+      if (
+        audience === 'specific' &&
+        !notificationTargetUser.value
+      ) {
+        alert(
+          'Select a user first.'
+        );
+        return;
+      }
+
+
+      sendNotificationButton.disabled =
+        true;
+
+      sendNotificationButton.textContent =
+        'Sending...';
+
+      notificationSendStatus.textContent =
+        'Preparing recipients...';
+
+
+      try {
+
+        let recipientUids = [];
+
+
+        if (audience === 'self') {
+
+          recipientUids = [
+            currentAdminUser.uid
+          ];
+
+        } else if (
+          audience === 'specific'
+        ) {
+
+          recipientUids = [
+            notificationTargetUser.value
+          ];
+
+        } else if (
+          audience === 'customers'
+        ) {
+
+          recipientUids =
+            adminUsers
+              .filter(
+                (profile) =>
+                  profile.role ===
+                  'customer'
+              )
+              .map(
+                (profile) =>
+                  profile.id
+              );
+
+        } else if (
+          audience === 'sellers'
+        ) {
+
+          const sellerUids =
+            await getSellerUids();
+
+          recipientUids =
+            Array.from(
+              sellerUids
+            );
+
+        } else if (
+          audience === 'all'
+        ) {
+
+          recipientUids =
+            adminUsers.map(
+              (profile) =>
+                profile.id
+            );
+
+        }
+
+
+        recipientUids =
+          Array.from(
+            new Set(
+              recipientUids
+                .filter(Boolean)
+            )
+          );
+
+
+        if (!recipientUids.length) {
+
+          throw new Error(
+            'No recipients found for this audience.'
+          );
+
+        }
+
+
+        notificationSendStatus.textContent =
+          `Sending to ${recipientUids.length} recipient${recipientUids.length === 1 ? '' : 's'}...`;
+
+
+        await Promise.all(
+          recipientUids.map(
+            (recipientUid) =>
+              addDoc(
+                collection(
+                  db,
+                  'notifications'
+                ),
+                {
+                  recipientUid,
+
+                  type,
+
+                  title,
+
+                  message,
+
+                  link,
+
+                  read: false,
+
+                  createdAt:
+                    serverTimestamp()
+                }
+              )
+          )
+        );
+
+
+        notificationSendStatus.textContent =
+          `Sent to ${recipientUids.length} recipient${recipientUids.length === 1 ? '' : 's'} ✓`;
+
+
+        notificationForm.reset();
+
+        specificUserWrap.hidden =
+          true;
+
+
+      } catch (error) {
+
+        console.error(
+          '[admin] notification send error:',
+          error
+        );
+
+        notificationSendStatus.textContent =
+          'Send failed.';
+
+        alert(
+          error?.message ||
+          'Unable to send notification.'
+        );
+
+      } finally {
+
+        sendNotificationButton.disabled =
+          false;
+
+        sendNotificationButton.textContent =
+          'Send Notification';
+
+      }
 
     }
   );

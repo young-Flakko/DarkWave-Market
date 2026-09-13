@@ -15,9 +15,29 @@ import {
   refreshFavoriteButtons
 } from './favorites-ui.js';
 
+import {
+  onAuthStateChanged
+} from 'firebase/auth';
+
+import {
+  auth
+} from './firebase-config.js';
+
+import {
+  subscribeToConversations,
+  unreadConversationCount
+} from './messages.js';
+
+import {
+  subscribeToNotifications,
+  getUnreadCount
+} from './notifications.js';
+
 const currentPath = window.location.pathname.split('/').pop() || 'index.html';
 
 const navLogoSessions = new WeakMap();
+
+const navRealtimeSessions = new WeakMap();
 
 const THEME_KEY = 'dwm_theme';
 
@@ -125,6 +145,17 @@ function refreshCartBadge(targetSelector = 'nav') {
   if (typeof document === 'undefined') return;
   const nav = document.querySelector(targetSelector);
   if (!nav) return;
+
+  const previousRealtimeCleanup =
+    navRealtimeSessions.get(nav);
+
+  if (
+    typeof previousRealtimeCleanup ===
+    'function'
+  ) {
+    previousRealtimeCleanup();
+    navRealtimeSessions.delete(nav);
+  }
   const badge = nav.querySelector('[data-dwm-cart-count]');
   if (!badge) return;
   const count = getCartCount();
@@ -216,6 +247,29 @@ export function renderNav(targetSelector = 'nav', { showCta = true, showIg = tru
           <small>Return home</small>
         </a>
 
+        <a href="messages.html">
+          <span>Messages</span>
+          <small>Talk to stores</small>
+          <b
+            data-dwm-message-count="1"
+            hidden
+          >0</b>
+        </a>
+
+        <a href="notifications.html">
+          <span>Notifications</span>
+          <small>Marketplace updates</small>
+          <b
+            data-dwm-notification-count="1"
+            hidden
+          >0</b>
+        </a>
+
+        <a href="my-orders.html">
+          <span>My Orders</span>
+          <small>Track purchases</small>
+        </a>
+
         <a href="favorites.html">
           <span>Saved Drops</span>
           <b data-dwm-favorite-count="1">0</b>
@@ -228,7 +282,7 @@ export function renderNav(targetSelector = 'nav', { showCta = true, showIg = tru
 
         <a href="account.html">
           <span>Account</span>
-          <small>Profile & orders</small>
+          <small>Profile & settings</small>
         </a>
 
         <a href="shop.html">
@@ -294,6 +348,107 @@ export function renderNav(targetSelector = 'nav', { showCta = true, showIg = tru
 
   const drawerTheme =
     nav.querySelector('[data-dwm-drawer-theme]');
+
+  const messageCountBadge =
+    nav.querySelector(
+      '[data-dwm-message-count]'
+    );
+
+  const notificationCountBadge =
+    nav.querySelector(
+      '[data-dwm-notification-count]'
+    );
+
+  function setRealtimeBadge(
+    element,
+    value
+  ) {
+    if (!element) return;
+
+    const count =
+      Math.max(
+        0,
+        Number(value) || 0
+      );
+
+    element.textContent =
+      String(count);
+
+    element.hidden =
+      count === 0;
+  }
+
+  let stopConversations =
+    () => {};
+
+  let stopNotifications =
+    () => {};
+
+  const stopAuth =
+    onAuthStateChanged(
+      auth,
+      (user) => {
+
+        stopConversations();
+        stopNotifications();
+
+        stopConversations =
+          () => {};
+
+        stopNotifications =
+          () => {};
+
+        if (!user) {
+          setRealtimeBadge(
+            messageCountBadge,
+            0
+          );
+
+          setRealtimeBadge(
+            notificationCountBadge,
+            0
+          );
+
+          return;
+        }
+
+        stopConversations =
+          subscribeToConversations(
+            user.uid,
+            (conversations) => {
+              setRealtimeBadge(
+                messageCountBadge,
+                unreadConversationCount(
+                  conversations,
+                  user.uid
+                )
+              );
+            }
+          );
+
+        stopNotifications =
+          subscribeToNotifications(
+            user.uid,
+            (notifications) => {
+              setRealtimeBadge(
+                notificationCountBadge,
+                getUnreadCount(
+                  notifications
+                )
+              );
+            }
+          );
+      }
+    );
+
+  navRealtimeSessions.set(
+    nav,
+    () => {
+      stopAuth();
+      stopConversations();
+      stopNotifications();
+    }
+  );
 
   function refreshOptionsCounts() {
     const favoriteCount =
