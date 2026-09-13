@@ -18,40 +18,13 @@
 <div class="page-wrap">
   <span class="section-label">Darkwave Market</span>
   <h1 class="page-title">Events &amp;<br>Pop-Ups.</h1>
-  <p class="page-desc">Catch the wave IRL. Market takeovers, drop parties, and underground gatherings. (Firestore event data in next phase.)</p>
+  <p class="page-desc">Catch the wave IRL. Market takeovers, drop parties, brand showcases and underground gatherings.</p>
 
-  <div class="placeholder-grid">
-    <div class="placeholder-card">
-      <h3>📍 Johannesburg</h3>
-      <p>Q4 2026 — Pop-up Market</p>
-      <span class="badge-coming">TBA</span>
-    </div>
-    <div class="placeholder-card">
-      <h3>📍 Cape Town</h3>
-      <p>Q4 2026 — Brand Showcase</p>
-      <span class="badge-coming">TBA</span>
-    </div>
-    <div class="placeholder-card">
-      <h3>📍 Durban</h3>
-      <p>Q1 2027 — Block Party</p>
-      <span class="badge-coming">TBA</span>
-    </div>
-    <div class="placeholder-card">
-      <h3>📍 Online</h3>
-      <p>Live Drops every Friday</p>
-      <span class="badge-coming">Ongoing</span>
-    </div>
-    <div class="placeholder-card">
-      <h3>📍 London</h3>
-      <p>2027 — International Takeover</p>
-      <span class="badge-coming">TBA</span>
-    </div>
-    <div class="placeholder-card">
-      <h3>📍 NYC</h3>
-      <p>2027 — Pop-up Market</p>
-      <span class="badge-coming">TBA</span>
-    </div>
+  <div id="eventsStatus" class="page-desc">
+    Loading upcoming events...
   </div>
+
+  <div id="eventsGrid" class="placeholder-grid"></div>
 </div>
 
 <footer>
@@ -107,13 +80,7 @@
   </div>
 </footer>
 
-<script type="module">
-  import { app, db } from '/assets/js/firebase-config.js';
-  import { renderNav } from '/assets/js/nav.js';
-  renderNav('nav');
-  window.__DWM_FIREBASE__ = app;
-  window.__DWM_DB__ = db;
-</script>
+<script type="module" src="/assets/js/events.js"></script>
 
 </body>
 </html>

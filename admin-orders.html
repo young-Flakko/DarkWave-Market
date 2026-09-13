@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>DWM — Admin Orders</title>
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+  <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+
+  <link rel="stylesheet" href="/assets/css/shared.css">
+  <link rel="stylesheet" href="/assets/css/pages.css">
+
+  <style>
+    .admin-orders-wrap{
+      width:min(1200px,calc(100% - 40px));
+      margin:auto;
+      padding:70px 0 110px;
+    }
+
+    .admin-orders-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:25px;
+      margin-bottom:34px;
+    }
+
+    .admin-orders-head h1{
+      margin:8px 0 10px;
+      font-size:clamp(2.7rem,6vw,5rem);
+      line-height:.95;
+    }
+
+    .admin-orders-head p{
+      max-width:680px;
+      color:var(--gray-light);
+      line-height:1.7;
+    }
+
+    .admin-orders-tools{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) 190px auto;
+      gap:12px;
+      margin-bottom:22px;
+    }
+
+    .admin-orders-tools input,
+    .admin-orders-tools select,
+    .admin-order select,
+    .admin-order input{
+      width:100%;
+      box-sizing:border-box;
+      min-height:44px;
+      padding:11px 13px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.04);
+      color:inherit;
+      font:inherit;
+    }
+
+    .admin-orders-tools select option,
+    .admin-order select option{
+      background:#111;
+      color:#fff;
+    }
+
+    .admin-order-stats{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:12px;
+      margin-bottom:28px;
+    }
+
+    .admin-stat{
+      padding:18px;
+      border:1px solid rgba(255,255,255,.1);
+      background:rgba(255,255,255,.025);
+    }
+
+    .admin-stat span{
+      display:block;
+      color:var(--gray-light);
+      font-size:.65rem;
+      letter-spacing:.15em;
+      text-transform:uppercase;
+      margin-bottom:8px;
+    }
+
+    .admin-stat strong{
+      font-size:1.5rem;
+    }
+
+    .admin-order{
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(8,12,14,.74);
+      margin-bottom:24px;
+    }
+
+    .admin-order-head{
+      display:flex;
+      justify-content:space-between;
+      gap:18px;
+      padding:20px;
+      border-bottom:1px solid rgba(255,255,255,.1);
+    }
+
+    .admin-order-ref{
+      color:var(--teal-bright);
+      font-weight:800;
+      letter-spacing:.08em;
+    }
+
+    .admin-order-date{
+      color:var(--gray-light);
+      font-size:.75rem;
+      margin-top:6px;
+    }
+
+    .admin-order-total{
+      text-align:right;
+      font-weight:800;
+      font-size:1.1rem;
+    }
+
+    .admin-order-grid{
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+    }
+
+    .admin-order-section{
+      padding:20px;
+    }
+
+    .admin-order-section + .admin-order-section{
+      border-left:1px solid rgba(255,255,255,.1);
+    }
+
+    .admin-label{
+      color:var(--teal-bright);
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      font-size:.63rem;
+      font-weight:800;
+      margin-bottom:14px;
+    }
+
+    .admin-item{
+      display:grid;
+      grid-template-columns:64px 1fr;
+      gap:13px;
+      align-items:center;
+      margin-bottom:14px;
+    }
+
+    .admin-item img{
+      width:64px;
+      height:64px;
+      object-fit:contain;
+      padding:6px;
+      box-sizing:border-box;
+      background:#fff;
+    }
+
+    .admin-muted{
+      color:var(--gray-light);
+      font-size:.78rem;
+      line-height:1.7;
+    }
+
+    .admin-controls{
+      display:grid;
+      gap:12px;
+    }
+
+    .admin-controls-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+    }
+
+    .admin-controls label,
+    .shipment-admin label{
+      display:block;
+      color:var(--gray-light);
+      font-size:.65rem;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      margin-bottom:6px;
+    }
+
+    .shipment-admin{
+      margin-top:18px;
+      padding-top:18px;
+      border-top:1px solid rgba(255,255,255,.1);
+    }
+
+    .shipment-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:10px;
+    }
+
+    .admin-actions{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-top:14px;
+    }
+
+    .admin-message{
+      font-size:.75rem;
+    }
+
+    .admin-empty{
+      padding:50px;
+      text-align:center;
+      border:1px solid rgba(255,255,255,.12);
+      color:var(--gray-light);
+    }
+
+    [data-theme="light"] .admin-order,
+    [data-theme="light"] .admin-stat{
+      background:rgba(255,255,255,.64);
+      border-color:rgba(50,30,80,.13);
+    }
+
+    [data-theme="light"] .admin-orders-tools input,
+    [data-theme="light"] .admin-orders-tools select,
+    [data-theme="light"] .admin-order select,
+    [data-theme="light"] .admin-order input{
+      background:rgba(255,255,255,.7);
+      border-color:rgba(50,30,80,.17);
+      color:#18121e;
+    }
+
+    @media(max-width:850px){
+      .admin-orders-head{
+        display:block;
+      }
+
+      .admin-orders-tools{
+        grid-template-columns:1fr;
+      }
+
+      .admin-order-stats{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .admin-order-grid{
+        grid-template-columns:1fr;
+      }
+
+      .admin-order-section + .admin-order-section{
+        border-left:0;
+        border-top:1px solid rgba(255,255,255,.1);
+      }
+
+      .admin-controls-grid,
+      .shipment-grid{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<nav></nav>
+
+<main class="admin-orders-wrap">
+
+  <div class="admin-orders-head">
+    <div>
+      <span class="section-label">Administration</span>
+      <h1>Orders.</h1>
+      <p>
+        Review DWM orders, payment state, fulfilment progress
+        and seller shipment tracking.
+      </p>
+    </div>
+
+    <a href="/admin.html" class="btn-primary" style="text-decoration:none;">
+      Back to Admin
+    </a>
+  </div>
+
+  <div class="admin-order-stats">
+    <div class="admin-stat">
+      <span>Total Orders</span>
+      <strong id="statTotal">0</strong>
+    </div>
+
+    <div class="admin-stat">
+      <span>Pending Payment</span>
+      <strong id="statPending">0</strong>
+    </div>
+
+    <div class="admin-stat">
+      <span>Processing</span>
+      <strong id="statProcessing">0</strong>
+    </div>
+
+    <div class="admin-stat">
+      <span>Completed</span>
+      <strong id="statCompleted">0</strong>
+    </div>
+  </div>
+
+  <div class="admin-orders-tools">
+
+    <input
+      id="orderSearch"
+      type="search"
+      placeholder="Search order, customer or email..."
+    >
+
+    <select id="orderFilter">
+      <option value="all">All Orders</option>
+      <option value="pending_payment">Pending Payment</option>
+      <option value="processing">Processing</option>
+      <option value="shipped">Shipped</option>
+      <option value="delivered">Delivered</option>
+      <option value="cancelled">Cancelled</option>
+    </select>
+
+    <button id="refreshOrders" class="btn-primary" type="button">
+      Refresh
+    </button>
+
+  </div>
+
+  <div id="adminOrdersStatus" class="admin-muted">
+    Loading orders...
+  </div>
+
+  <div id="adminOrders"></div>
+
+</main>
+
+<script type="module" src="/assets/js/admin-orders.js"></script>
+
+</body>
+</html>

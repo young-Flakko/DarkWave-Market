@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>DWM — Admin Users</title>
+
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+<link rel="stylesheet" href="/assets/css/shared.css">
+<link rel="stylesheet" href="/assets/css/pages.css">
+
+<style>
+.admin-users-wrap{width:min(1200px,calc(100% - 40px));margin:auto;padding:70px 0 110px}
+.admin-users-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:32px}
+.admin-users-head h1{font-size:clamp(2.7rem,6vw,5rem);line-height:.95;margin:8px 0}
+.admin-users-head p{color:var(--gray-light)}
+
+.user-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:25px}
+.user-stat{padding:18px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.025)}
+.user-stat span{display:block;font-size:.64rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gray-light);margin-bottom:7px}
+.user-stat strong{font-size:1.5rem}
+
+.user-tools{display:grid;grid-template-columns:1fr 210px auto;gap:12px;margin-bottom:22px}
+.user-tools input,.user-tools select,.user-role{width:100%;box-sizing:border-box;padding:12px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);color:inherit;font:inherit}
+
+.user-card{display:grid;grid-template-columns:1fr 320px;border:1px solid rgba(255,255,255,.12);background:rgba(8,12,14,.74);margin-bottom:15px}
+.user-main,.user-control{padding:22px}
+.user-control{border-left:1px solid rgba(255,255,255,.1)}
+.user-name{font-weight:800;font-size:1rem}
+.user-email,.user-meta,.user-message{color:var(--gray-light);font-size:.76rem;line-height:1.7}
+.user-meta{margin-top:14px}
+.user-role{margin:8px 0 14px}
+.user-label{font-size:.63rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-bright)}
+.user-pill{display:inline-block;margin-top:10px;padding:5px 9px;border:1px solid rgba(74,157,168,.3);font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+
+[data-theme="light"] .user-card,[data-theme="light"] .user-stat{background:rgba(255,255,255,.65);border-color:rgba(50,30,80,.13)}
+[data-theme="light"] .user-tools input,[data-theme="light"] .user-tools select,[data-theme="light"] .user-role{background:rgba(255,255,255,.75);color:#18121e;border-color:rgba(50,30,80,.17)}
+
+@media(max-width:800px){
+  .admin-users-head{display:block}
+  .user-stats{grid-template-columns:1fr 1fr}
+  .user-tools{grid-template-columns:1fr}
+  .user-card{grid-template-columns:1fr}
+  .user-control{border-left:0;border-top:1px solid rgba(255,255,255,.1)}
+}
+</style>
+</head>
+
+<body>
+<nav></nav>
+
+<main class="admin-users-wrap">
+
+<div class="admin-users-head">
+  <div>
+    <span class="section-label">Administration</span>
+    <h1>Users.</h1>
+    <p>Manage DWM customer, reseller and administrator access.</p>
+  </div>
+
+  <a href="/admin.html" class="btn-primary" style="text-decoration:none">
+    Back to Admin
+  </a>
+</div>
+
+<div class="user-stats">
+  <div class="user-stat"><span>Total Users</span><strong id="statUsers">0</strong></div>
+  <div class="user-stat"><span>Customers</span><strong id="statCustomers">0</strong></div>
+  <div class="user-stat"><span>Resellers</span><strong id="statResellers">0</strong></div>
+  <div class="user-stat"><span>Admins</span><strong id="statAdmins">0</strong></div>
+</div>
+
+<div class="user-tools">
+  <input id="userSearch" type="search" placeholder="Search name, email or UID...">
+
+  <select id="userFilter">
+    <option value="all">All Roles</option>
+    <option value="customer">Customers</option>
+    <option value="reseller">Resellers</option>
+    <option value="admin">Admins</option>
+  </select>
+
+  <button id="refreshUsers" type="button" class="btn-primary">Refresh</button>
+</div>
+
+<div id="usersStatus" class="user-meta">Loading users...</div>
+<div id="usersList"></div>
+
+</main>
+
+<script type="module" src="/assets/js/admin-users.js"></script>
+</body>
+</html>

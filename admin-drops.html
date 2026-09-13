@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DWM — Admin Drops</title>
+
+<link rel="stylesheet" href="/assets/css/shared.css">
+<link rel="stylesheet" href="/assets/css/pages.css">
+
+<style>
+.admin-drops-wrap{
+  width:min(1380px,92%);
+  margin:120px auto 80px;
+}
+
+.admin-top{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  align-items:flex-end;
+  margin-bottom:34px;
+}
+
+.admin-eyebrow{
+  color:var(--teal-bright);
+  font-size:.68rem;
+  letter-spacing:.25em;
+  text-transform:uppercase;
+  font-weight:800;
+}
+
+.admin-title{
+  font-size:clamp(2.5rem,6vw,5rem);
+  margin:8px 0 4px;
+  line-height:.95;
+}
+
+.admin-sub{
+  color:var(--gray-light);
+  max-width:650px;
+}
+
+.admin-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.admin-btn{
+  border:1px solid rgba(255,255,255,.14);
+  background:#151515;
+  color:#fff;
+  padding:12px 18px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:700;
+}
+
+.admin-btn.primary{
+  background:var(--teal-bright);
+  color:#06110f;
+  border-color:transparent;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-bottom:22px;
+}
+
+.stat{
+  border:1px solid rgba(255,255,255,.1);
+  background:#111;
+  border-radius:14px;
+  padding:20px;
+}
+
+.stat-label{
+  color:var(--gray-light);
+  font-size:.65rem;
+  text-transform:uppercase;
+  letter-spacing:.16em;
+}
+
+.stat-value{
+  font-size:2rem;
+  font-weight:800;
+  margin-top:7px;
+}
+
+.filters{
+  display:grid;
+  grid-template-columns:1fr 210px 210px auto;
+  gap:10px;
+  margin-bottom:22px;
+}
+
+.control{
+  width:100%;
+  padding:13px 14px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.12);
+  background:#111;
+  color:#fff;
+  box-sizing:border-box;
+}
+
+.products-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+
+.product-card{
+  border:1px solid rgba(255,255,255,.1);
+  background:#111;
+  border-radius:16px;
+  overflow:hidden;
+}
+
+.product-image{
+  width:100%;
+  aspect-ratio:1.45/1;
+  object-fit:contain;
+  background:#191919;
+  padding:18px;
+  box-sizing:border-box;
+}
+
+.product-body{
+  padding:18px;
+}
+
+.product-top{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.product-name{
+  font-weight:800;
+  font-size:1.05rem;
+}
+
+.product-store{
+  color:var(--teal-bright);
+  font-size:.68rem;
+  margin-top:4px;
+}
+
+.product-meta{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin:16px 0;
+}
+
+.meta{
+  background:#171717;
+  padding:10px;
+  border-radius:9px;
+}
+
+.meta small{
+  display:block;
+  color:var(--gray-light);
+  font-size:.58rem;
+  text-transform:uppercase;
+  margin-bottom:4px;
+}
+
+.badge{
+  padding:6px 9px;
+  border-radius:999px;
+  font-size:.58rem;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  height:max-content;
+}
+
+.badge-live{
+  background:rgba(61,211,171,.13);
+  color:#74e8c7;
+}
+
+.badge-draft{
+  background:rgba(255,255,255,.08);
+  color:#bbb;
+}
+
+.badge-sold_out{
+  background:rgba(220,80,80,.13);
+  color:#ff9191;
+}
+
+.card-actions{
+  display:flex;
+  gap:8px;
+}
+
+.card-actions button{
+  flex:1;
+}
+
+.danger{
+  color:#ff8b8b;
+}
+
+.empty{
+  border:1px dashed rgba(255,255,255,.15);
+  padding:40px;
+  text-align:center;
+  border-radius:14px;
+  color:var(--gray-light);
+  grid-column:1/-1;
+}
+
+.modal-backdrop{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.78);
+  z-index:9998;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.modal-backdrop.open{
+  display:flex;
+}
+
+.modal{
+  width:min(720px,100%);
+  max-height:90vh;
+  overflow:auto;
+  background:#101010;
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:18px;
+  padding:26px;
+}
+
+.modal-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:24px;
+}
+
+.modal h2{
+  margin:0;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.form-group{
+  margin-bottom:14px;
+}
+
+.form-group.full{
+  grid-column:1/-1;
+}
+
+.form-label{
+  display:block;
+  margin-bottom:7px;
+  color:var(--gray-light);
+  font-size:.68rem;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+}
+
+textarea.control{
+  min-height:120px;
+  resize:vertical;
+}
+
+.form-actions{
+  display:flex;
+  gap:10px;
+  justify-content:flex-end;
+  margin-top:20px;
+}
+
+#formStatus{
+  margin-top:12px;
+  font-size:.8rem;
+}
+
+[data-theme="light"] .stat,
+[data-theme="light"] .product-card,
+[data-theme="light"] .control,
+[data-theme="light"] .admin-btn,
+[data-theme="light"] .modal{
+  background:#fff;
+  color:#111;
+  border-color:rgba(0,0,0,.12);
+}
+
+[data-theme="light"] .meta{
+  background:#f3f3f3;
+}
+
+[data-theme="light"] .product-image{
+  background:#f4f4f4;
+}
+
+@media(max-width:900px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .products-grid{grid-template-columns:repeat(2,1fr)}
+  .filters{grid-template-columns:1fr 1fr}
+  .admin-top{align-items:flex-start;flex-direction:column}
+}
+
+@media(max-width:600px){
+  .products-grid{grid-template-columns:1fr}
+  .filters{grid-template-columns:1fr}
+  .form-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<nav></nav>
+
+<main class="admin-drops-wrap">
+
+  <div class="admin-top">
+    <div>
+      <div class="admin-eyebrow">Administration</div>
+      <h1 class="admin-title">Drops.</h1>
+      <p class="admin-sub">
+        Control marketplace products, stock, pricing and publishing.
+      </p>
+    </div>
+
+    <div class="admin-actions">
+      <a href="/admin.html" class="admin-btn">← Admin</a>
+      <button id="addProduct" class="admin-btn primary">
+        + Add Product
+      </button>
+    </div>
+  </div>
+
+  <section class="stats">
+    <div class="stat">
+      <div class="stat-label">Products</div>
+      <div class="stat-value" id="statTotal">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Live</div>
+      <div class="stat-value" id="statLive">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Drafts</div>
+      <div class="stat-value" id="statDraft">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Sold Out</div>
+      <div class="stat-value" id="statSold">0</div>
+    </div>
+  </section>
+
+  <section class="filters">
+
+    <input
+      id="productSearch"
+      class="control"
+      placeholder="Search products, stores or categories..."
+    >
+
+    <select id="statusFilter" class="control">
+      <option value="">All Statuses</option>
+      <option value="live">Live</option>
+      <option value="draft">Draft</option>
+      <option value="sold_out">Sold Out</option>
+    </select>
+
+    <select id="storeFilter" class="control">
+      <option value="">All Stores</option>
+    </select>
+
+    <button id="refreshProducts" class="admin-btn">
+      Refresh
+    </button>
+
+  </section>
+
+  <div id="productsStatus"></div>
+  <section id="productsGrid" class="products-grid"></section>
+
+</main>
+
+<div id="productModal" class="modal-backdrop">
+
+  <div class="modal">
+
+    <div class="modal-head">
+      <h2 id="modalTitle">Add Product</h2>
+      <button id="closeModal" class="admin-btn">✕</button>
+    </div>
+
+    <form id="productForm">
+
+      <input id="editingProductId" type="hidden">
+
+      <div class="form-grid">
+
+        <div class="form-group full">
+          <label class="form-label">Product Name</label>
+          <input id="productName" class="control" maxlength="100" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Store</label>
+          <select id="productStore" class="control" required></select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <select id="productCategory" class="control" required>
+            <option value="">Select Category</option>
+            <option value="Streetwear">Streetwear</option>
+            <option value="Sneakers">Sneakers</option>
+            <option value="Decor">Decor</option>
+            <option value="Accessories">Accessories</option>
+            <option value="Fragrance">Fragrance</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Price — ZAR</label>
+          <input id="productPrice" class="control" type="number" min="0" step=".01" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Stock</label>
+          <input id="productStock" class="control" type="number" min="0" step="1" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Drop Number</label>
+          <input id="dropNumber" class="control" type="number" min="1" step="1" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select id="productStatus" class="control" required>
+            <option value="draft">Draft</option>
+            <option value="live">Live</option>
+            <option value="sold_out">Sold Out</option>
+          </select>
+        </div>
+
+        <div class="form-group full">
+          <label class="form-label">Cover Image URL</label>
+          <input id="productImageUrl" class="control" placeholder="https://...">
+        </div>
+
+        <div class="form-group full">
+          <label class="form-label">Description</label>
+          <textarea id="productDescription" class="control" maxlength="2000"></textarea>
+        </div>
+
+      </div>
+
+      <div id="formStatus"></div>
+
+      <div class="form-actions">
+        <button type="button" id="cancelForm" class="admin-btn">
+          Cancel
+        </button>
+
+        <button type="submit" id="saveProduct" class="admin-btn primary">
+          Save Product
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+<script type="module" src="/assets/js/admin-drops.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>DWM — Wallet</title>
+
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="32x32"
+    href="/assets/img/favicon-32x32.png"
+  >
+
+  <link
+    rel="stylesheet"
+    href="/assets/css/shared.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="/assets/css/pages.css"
+  >
+
+
+  <style>
+
+    .wallet-shell {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 150px 28px 80px;
+    }
+
+
+    .wallet-header {
+      margin-bottom: 42px;
+    }
+
+
+    .wallet-label {
+      display: block;
+      margin-bottom: 12px;
+      font-size: .72rem;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+
+    .wallet-title {
+      margin: 0;
+      font-size: clamp(3rem, 8vw, 7rem);
+      line-height: .85;
+      font-family: Georgia, serif;
+      text-transform: uppercase;
+    }
+
+
+    .wallet-subtitle {
+      max-width: 620px;
+      margin-top: 20px;
+      opacity: .7;
+      line-height: 1.7;
+    }
+
+
+    .wallet-grid {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 22px;
+    }
+
+
+    .wallet-card {
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(8,13,18,.72);
+      padding: 28px;
+      min-width: 0;
+    }
+
+
+    [data-theme="light"] .wallet-card {
+      border-color: rgba(0,0,0,.14);
+      background: rgba(255,255,255,.7);
+    }
+
+
+    .wallet-card h2 {
+      margin: 0 0 10px;
+      font-family: Georgia, serif;
+      font-size: 1.35rem;
+      text-transform: uppercase;
+    }
+
+
+    .wallet-muted {
+      opacity: .6;
+      font-size: .82rem;
+      line-height: 1.55;
+    }
+
+
+    .wallet-balance-card {
+      grid-column: 1 / -1;
+      position: relative;
+      overflow: hidden;
+    }
+
+
+    .wallet-balance-card::after {
+      content: "DWM";
+      position: absolute;
+      right: 28px;
+      bottom: -38px;
+      font-family: Georgia, serif;
+      font-size: clamp(5rem, 15vw, 12rem);
+      opacity: .035;
+      pointer-events: none;
+    }
+
+
+    .wallet-balance {
+      margin: 24px 0 12px;
+      font-size: clamp(3rem, 8vw, 6rem);
+      line-height: 1;
+      font-weight: 700;
+      letter-spacing: -.04em;
+    }
+
+
+    .wallet-currency {
+      font-size: 1rem;
+      opacity: .5;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+
+    .wallet-status {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 8px 12px;
+      border: 1px solid rgba(67,205,220,.45);
+      font-size: .68rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+
+    .wallet-activity {
+      display: grid;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+
+    .wallet-transaction {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      padding: 17px 0;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+
+    [data-theme="light"] .wallet-transaction {
+      border-bottom-color: rgba(0,0,0,.08);
+    }
+
+
+    .wallet-transaction:last-child {
+      border-bottom: 0;
+    }
+
+
+    .wallet-transaction-title {
+      margin: 0 0 5px;
+      font-size: .92rem;
+      font-weight: 700;
+    }
+
+
+    .wallet-transaction-meta {
+      font-size: .72rem;
+      opacity: .5;
+    }
+
+
+    .wallet-transaction-amount {
+      font-size: .95rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+
+    .wallet-positive {
+      color: var(--accent);
+    }
+
+
+    .wallet-negative {
+      opacity: .72;
+    }
+
+
+    .wallet-empty {
+      padding: 30px 0;
+      text-align: center;
+      opacity: .5;
+      font-size: .8rem;
+    }
+
+
+    .payment-method {
+      margin-top: 22px;
+      padding: 20px;
+      border: 1px dashed rgba(255,255,255,.18);
+    }
+
+
+    [data-theme="light"] .payment-method {
+      border-color: rgba(0,0,0,.18);
+    }
+
+
+    .payment-method strong {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+
+    .wallet-back {
+      display: inline-block;
+      margin-top: 32px;
+      text-decoration: none;
+      font-size: .72rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+
+    @media (max-width: 800px) {
+
+      .wallet-shell {
+        padding:
+          120px 18px 60px;
+      }
+
+
+      .wallet-grid {
+        grid-template-columns: 1fr;
+      }
+
+
+      .wallet-card {
+        padding: 22px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+  <nav></nav>
+
+
+  <main class="wallet-shell">
+
+    <header class="wallet-header">
+
+      <span class="wallet-label">
+        Your DWM Account
+      </span>
+
+      <h1 class="wallet-title">
+        Wallet.
+      </h1>
+
+      <p class="wallet-subtitle">
+        Your Darkwave Market credit,
+        refunds and wallet activity in one place.
+      </p>
+
+    </header>
+
+
+    <section class="wallet-grid">
+
+
+      <article class="wallet-card wallet-balance-card">
+
+        <span class="wallet-label">
+          Available DWM Credit
+        </span>
+
+        <div
+          class="wallet-balance"
+          id="walletBalance"
+        >
+          R0.00
+        </div>
+
+        <div class="wallet-currency">
+          South African Rand · ZAR
+        </div>
+
+        <div
+          class="wallet-status"
+          id="walletStatus"
+        >
+          Wallet Active
+        </div>
+
+      </article>
+
+
+      <article class="wallet-card">
+
+        <h2>
+          Activity
+        </h2>
+
+        <p class="wallet-muted">
+          Credits, refunds and adjustments
+          made to your DWM Wallet.
+        </p>
+
+        <div
+          class="wallet-activity"
+          id="walletActivity"
+        >
+          <div class="wallet-empty">
+            Loading wallet activity...
+          </div>
+        </div>
+
+      </article>
+
+
+      <article class="wallet-card">
+
+        <h2>
+          Payment Methods
+        </h2>
+
+        <p class="wallet-muted">
+          Secure payment methods will become
+          available when DWM live checkout launches.
+        </p>
+
+        <div class="payment-method">
+
+          <strong>
+            💳 Saved Payment Methods
+          </strong>
+
+          <span class="wallet-muted">
+            Coming with live checkout.
+            No card details are currently stored by DWM.
+          </span>
+
+        </div>
+
+
+        <div class="payment-method">
+
+          <strong>
+            ↩ Refunds
+          </strong>
+
+          <span class="wallet-muted">
+            Eligible refunds may appear here as
+            DWM Credit once processed.
+          </span>
+
+        </div>
+
+      </article>
+
+
+    </section>
+
+
+    <a
+      class="wallet-back"
+      href="/account.html"
+    >
+      ← Back to Account
+    </a>
+
+  </main>
+
+
+  <script
+    type="module"
+    src="/assets/js/wallet.js"
+  ></script>
+
+</body>
+
+</html>

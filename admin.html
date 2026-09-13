@@ -13,6 +13,326 @@
 
   <link rel="stylesheet" href="/assets/css/shared.css">
   <link rel="stylesheet" href="/assets/css/pages.css">
+
+<style>
+
+  /* =========================================================
+     ADMIN CONTROL TOOLS
+  ========================================================= */
+
+  .admin-tool-card {
+    grid-column: 1 / -1;
+    position: relative;
+    overflow: hidden;
+    padding: 34px !important;
+    text-align: left;
+    border: 1px solid rgba(91, 202, 216, .22);
+    background:
+      linear-gradient(
+        135deg,
+        rgba(8, 14, 20, .92),
+        rgba(15, 20, 29, .80)
+      );
+  }
+
+
+  .admin-tool-card::after {
+    position: absolute;
+    right: 28px;
+    top: 20px;
+    font-size: .62rem;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    opacity: .45;
+  }
+
+
+  .admin-notification-card::after {
+    content: "Communication";
+  }
+
+
+  .admin-wallet-card::after {
+    content: "Credit Control";
+  }
+
+
+  .admin-tool-card > h3 {
+    margin: 0 0 8px;
+    font-size: 1.35rem;
+  }
+
+
+  .admin-tool-card > p {
+    margin: 0;
+    opacity: .62;
+  }
+
+
+  .admin-tool-card form {
+    width: min(100%, 980px);
+    margin: 30px auto 0 !important;
+    padding: 28px;
+    border: 1px solid rgba(255, 255, 255, .08);
+    background: rgba(0, 0, 0, .16);
+    border-radius: 2px;
+  }
+
+
+  .admin-tool-card form label {
+    display: block;
+    min-width: 0;
+  }
+
+
+  .admin-tool-card form label > span {
+    color: var(--accent);
+    opacity: .8;
+    font-weight: 600;
+  }
+
+
+  .admin-tool-card input,
+  .admin-tool-card select,
+  .admin-tool-card textarea {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 46px;
+    padding: 11px 14px;
+    border: 1px solid rgba(255, 255, 255, .13);
+    outline: none;
+    background: rgba(255, 255, 255, .045);
+    color: inherit;
+    font: inherit;
+    transition:
+      border-color .2s ease,
+      background .2s ease,
+      box-shadow .2s ease;
+  }
+
+
+  .admin-tool-card textarea {
+    min-height: 110px;
+    line-height: 1.55;
+  }
+
+
+  .admin-tool-card input:focus,
+  .admin-tool-card select:focus,
+  .admin-tool-card textarea:focus {
+    border-color: var(--accent);
+    background: rgba(91, 202, 216, .06);
+    box-shadow:
+      0 0 0 1px
+      rgba(91, 202, 216, .12);
+  }
+
+
+  .admin-tool-card input::placeholder,
+  .admin-tool-card textarea::placeholder {
+    opacity: .42;
+  }
+
+
+  .admin-tool-card select option {
+    background: #111820;
+    color: #fff;
+  }
+
+
+  .admin-tool-card form > div:last-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 8px;
+  }
+
+
+  .admin-tool-card .btn-primary {
+    min-width: 230px;
+    min-height: 52px;
+    border: 0;
+    cursor: pointer;
+  }
+
+
+  #notificationSendStatus,
+  #walletAdminStatus {
+    margin-left: 0 !important;
+    opacity: .7;
+  }
+
+
+  /* ---------------------------------------------------------
+     LIGHT MODE
+  --------------------------------------------------------- */
+
+  [data-theme="light"] .admin-tool-card {
+    border-color: rgba(73, 44, 112, .16);
+    background:
+      linear-gradient(
+        135deg,
+        rgba(255, 255, 255, .76),
+        rgba(244, 240, 248, .70)
+      );
+  }
+
+
+  [data-theme="light"] .admin-tool-card form {
+    border-color: rgba(73, 44, 112, .10);
+    background: rgba(255, 255, 255, .46);
+  }
+
+
+  [data-theme="light"] .admin-tool-card input,
+  [data-theme="light"] .admin-tool-card select,
+  [data-theme="light"] .admin-tool-card textarea {
+    border-color: rgba(73, 44, 112, .18);
+    background: rgba(255, 255, 255, .48);
+    color: #17121d;
+  }
+
+
+  [data-theme="light"] .admin-tool-card input:focus,
+  [data-theme="light"] .admin-tool-card select:focus,
+  [data-theme="light"] .admin-tool-card textarea:focus {
+    border-color: #6e4294;
+    background: rgba(255, 255, 255, .8);
+    box-shadow:
+      0 0 0 2px
+      rgba(110, 66, 148, .08);
+  }
+
+
+  [data-theme="light"] .admin-tool-card select option {
+    background: #fff;
+    color: #17121d;
+  }
+
+
+  /* ---------------------------------------------------------
+     MOBILE
+  --------------------------------------------------------- */
+
+  @media (max-width: 720px) {
+
+    .admin-tool-card {
+      padding: 24px 16px !important;
+    }
+
+
+    .admin-tool-card::after {
+      position: static;
+      display: block;
+      margin-bottom: 16px;
+    }
+
+
+    .admin-tool-card form {
+      padding: 18px;
+    }
+
+
+    .admin-tool-card form > div {
+      grid-template-columns: 1fr !important;
+    }
+
+
+    .admin-tool-card form > div:last-child {
+      display: grid;
+    }
+
+
+    .admin-tool-card .btn-primary {
+      width: 100%;
+      min-width: 0;
+    }
+
+  }
+
+</style>
+
+
+<style>
+
+  .admin-tool-toggle {
+    width: 100%;
+    margin-top: 22px;
+    padding: 17px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border: 1px solid rgba(91,202,216,.22);
+    background: rgba(255,255,255,.035);
+    color: inherit;
+
+    cursor: pointer;
+
+    font: inherit;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+
+    transition:
+      background .2s ease,
+      border-color .2s ease;
+  }
+
+
+  .admin-tool-toggle:hover {
+    border-color: var(--accent);
+    background: rgba(91,202,216,.07);
+  }
+
+
+  .admin-tool-toggle span {
+    font-size: 1.25rem;
+    color: var(--accent);
+    transition: transform .2s ease;
+  }
+
+
+  .admin-tool-toggle[aria-expanded="true"] span {
+    transform: rotate(45deg);
+  }
+
+
+  .admin-tool-body[hidden] {
+    display: none !important;
+  }
+
+
+  .admin-tool-body {
+    animation: dwmToolOpen .22s ease;
+  }
+
+
+  @keyframes dwmToolOpen {
+
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+  }
+
+
+  [data-theme="light"] .admin-tool-toggle {
+    border-color: rgba(73,44,112,.18);
+    background: rgba(255,255,255,.38);
+  }
+
+</style>
+
 </head>
 
 <body>
@@ -51,9 +371,13 @@
         Darkwave Market products and drops.
       </p>
 
-      <span class="badge-coming">
-        Next
-      </span>
+      <a
+        href="/admin-drops.html"
+        class="btn-primary"
+        style="display:inline-block;margin-top:10px;text-decoration:none;"
+      >
+        Manage Drops
+      </a>
 
     </div>
 
@@ -95,9 +419,13 @@
         order status management.
       </p>
 
-      <span class="badge-coming">
-        Coming Soon
-      </span>
+      <a
+        href="/admin-orders.html"
+        class="btn-primary"
+        style="display:inline-block;margin-top:10px;text-decoration:none;"
+      >
+        Manage Orders
+      </a>
 
     </div>
 
@@ -113,9 +441,13 @@
         reseller access.
       </p>
 
-      <span class="badge-coming">
-        Phase 4
-      </span>
+      <a
+        href="/admin-users.html"
+        class="btn-primary"
+        style="display:inline-block;margin-top:10px;text-decoration:none;"
+      >
+        Manage Users
+      </a>
 
     </div>
 
@@ -131,9 +463,13 @@
         drop performance.
       </p>
 
-      <span class="badge-coming">
-        Coming Soon
-      </span>
+      <a
+        href="/admin-analytics.html"
+        class="btn-primary"
+        style="display:inline-block;margin-top:10px;text-decoration:none;"
+      >
+        View Analytics
+      </a>
 
     </div>
 
@@ -149,9 +485,13 @@
         and market events.
       </p>
 
-      <span class="badge-coming">
-        Coming Soon
-      </span>
+      <a
+        href="/admin-events.html"
+        class="btn-primary"
+        style="display:inline-block;margin-top:10px;text-decoration:none;"
+      >
+        Manage Events
+      </a>
 
     </div>
 
@@ -183,13 +523,29 @@
 
     <!-- NOTIFICATIONS -->
 
-    <div class="placeholder-card" style="grid-column:1/-1;">
+    <div class="placeholder-card admin-tool-card admin-notification-card">
 
       <h3>🔔 Send Notification</h3>
 
       <p>
         Send an in-app notification to DWM users.
       </p>
+
+      <button
+        type="button"
+        class="admin-tool-toggle"
+        data-admin-tool-toggle="notification"
+        aria-expanded="false"
+      >
+        Open Tool
+        <span>+</span>
+      </button>
+
+      <div
+        class="admin-tool-body"
+        data-admin-tool-body="notification"
+        hidden
+      >
 
       <form
         id="adminNotificationForm"
@@ -415,6 +771,257 @@
 
       </form>
 
+      </div>
+
+    </div>
+
+
+    <!-- WALLET MANAGER -->
+
+    <div
+      class="placeholder-card admin-tool-card admin-wallet-card"
+    >
+
+      <h3>💳 Wallet Manager</h3>
+
+      <p>
+        Issue DWM Credit, refunds or balance adjustments.
+      </p>
+
+      <button
+        type="button"
+        class="admin-tool-toggle"
+        data-admin-tool-toggle="wallet"
+        aria-expanded="false"
+      >
+        Open Tool
+        <span>+</span>
+      </button>
+
+      <div
+        class="admin-tool-body"
+        data-admin-tool-body="wallet"
+        hidden
+      >
+
+      <form
+        id="adminWalletForm"
+        style="
+          display:grid;
+          gap:14px;
+          margin-top:18px;
+        "
+      >
+
+        <label>
+          <span
+            style="
+              display:block;
+              margin-bottom:6px;
+              font-size:.75rem;
+              text-transform:uppercase;
+              letter-spacing:.12em;
+            "
+          >
+            User
+          </span>
+
+          <select
+            id="walletTargetUser"
+            required
+            style="width:100%;"
+          >
+            <option value="">
+              Select user...
+            </option>
+          </select>
+        </label>
+
+
+        <div
+          style="
+            display:grid;
+            grid-template-columns:
+              repeat(auto-fit,minmax(180px,1fr));
+            gap:12px;
+          "
+        >
+
+          <label>
+
+            <span
+              style="
+                display:block;
+                margin-bottom:6px;
+                font-size:.75rem;
+                text-transform:uppercase;
+                letter-spacing:.12em;
+              "
+            >
+              Action
+            </span>
+
+            <select
+              id="walletAction"
+              required
+              style="width:100%;"
+            >
+              <option value="credit">
+                Add Credit
+              </option>
+
+              <option value="debit">
+                Remove Credit
+              </option>
+            </select>
+
+          </label>
+
+
+          <label>
+
+            <span
+              style="
+                display:block;
+                margin-bottom:6px;
+                font-size:.75rem;
+                text-transform:uppercase;
+                letter-spacing:.12em;
+              "
+            >
+              Type
+            </span>
+
+            <select
+              id="walletTransactionType"
+              required
+              style="width:100%;"
+            >
+              <option value="store_credit">
+                Store Credit
+              </option>
+
+              <option value="refund">
+                Refund
+              </option>
+
+              <option value="promotion">
+                Promotional Credit
+              </option>
+
+              <option value="adjustment">
+                Admin Adjustment
+              </option>
+            </select>
+
+          </label>
+
+
+          <label>
+
+            <span
+              style="
+                display:block;
+                margin-bottom:6px;
+                font-size:.75rem;
+                text-transform:uppercase;
+                letter-spacing:.12em;
+              "
+            >
+              Amount
+            </span>
+
+            <input
+              id="walletAmount"
+              type="number"
+              min="0.01"
+              step="0.01"
+              required
+              placeholder="100.00"
+              style="width:100%;"
+            >
+
+          </label>
+
+        </div>
+
+
+        <label>
+
+          <span
+            style="
+              display:block;
+              margin-bottom:6px;
+              font-size:.75rem;
+              text-transform:uppercase;
+              letter-spacing:.12em;
+            "
+          >
+            Description
+          </span>
+
+          <input
+            id="walletDescription"
+            type="text"
+            maxlength="200"
+            required
+            placeholder="Welcome credit"
+            style="width:100%;"
+          >
+
+        </label>
+
+
+        <label>
+
+          <span
+            style="
+              display:block;
+              margin-bottom:6px;
+              font-size:.75rem;
+              text-transform:uppercase;
+              letter-spacing:.12em;
+            "
+          >
+            Reference — Optional
+          </span>
+
+          <input
+            id="walletReference"
+            type="text"
+            maxlength="120"
+            placeholder="REFUND-123"
+            style="width:100%;"
+          >
+
+        </label>
+
+
+        <div>
+
+          <button
+            id="walletSubmitButton"
+            type="submit"
+            class="btn-primary"
+          >
+            Update Wallet
+          </button>
+
+          <span
+            id="walletAdminStatus"
+            style="
+              display:inline-block;
+              margin-left:12px;
+              font-size:.8rem;
+            "
+          ></span>
+
+        </div>
+
+      </form>
+
+      </div>
+
     </div>
 
 
@@ -588,7 +1195,9 @@
   import {
     addDoc,
     collection,
+    doc,
     getDocs,
+    runTransaction,
     serverTimestamp
   } from 'firebase/firestore';
 
@@ -675,6 +1284,51 @@
 
   let adminUsers = [];
 
+  const adminWalletForm =
+    document.getElementById(
+      'adminWalletForm'
+    );
+
+  const walletTargetUser =
+    document.getElementById(
+      'walletTargetUser'
+    );
+
+  const walletAction =
+    document.getElementById(
+      'walletAction'
+    );
+
+  const walletTransactionType =
+    document.getElementById(
+      'walletTransactionType'
+    );
+
+  const walletAmount =
+    document.getElementById(
+      'walletAmount'
+    );
+
+  const walletDescription =
+    document.getElementById(
+      'walletDescription'
+    );
+
+  const walletReference =
+    document.getElementById(
+      'walletReference'
+    );
+
+  const walletSubmitButton =
+    document.getElementById(
+      'walletSubmitButton'
+    );
+
+  const walletAdminStatus =
+    document.getElementById(
+      'walletAdminStatus'
+    );
+
 
   // ============================================================
   // ADMIN SECURITY GATE
@@ -720,6 +1374,9 @@
         notificationTargetUser.innerHTML =
           '<option value="">Select user...</option>';
 
+        walletTargetUser.innerHTML =
+          '<option value="">Select user...</option>';
+
         adminUsers
           .sort(
             (a, b) =>
@@ -754,6 +1411,14 @@
               notificationTargetUser
                 .appendChild(
                   option
+                );
+
+              const walletOption =
+                option.cloneNode(true);
+
+              walletTargetUser
+                .appendChild(
+                  walletOption
                 );
 
             }
@@ -1014,6 +1679,308 @@
 
     }
   );
+
+
+  // ============================================================
+  // WALLET MANAGER
+  // ============================================================
+
+  adminWalletForm.addEventListener(
+    'submit',
+    async (event) => {
+
+      event.preventDefault();
+
+
+      if (!currentAdminUser) {
+        alert(
+          'Admin session unavailable.'
+        );
+        return;
+      }
+
+
+      const targetUid =
+        walletTargetUser.value;
+
+      const rawAmount =
+        Number(
+          walletAmount.value
+        );
+
+      const description =
+        walletDescription.value.trim();
+
+      const reference =
+        walletReference.value.trim();
+
+      const transactionType =
+        walletTransactionType.value;
+
+      const action =
+        walletAction.value;
+
+
+      if (!targetUid) {
+        alert(
+          'Select a user.'
+        );
+        return;
+      }
+
+
+      if (
+        !Number.isFinite(rawAmount) ||
+        rawAmount <= 0
+      ) {
+        alert(
+          'Enter a valid wallet amount.'
+        );
+        return;
+      }
+
+
+      if (!description) {
+        alert(
+          'Enter a description.'
+        );
+        return;
+      }
+
+
+      const signedAmount =
+        action === 'debit'
+          ? -Math.abs(rawAmount)
+          : Math.abs(rawAmount);
+
+
+      walletSubmitButton.disabled =
+        true;
+
+      walletSubmitButton.textContent =
+        'Updating...';
+
+      walletAdminStatus.textContent =
+        'Updating wallet...';
+
+
+      try {
+
+        const walletRef =
+          doc(
+            db,
+            'wallets',
+            targetUid
+          );
+
+        const transactionRef =
+          doc(
+            collection(
+              db,
+              'wallets',
+              targetUid,
+              'transactions'
+            )
+          );
+
+
+        const newBalance =
+          await runTransaction(
+            db,
+            async (transaction) => {
+
+              const walletSnapshot =
+                await transaction.get(
+                  walletRef
+                );
+
+
+              const currentBalance =
+                walletSnapshot.exists()
+                  ? Number(
+                      walletSnapshot
+                        .data()
+                        .balance || 0
+                    )
+                  : 0;
+
+
+              const updatedBalance =
+                Number(
+                  (
+                    currentBalance +
+                    signedAmount
+                  ).toFixed(2)
+                );
+
+
+              if (updatedBalance < 0) {
+                throw new Error(
+                  'This adjustment would make the wallet balance negative.'
+                );
+              }
+
+
+              transaction.set(
+                walletRef,
+                {
+                  balance:
+                    updatedBalance,
+
+                  currency:
+                    'ZAR',
+
+                  status:
+                    'active',
+
+                  updatedAt:
+                    serverTimestamp(),
+
+                  ...(
+                    walletSnapshot.exists()
+                      ? {}
+                      : {
+                          createdAt:
+                            serverTimestamp()
+                        }
+                  )
+                },
+                {
+                  merge: true
+                }
+              );
+
+
+              transaction.set(
+                transactionRef,
+                {
+                  amount:
+                    signedAmount,
+
+                  balanceAfter:
+                    updatedBalance,
+
+                  currency:
+                    'ZAR',
+
+                  type:
+                    transactionType,
+
+                  description,
+
+                  reference:
+                    reference || null,
+
+                  createdBy:
+                    currentAdminUser.uid,
+
+                  createdAt:
+                    serverTimestamp()
+                }
+              );
+
+
+              return updatedBalance;
+
+            }
+          );
+
+
+        walletAdminStatus.textContent =
+          `Updated ✓ New balance: R${newBalance.toFixed(2)}`;
+
+
+        walletAmount.value =
+          '';
+
+        walletDescription.value =
+          '';
+
+        walletReference.value =
+          '';
+
+
+      } catch (error) {
+
+        console.error(
+          '[admin] wallet update error:',
+          error
+        );
+
+        walletAdminStatus.textContent =
+          'Update failed.';
+
+        alert(
+          error?.message ||
+          'Unable to update wallet.'
+        );
+
+
+      } finally {
+
+        walletSubmitButton.disabled =
+          false;
+
+        walletSubmitButton.textContent =
+          'Update Wallet';
+
+      }
+
+    }
+  );
+
+
+  // ============================================================
+  // COLLAPSIBLE ADMIN TOOLS
+  // ============================================================
+
+  document
+    .querySelectorAll(
+      '[data-admin-tool-toggle]'
+    )
+    .forEach(
+      (button) => {
+
+        button.addEventListener(
+          'click',
+          () => {
+
+            const tool =
+              button.dataset
+                .adminToolToggle;
+
+            const body =
+              document.querySelector(
+                `[data-admin-tool-body="${tool}"]`
+              );
+
+            if (!body) return;
+
+
+            const opening =
+              body.hidden;
+
+
+            body.hidden =
+              !opening;
+
+            button.setAttribute(
+              'aria-expanded',
+              String(opening)
+            );
+
+
+            button.childNodes[0]
+              .textContent =
+                opening
+                  ? 'Close Tool '
+                  : 'Open Tool ';
+
+          }
+        );
+
+      }
+    );
 
 
   // ============================================================
