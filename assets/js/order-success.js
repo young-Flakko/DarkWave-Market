@@ -558,7 +558,7 @@ function renderItem(
 
   const imageUrl =
     item?.imageUrl ||
-    '/assets/img/dwm-logo-new.png';
+    '/assets/img/dwm-logo-new.webp';
 
 
   const storeName =
@@ -601,7 +601,7 @@ function renderItem(
 
           onerror="
             this.onerror=null;
-            this.src='/assets/img/dwm-logo-new.png';
+            this.src='/assets/img/dwm-logo-new.webp';
           "
         >
 

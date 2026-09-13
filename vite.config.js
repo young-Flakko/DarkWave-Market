@@ -25,6 +25,8 @@ export default defineConfig({
         resellerApply: resolve(__dirname, 'reseller-apply.html'),
         cart: resolve(__dirname, 'cart.html'),
         favorites: resolve(__dirname, 'favorites.html'),
+        notifications: resolve(__dirname, 'notifications.html'),
+        messages: resolve(__dirname, 'messages.html'),
         checkout: resolve(__dirname, 'checkout.html'),
         product: resolve(__dirname, 'product.html'),
         orderSuccess: resolve(__dirname, 'order-success.html'),

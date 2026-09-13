@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>DWM — Notifications</title>
+
+  <meta
+    name="description"
+    content="Your Darkwave Market notifications."
+  >
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="/assets/img/dwm-logo-new.webp"
+  >
+
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap"
+  >
+
+  <link
+    rel="stylesheet"
+    href="/assets/css/shared.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="/assets/css/pages.css"
+  >
+
+
+  <style>
+
+    .notifications-shell {
+      width:
+        min(
+          1100px,
+          calc(100% - 48px)
+        );
+
+      margin:
+        0 auto;
+
+      padding:
+        120px 0 100px;
+    }
+
+
+    .notifications-head {
+      display:
+        flex;
+
+      align-items:
+        flex-end;
+
+      justify-content:
+        space-between;
+
+      gap:
+        24px;
+
+      padding-bottom:
+        28px;
+
+      margin-bottom:
+        26px;
+
+      border-bottom:
+        1px solid
+        var(--border);
+    }
+
+
+    .notifications-eyebrow {
+      color:
+        var(--teal-dim);
+
+      font-size:
+        .62rem;
+
+      font-weight:
+        700;
+
+      letter-spacing:
+        .34em;
+
+      text-transform:
+        uppercase;
+
+      margin-bottom:
+        12px;
+    }
+
+
+    .notifications-title {
+      font-family:
+        'Cinzel',
+        serif;
+
+      font-size:
+        clamp(
+          2.5rem,
+          6vw,
+          5rem
+        );
+
+      line-height:
+        .95;
+
+      margin:
+        0;
+    }
+
+
+    .notifications-sub {
+      margin-top:
+        16px;
+
+      color:
+        var(--gray-light);
+
+      max-width:
+        580px;
+
+      line-height:
+        1.6;
+    }
+
+
+    .notifications-head-actions {
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        12px;
+    }
+
+
+    .notifications-count {
+      font-size:
+        .65rem;
+
+      letter-spacing:
+        .18em;
+
+      text-transform:
+        uppercase;
+
+      color:
+        var(--teal-bright);
+    }
+
+
+    .notifications-list {
+      display:
+        grid;
+
+      gap:
+        10px;
+    }
+
+
+    .notification-card {
+      position:
+        relative;
+
+      display:
+        grid;
+
+      grid-template-columns:
+        48px minmax(0,1fr) auto;
+
+      gap:
+        18px;
+
+      align-items:
+        center;
+
+      padding:
+        22px;
+
+      border:
+        1px solid
+        var(--border);
+
+      background:
+        rgba(
+          255,
+          255,
+          255,
+          .018
+        );
+
+      transition:
+        transform .18s ease,
+        border-color .18s ease,
+        background .18s ease;
+    }
+
+
+    .notification-card.unread {
+      border-color:
+        rgba(
+          74,
+          157,
+          168,
+          .42
+        );
+
+      background:
+        rgba(
+          74,
+          157,
+          168,
+          .055
+        );
+    }
+
+
+    .notification-card:hover {
+      transform:
+        translateY(-1px);
+
+      border-color:
+        var(--border-strong);
+    }
+
+
+    .notification-icon {
+      width:
+        48px;
+
+      height:
+        48px;
+
+      display:
+        grid;
+
+      place-items:
+        center;
+
+      border:
+        1px solid
+        var(--border);
+
+      font-size:
+        18px;
+    }
+
+
+    .notification-type {
+      color:
+        var(--teal-dim);
+
+      font-size:
+        .56rem;
+
+      font-weight:
+        700;
+
+      letter-spacing:
+        .2em;
+
+      text-transform:
+        uppercase;
+
+      margin-bottom:
+        5px;
+    }
+
+
+    .notification-title {
+      font-family:
+        'Cinzel',
+        serif;
+
+      font-size:
+        1rem;
+
+      margin:
+        0 0 6px;
+    }
+
+
+    .notification-message {
+      color:
+        var(--gray-light);
+
+      line-height:
+        1.5;
+
+      font-size:
+        .86rem;
+    }
+
+
+    .notification-time {
+      margin-top:
+        8px;
+
+      font-size:
+        .62rem;
+
+      color:
+        var(--gray);
+
+      letter-spacing:
+        .08em;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .notification-actions {
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        8px;
+    }
+
+
+    .notification-open,
+    .notification-read {
+      min-height:
+        38px;
+
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      padding:
+        0 14px;
+
+      border:
+        1px solid
+        var(--border);
+
+      background:
+        transparent;
+
+      color:
+        inherit;
+
+      font-family:
+        inherit;
+
+      font-size:
+        .56rem;
+
+      font-weight:
+        700;
+
+      letter-spacing:
+        .16em;
+
+      text-transform:
+        uppercase;
+
+      text-decoration:
+        none;
+
+      cursor:
+        pointer;
+    }
+
+
+    .notification-open:hover,
+    .notification-read:hover {
+      border-color:
+        var(--teal-bright);
+
+      color:
+        var(--teal-bright);
+    }
+
+
+    .notification-unread-dot {
+      position:
+        absolute;
+
+      top:
+        10px;
+
+      right:
+        10px;
+
+      width:
+        7px;
+
+      height:
+        7px;
+
+      border-radius:
+        999px;
+
+      background:
+        var(--teal-bright);
+
+      box-shadow:
+        0 0 12px
+        rgba(
+          74,
+          157,
+          168,
+          .72
+        );
+    }
+
+
+    .notifications-empty {
+      padding:
+        80px 24px;
+
+      border:
+        1px solid
+        var(--border);
+
+      text-align:
+        center;
+    }
+
+
+    .notifications-empty h2 {
+      font-family:
+        'Cinzel',
+        serif;
+
+      margin-bottom:
+        10px;
+    }
+
+
+    .notifications-empty p {
+      color:
+        var(--gray-light);
+    }
+
+
+    html[data-theme="light"]
+    .notification-card {
+      background:
+        rgba(
+          255,
+          255,
+          255,
+          .45
+        );
+    }
+
+
+    html[data-theme="light"]
+    .notification-card.unread {
+      background:
+        rgba(
+          84,
+          38,
+          123,
+          .045
+        );
+    }
+
+
+    @media (
+      max-width: 760px
+    ) {
+
+      .notifications-shell {
+        width:
+          min(
+            100% - 28px,
+            1100px
+          );
+
+        padding-top:
+          92px;
+      }
+
+
+      .notifications-head {
+        display:
+          block;
+      }
+
+
+      .notifications-head-actions {
+        margin-top:
+          20px;
+
+        flex-wrap:
+          wrap;
+      }
+
+
+      .notification-card {
+        grid-template-columns:
+          42px minmax(0,1fr);
+
+        padding:
+          18px;
+
+        gap:
+          14px;
+      }
+
+
+      .notification-icon {
+        width:
+          42px;
+
+        height:
+          42px;
+      }
+
+
+      .notification-actions {
+        grid-column:
+          1 / -1;
+
+        display:
+          grid;
+
+        grid-template-columns:
+          1fr 1fr;
+      }
+
+
+      .notification-open,
+      .notification-read {
+        width:
+          100%;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+  <nav></nav>
+
+
+  <main
+    class="notifications-shell"
+  >
+
+    <header
+      class="notifications-head"
+    >
+
+      <div>
+
+        <div
+          class="notifications-eyebrow"
+        >
+          DWM Activity
+        </div>
+
+        <h1
+          class="notifications-title"
+        >
+          NOTIFICATIONS.
+        </h1>
+
+        <p
+          class="notifications-sub"
+        >
+          Orders, seller activity,
+          marketplace updates and
+          important account alerts
+          appear here.
+        </p>
+
+      </div>
+
+
+      <div
+        class="notifications-head-actions"
+      >
+
+        <span
+          id="notificationsCount"
+          class="notifications-count"
+        >
+          Loading...
+        </span>
+
+        <button
+          type="button"
+          id="markAllReadButton"
+          class="btn-secondary"
+          style="display:none;"
+        >
+          Mark All Read
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <section
+      id="notificationsList"
+      class="notifications-list"
+      aria-live="polite"
+    >
+
+      <div
+        class="notifications-empty"
+      >
+
+        <h2>
+          Loading notifications...
+        </h2>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script
+    type="module"
+    src="/assets/js/notifications-page.js"
+  ></script>
+
+</body>
+
+</html>

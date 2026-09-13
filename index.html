@@ -1,8 +1,19 @@
  <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+  (() => {
+    try {
+      const saved = localStorage.getItem('dwm_theme');
+      document.documentElement.dataset.theme =
+        saved === 'light' ? 'light' : 'dark';
+    } catch {
+      document.documentElement.dataset.theme = 'dark';
+    }
+  })();
+</script>
 <title>DWM — Darkwave Market</title>
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
@@ -31,15 +42,13 @@
       </div>
 
       <picture class="hero-logo-picture">
-        <source
-          srcset="/assets/img/dwm-crest-light.png"
-          media="(prefers-color-scheme: light)"
-        >
         <img
-          src="/assets/img/dwm-crest-dark.png"
+          src="/assets/img/dwm-crest-dark.webp"
           alt="DWM"
           class="hero-logo-img"
           data-dwm-hero-logo
+          fetchpriority="high"
+          decoding="async"
           onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'dwm-letters',textContent:'DWM'}));"
         >
       </picture>

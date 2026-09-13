@@ -48,6 +48,82 @@ function renderStoreHeader(store) {
   if (titleEl) titleEl.textContent = safeName;
   if (descEl) descEl.textContent = safeDesc;
 
+  const instagramEl =
+    document.getElementById('storeInstagram');
+
+  const instagramUsername =
+    String(
+      data.instagramUsername || ''
+    )
+      .trim()
+      .replace(/^@+/, '');
+
+  if (
+    instagramEl &&
+    /^[A-Za-z0-9._]{1,30}$/.test(
+      instagramUsername
+    )
+  ) {
+    instagramEl.href =
+      `https://www.instagram.com/${encodeURIComponent(instagramUsername)}/`;
+
+    instagramEl.textContent =
+      `◎ @${instagramUsername}`;
+
+    instagramEl.style.display =
+      'inline-block';
+  } else if (instagramEl) {
+    instagramEl.style.display =
+      'none';
+
+    instagramEl.removeAttribute(
+      'href'
+    );
+
+    instagramEl.textContent =
+      '';
+  }
+
+  const tiktokEl =
+    document.getElementById('storeTikTok');
+
+  const tiktokUsername =
+    String(
+      data.tiktokUsername || ''
+    )
+      .trim()
+      .replace(/^@+/, '');
+
+  if (
+    tiktokEl &&
+    /^[A-Za-z0-9._]{1,24}$/.test(
+      tiktokUsername
+    )
+  ) {
+
+    tiktokEl.href =
+      `https://www.tiktok.com/@${encodeURIComponent(tiktokUsername)}`;
+
+    tiktokEl.textContent =
+      `♪ @${tiktokUsername}`;
+
+    tiktokEl.style.display =
+      'inline-block';
+
+  } else if (tiktokEl) {
+
+    tiktokEl.style.display =
+      'none';
+
+    tiktokEl.removeAttribute(
+      'href'
+    );
+
+    tiktokEl.textContent =
+      '';
+
+  }
+
   const dropsBtn = document.getElementById('viewDropsBtn');
   if (dropsBtn) dropsBtn.href = 'drops.html';
 }

@@ -634,7 +634,7 @@ export function makeProductCardHtml(
     typeof d.imageUrl === 'string' &&
     d.imageUrl.trim() !== ''
       ? d.imageUrl
-      : '/assets/img/dwm-logo-new.png';
+      : '/assets/img/dwm-logo-new.webp';
 
 
   const dropStr =
@@ -792,7 +792,7 @@ export function makeProductCardHtml(
 
           onerror="
             this.onerror=null;
-            this.src='/assets/img/dwm-logo-new.png';
+            this.src='/assets/img/dwm-logo-new.webp';
           "
 
           style="

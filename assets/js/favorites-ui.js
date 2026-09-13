@@ -29,10 +29,36 @@ function refreshButtons() {
         active
       );
 
-      button.textContent =
-        active
-          ? '♥'
-          : '♡';
+      const icon =
+        button.querySelector(
+          '.btn-save-drop-icon'
+        );
+
+      const label =
+        button.querySelector(
+          '.btn-save-drop-label'
+        );
+
+      if (icon && label) {
+
+        icon.textContent =
+          active
+            ? '♥'
+            : '♡';
+
+        label.textContent =
+          active
+            ? 'Saved'
+            : 'Save Drop';
+
+      } else {
+
+        button.textContent =
+          active
+            ? '♥'
+            : '♡';
+
+      }
 
       button.setAttribute(
         'aria-pressed',

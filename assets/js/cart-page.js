@@ -245,7 +245,7 @@ async function renderCart() {
 
       const imgUrl =
         row.imageUrl ||
-        '/assets/img/dwm-logo-new.png';
+        '/assets/img/dwm-logo-new.webp';
 
       const unitPrice =
         Number.isFinite(
@@ -303,7 +303,7 @@ async function renderCart() {
               loading="lazy"
               onerror="
                 this.onerror=null;
-                this.src='/assets/img/dwm-logo-new.png';
+                this.src='/assets/img/dwm-logo-new.webp';
               "
             >
           </div>

@@ -718,7 +718,7 @@ exports.createTrustedOrder =
                     product.imageUrl,
                     1000
                   ) ||
-                  "/assets/img/dwm-logo-new.png",
+                  "/assets/img/dwm-logo-new.webp",
 
                 category:
                   cleanString(

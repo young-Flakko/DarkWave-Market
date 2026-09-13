@@ -142,21 +142,21 @@ export async function initDropsPage() {
       const usesDwmPlaceholder =
         !storeLogoRaw ||
         storeLogoRaw.includes(
-          'dwm-logo-new.png'
+          'dwm-logo-new.webp'
         );
 
       const storeLogoHtml =
         usesDwmPlaceholder
           ? `
               <img
-                src="/assets/img/dwm-crest-dark.png"
+                src="/assets/img/dwm-crest-dark.webp"
                 alt=""
                 class="drop-store-logo-theme drop-store-logo-dark"
                 loading="lazy"
               >
 
               <img
-                src="/assets/img/dwm-crest-light.png"
+                src="/assets/img/dwm-crest-light.webp"
                 alt=""
                 class="drop-store-logo-theme drop-store-logo-light"
                 loading="lazy"
@@ -168,7 +168,7 @@ export async function initDropsPage() {
                 alt=""
                 class="drop-store-logo-custom"
                 loading="lazy"
-                onerror="this.src='/assets/img/dwm-crest-dark.png'"
+                onerror="this.src='/assets/img/dwm-crest-dark.webp'"
               >
             `;
 
@@ -176,6 +176,68 @@ export async function initDropsPage() {
         products.length === 1
           ? 'DROP'
           : 'DROPS';
+
+      const instagramUsername =
+        String(
+          data.instagramUsername || ''
+        )
+          .trim()
+          .replace(/^@+/, '');
+
+      const instagramHtml =
+        /^[A-Za-z0-9._]{1,30}$/.test(
+          instagramUsername
+        )
+          ? `
+              <a
+                class="drop-storefront-instagram"
+                href="https://www.instagram.com/${encodeURIComponent(instagramUsername)}/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Visit ${storeName} on Instagram"
+              >
+                <span
+                  class="drop-storefront-instagram-icon"
+                  aria-hidden="true"
+                >
+                  ◎
+                </span>
+
+                @${escapeHtml(instagramUsername)}
+              </a>
+            `
+          : '';
+
+      const tiktokUsername =
+        String(
+          data.tiktokUsername || ''
+        )
+          .trim()
+          .replace(/^@+/, '');
+
+      const tiktokHtml =
+        /^[A-Za-z0-9._]{1,24}$/.test(
+          tiktokUsername
+        )
+          ? `
+              <a
+                class="drop-storefront-instagram"
+                href="https://www.tiktok.com/@${encodeURIComponent(tiktokUsername)}"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Visit ${storeName} on TikTok"
+              >
+                <span
+                  class="drop-storefront-instagram-icon"
+                  aria-hidden="true"
+                >
+                  ♪
+                </span>
+
+                @${escapeHtml(tiktokUsername)}
+              </a>
+            `
+          : '';
 
       return `
         <section
@@ -202,9 +264,16 @@ export async function initDropsPage() {
                   ${storeName}
                 </h3>
 
-                <span class="drop-storefront-count">
-                  ${products.length} ${productWord}
-                </span>
+                <div class="drop-storefront-meta">
+
+                  <span class="drop-storefront-count">
+                    ${products.length} ${productWord}
+                  </span>
+
+                  ${instagramHtml}
+                  ${tiktokHtml}
+
+                </div>
               </div>
             </a>
 

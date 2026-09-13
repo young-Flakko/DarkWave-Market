@@ -11,6 +11,11 @@ import {
   renderNav
 } from './nav.js';
 
+import {
+  initFavoriteButtons,
+  refreshFavoriteButtons
+} from './favorites-ui.js';
+
 
 /* =========================================================
    DOM
@@ -86,6 +91,8 @@ async function init() {
   try {
 
     renderNav('nav');
+
+    initFavoriteButtons();
 
   } catch (error) {
 
@@ -905,7 +912,8 @@ function renderProducts() {
           product,
           {
             storeName,
-            showBadge: true
+            showBadge: true,
+            showFavorite: true
           }
         );
 
@@ -915,6 +923,8 @@ function renderProducts() {
 
   grid.innerHTML =
     html;
+
+  refreshFavoriteButtons();
 
 }
 

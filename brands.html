@@ -426,13 +426,69 @@
 
           const logoUrl =
             store.logoUrl ||
-            '/assets/img/dwm-logo-new.png';
+            '/assets/img/dwm-logo-new.webp';
 
 
           const founderLabel =
             store.founder === true
               ? 'FOUNDER STORE'
               : 'DWM PARTNER';
+
+
+          const instagramUsername =
+            String(
+              store.instagramUsername || ''
+            )
+              .trim()
+              .replace(/^@+/, '');
+
+
+          const instagramHtml =
+            /^[A-Za-z0-9._]{1,30}$/.test(
+              instagramUsername
+            )
+              ? `
+                  <div
+                    class="brand-instagram"
+                    style="
+                      margin:10px 0 14px;
+                      font-size:11px;
+                      letter-spacing:1.5px;
+                      color:var(--teal-bright);
+                    "
+                  >
+                    ◎ @${escapeHtml(instagramUsername)}
+                  </div>
+                `
+              : '';
+
+
+          const tiktokUsername =
+            String(
+              store.tiktokUsername || ''
+            )
+              .trim()
+              .replace(/^@+/, '');
+
+
+          const tiktokHtml =
+            /^[A-Za-z0-9._]{1,24}$/.test(
+              tiktokUsername
+            )
+              ? `
+                  <div
+                    class="brand-tiktok"
+                    style="
+                      margin:10px 0 14px;
+                      font-size:11px;
+                      letter-spacing:1.5px;
+                      color:var(--teal-bright);
+                    "
+                  >
+                    ♪ @${escapeHtml(tiktokUsername)}
+                  </div>
+                `
+              : '';
 
 
           card.innerHTML = `
@@ -457,7 +513,7 @@
                 "
                 onerror="
                   this.onerror=null;
-                  this.src='/assets/img/dwm-logo-new.png';
+                  this.src='/assets/img/dwm-logo-new.webp';
                 "
               >
 
@@ -473,6 +529,8 @@
               ${founderLabel}
             </p>
 
+            ${instagramHtml}
+            ${tiktokHtml}
 
             <span class="badge-coming">
               LIVE

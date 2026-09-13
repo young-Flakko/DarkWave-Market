@@ -348,7 +348,7 @@ function renderItem(
 
   const image =
     item.imageUrl ||
-    '/assets/img/dwm-logo-new.png';
+    '/assets/img/dwm-logo-new.webp';
 
   const quantity =
     Math.max(
@@ -368,7 +368,7 @@ function renderItem(
         loading="lazy"
         onerror="
           this.onerror=null;
-          this.src='/assets/img/dwm-logo-new.png';
+          this.src='/assets/img/dwm-logo-new.webp';
         "
       >
 

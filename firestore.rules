@@ -59,7 +59,9 @@ service cloud.firestore {
               'displayName',
               'email',
               'createdAt',
-              'photoUrl'
+              'photoUrl',
+              'photoPublicId',
+              'updatedAt'
             ])
         );
 
@@ -639,6 +641,287 @@ service cloud.firestore {
         allow delete: if
           isAdmin();
       }
+    }
+
+
+    // ============================================================
+    // DWM MESSAGES
+    // ============================================================
+
+    match /conversations/{conversationId} {
+
+      function isConversationParticipant() {
+        return isAuthenticated()
+          && request.auth.uid in resource.data.participants;
+      }
+
+      function isNewConversationParticipant() {
+        return isAuthenticated()
+          && request.auth.uid in request.resource.data.participants;
+      }
+
+
+      // Existing conversations are readable only by participants.
+      //
+      // A participant may also perform a direct document GET when
+      // their UID is embedded in the deterministic conversation ID.
+      // This permits the client to check whether a conversation
+      // exists before creating it.
+      //
+      // Collection/list access remains protected by the participant
+      // check because query results contain resource.data.
+      allow get: if
+        isAdmin()
+
+        || isConversationParticipant()
+
+        || (
+          isAuthenticated()
+          && conversationId.matches(
+            '.*' + request.auth.uid + '.*'
+          )
+        );
+
+      allow list: if
+        isConversationParticipant()
+        || isAdmin();
+
+
+      // Buyer creates the initial conversation.
+      // Seller UID must match the owner of the referenced store.
+      allow create: if
+        isNewConversationParticipant()
+
+        && request.resource.data.buyerUid
+          == request.auth.uid
+
+        && request.resource.data.storeId
+          is string
+
+        && request.resource.data.sellerUid
+          == get(
+            /databases/$(database)/documents/stores/$(request.resource.data.storeId)
+          ).data.ownerUid
+
+        && request.resource.data.participants
+          .hasAll([
+            request.resource.data.buyerUid,
+            request.resource.data.sellerUid
+          ])
+
+        && request.resource.data.participants.size()
+          == 2
+
+        && request.resource.data.unreadByBuyer
+          == 0
+
+        && request.resource.data.unreadBySeller
+          == 0;
+
+
+      // Participants can update only messaging state.
+      allow update: if
+
+        isAdmin()
+
+        || (
+
+          isConversationParticipant()
+
+          && request.resource.data.buyerUid
+            == resource.data.buyerUid
+
+          && request.resource.data.sellerUid
+            == resource.data.sellerUid
+
+          && request.resource.data.storeId
+            == resource.data.storeId
+
+          && request.resource.data.participants
+            == resource.data.participants
+
+          && request.resource.data
+            .diff(resource.data)
+            .affectedKeys()
+            .hasOnly([
+              'lastMessage',
+              'lastSenderUid',
+              'lastMessageAt',
+              'unreadByBuyer',
+              'unreadBySeller',
+              'updatedAt'
+            ])
+
+          && request.resource.data.unreadByBuyer
+            >= 0
+
+          && request.resource.data.unreadBySeller
+            >= 0
+
+        );
+
+
+      allow delete: if
+        isAdmin();
+
+
+      match /messages/{messageId} {
+
+        function parentConversation() {
+          return get(
+            /databases/$(database)/documents/conversations/$(conversationId)
+          );
+        }
+
+
+        function isMessageParticipant() {
+          return isAuthenticated()
+            && request.auth.uid
+              in parentConversation().data.participants;
+        }
+
+
+        allow read: if
+          isMessageParticipant()
+          || isAdmin();
+
+
+        allow create: if
+
+          isMessageParticipant()
+
+          && request.resource.data.senderUid
+            == request.auth.uid
+
+          && request.resource.data.text
+            is string
+
+          && request.resource.data.text.size()
+            > 0
+
+          && request.resource.data.text.size()
+            <= 2000
+
+          && request.resource.data.keys()
+            .hasOnly([
+              'senderUid',
+              'text',
+              'createdAt'
+            ]);
+
+
+        allow update, delete: if
+          isAdmin();
+
+      }
+
+    }
+
+
+    // ============================================================
+    // NOTIFICATIONS
+    // ============================================================
+
+    match /notifications/{notificationId} {
+
+      // ----------------------------------------------------------
+      // READ
+      //
+      // A user may only read notifications addressed to them.
+      // Admins may read all notifications.
+      // ----------------------------------------------------------
+
+      allow read: if
+        isAuthenticated()
+        && (
+          resource.data.recipientUid
+            == request.auth.uid
+
+          || isAdmin()
+        );
+
+
+      // ----------------------------------------------------------
+      // CREATE
+      //
+      // Notifications are trusted platform data.
+      // Only admins/server-side code may create them from the client
+      // rules perspective.
+      // ----------------------------------------------------------
+
+      allow create: if
+        isAdmin()
+
+        && request.resource.data.recipientUid
+          is string
+
+        && request.resource.data.recipientUid
+          .size() > 0
+
+        && request.resource.data.type
+          is string
+
+        && request.resource.data.title
+          is string
+
+        && request.resource.data.read
+          == false
+
+        && request.resource.data.keys()
+          .hasOnly([
+            'recipientUid',
+            'type',
+            'title',
+            'message',
+            'body',
+            'link',
+            'read',
+            'createdAt'
+          ]);
+
+
+      // ----------------------------------------------------------
+      // UPDATE
+      //
+      // Recipient may ONLY mark their own notification as read.
+      // They cannot rewrite the title/message/link/recipient.
+      // Admin retains full management access.
+      // ----------------------------------------------------------
+
+      allow update: if
+
+        isAdmin()
+
+        || (
+
+          isAuthenticated()
+
+          && resource.data.recipientUid
+            == request.auth.uid
+
+          && request.resource.data.recipientUid
+            == resource.data.recipientUid
+
+          && request.resource.data
+            .diff(resource.data)
+            .affectedKeys()
+            .hasOnly([
+              'read'
+            ])
+
+          && request.resource.data.read
+            == true
+
+        );
+
+
+      // ----------------------------------------------------------
+      // DELETE
+      // ----------------------------------------------------------
+
+      allow delete: if
+        isAdmin();
+
     }
 
 

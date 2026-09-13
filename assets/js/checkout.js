@@ -593,7 +593,7 @@ async function validateCartFromFirestore() {
 
         imageUrl:
           data.imageUrl ||
-          '/assets/img/dwm-logo-new.png',
+          '/assets/img/dwm-logo-new.webp',
 
         category:
           data.category ||
@@ -840,7 +840,7 @@ function renderValidatedOrder() {
 
                   onerror="
                     this.onerror=null;
-                    this.src='/assets/img/dwm-logo-new.png';
+                    this.src='/assets/img/dwm-logo-new.webp';
                   "
                 >
 

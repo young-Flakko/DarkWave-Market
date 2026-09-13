@@ -57,8 +57,8 @@ function applyTheme(theme) {
   if (heroLogo) {
     heroLogo.src =
       normalized === 'light'
-        ? '/assets/img/dwm-crest-light.png'
-        : '/assets/img/dwm-crest-dark.png';
+        ? '/assets/img/dwm-crest-light.webp'
+        : '/assets/img/dwm-crest-dark.webp';
   }
 
   document
@@ -174,7 +174,7 @@ export function renderNav(targetSelector = 'nav', { showCta = true, showIg = tru
       <div class="nav-logo-inner">
         <div class="nav-logo-glow" aria-hidden="true"></div>
         <div class="nav-logo-canvas-slot" aria-hidden="true"></div>
-        <img src="/assets/img/dwm-logo-new.png" alt="DWM Options" class="nav-logo-img" onerror="this.parentNode.replaceChild(Object.assign(document.createElement('span'),{className:'nav-logo-fallback',textContent:'DWM'}),this);">
+        <img src="/assets/img/dwm-logo-new.webp" alt="DWM Options" class="nav-logo-img" onerror="this.parentNode.replaceChild(Object.assign(document.createElement('span'),{className:'nav-logo-fallback',textContent:'DWM'}),this);">
       </div>
     </button>
 
@@ -422,3 +422,194 @@ export function highlightActiveNav() {
     }
   });
 }
+
+
+// ============================================================
+// DWM GLOBAL MESSAGE BADGE
+// ============================================================
+
+async function initGlobalMessageBadge() {
+
+  try {
+
+    const [
+      { auth },
+      {
+        subscribeToConversations,
+        unreadConversationCount
+      }
+    ] = await Promise.all([
+      import('./firebase-config.js'),
+      import('./messages.js')
+    ]);
+
+
+    let unsubscribe =
+      null;
+
+
+    auth.onAuthStateChanged(
+      (user) => {
+
+        unsubscribe?.();
+        unsubscribe = null;
+
+
+        document
+          .querySelectorAll(
+            '[data-dwm-global-message-badge]'
+          )
+          .forEach(
+            (badge) =>
+              badge.remove()
+          );
+
+
+        if (!user) {
+          return;
+        }
+
+
+        const nav =
+          document.querySelector('nav');
+
+
+        if (!nav) {
+          return;
+        }
+
+
+        const link =
+          document.createElement('a');
+
+
+        link.href =
+          '/messages.html';
+
+
+        link.setAttribute(
+          'aria-label',
+          'Open messages'
+        );
+
+
+        link.style.cssText = `
+          position:relative;
+          display:inline-flex;
+          align-items:center;
+          justify-content:center;
+          min-width:32px;
+          height:32px;
+          text-decoration:none;
+          color:inherit;
+        `;
+
+
+        link.innerHTML = `
+          <span
+            aria-hidden="true"
+            style="
+              font-size:15px;
+              line-height:1;
+            "
+          >
+            ✉
+          </span>
+
+          <span
+            data-dwm-global-message-badge
+            style="
+              display:none;
+              position:absolute;
+              top:-3px;
+              right:-5px;
+              min-width:16px;
+              height:16px;
+              padding:0 4px;
+              align-items:center;
+              justify-content:center;
+              border-radius:999px;
+              background:var(--teal-bright);
+              color:#061012;
+              font-size:9px;
+              font-weight:800;
+              line-height:1;
+              box-sizing:border-box;
+            "
+          >
+            0
+          </span>
+        `;
+
+
+        const target =
+          nav.querySelector(
+            '.nav-actions, .nav-right, .nav-links'
+          );
+
+
+        if (target) {
+          target.appendChild(link);
+        } else {
+          nav.appendChild(link);
+        }
+
+
+        const badge =
+          link.querySelector(
+            '[data-dwm-global-message-badge]'
+          );
+
+
+        unsubscribe =
+          subscribeToConversations(
+            user.uid,
+            (conversations) => {
+
+              const unread =
+                unreadConversationCount(
+                  conversations,
+                  user.uid
+                );
+
+
+              badge.textContent =
+                unread > 99
+                  ? '99+'
+                  : String(unread);
+
+
+              badge.style.display =
+                unread > 0
+                  ? 'inline-flex'
+                  : 'none';
+
+            }
+          );
+
+      }
+    );
+
+
+    window.addEventListener(
+      'beforeunload',
+      () => {
+        unsubscribe?.();
+      }
+    );
+
+  } catch (error) {
+
+    console.warn(
+      '[nav] message badge unavailable:',
+      error
+    );
+
+  }
+
+}
+
+
+queueMicrotask(
+  initGlobalMessageBadge
+);

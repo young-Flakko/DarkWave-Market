@@ -1,4 +1,8 @@
 import {
+  initMessageSellerButtons
+} from './message-entry.js';
+
+import {
   doc,
   getDoc
 } from 'firebase/firestore';
@@ -8,6 +12,11 @@ import { db } from './firebase-config.js';
 import {
   renderNav
 } from './nav.js';
+
+import {
+  initFavoriteButtons,
+  refreshFavoriteButtons
+} from './favorites-ui.js';
 
 import {
   addToCart,
@@ -25,6 +34,7 @@ import {
 } from './data.js';
 
 renderNav('nav');
+initFavoriteButtons();
 
 function getProductIdFromUrl() {
   const params = new URLSearchParams(window.location.search);
@@ -51,6 +61,58 @@ function esc(s) {
     .replace(/'/g, '&#39;');
 }
 
+function normalizeProductMedia(data, fallbackImageUrl) {
+  const normalized = [];
+  const seen = new Set();
+
+  if (Array.isArray(data?.media)) {
+    for (const item of data.media) {
+      if (
+        !item ||
+        typeof item.url !== 'string' ||
+        item.url.trim() === ''
+      ) {
+        continue;
+      }
+
+      const url = item.url.trim();
+
+      if (seen.has(url)) {
+        continue;
+      }
+
+      const type =
+        item.type === 'video'
+          ? 'video'
+          : 'image';
+
+      normalized.push({
+        type,
+        url,
+        poster:
+          typeof item.poster === 'string'
+            ? item.poster
+            : ''
+      });
+
+      seen.add(url);
+    }
+  }
+
+  if (
+    fallbackImageUrl &&
+    !seen.has(fallbackImageUrl)
+  ) {
+    normalized.unshift({
+      type: 'image',
+      url: fallbackImageUrl,
+      poster: ''
+    });
+  }
+
+  return normalized.slice(0, 7);
+}
+
 function renderProductPage({ product, store, productId }) {
   const d = product.data || {};
 
@@ -61,7 +123,13 @@ function renderProductPage({ product, store, productId }) {
   const safePrice = formatZARPrice(d.price);
   const safeImageUrl = d.imageUrl && typeof d.imageUrl === 'string' && d.imageUrl.trim() !== ''
     ? d.imageUrl
-    : '/assets/img/dwm-logo-new.png';
+    : '/assets/img/dwm-logo-new.webp';
+
+  const productMedia =
+    normalizeProductMedia(
+      d,
+      safeImageUrl
+    );
 
   const dropStr = padDropNumber(d.dropNumber);
 
@@ -106,6 +174,24 @@ function renderProductPage({ product, store, productId }) {
 
   const storeHref = storeSlug ? `store.html?store=${encodeURIComponent(storeSlug)}` : 'brands.html';
 
+  const sellerUid =
+    store &&
+    store.data &&
+    typeof store.data.ownerUid === 'string'
+      ? store.data.ownerUid
+      : '';
+
+  const storeId =
+    store &&
+    typeof store.id === 'string'
+      ? store.id
+      : (
+          d.storeId &&
+          typeof d.storeId === 'string'
+            ? d.storeId
+            : ''
+        );
+
   const cartItem = findCartItem(null, productId);
   const alreadyQty = cartItem && cartItem.quantity ? cartItem.quantity : 0;
   const addDisabled = isSoldOut;
@@ -118,13 +204,54 @@ function renderProductPage({ product, store, productId }) {
   setSlotHtml(`
     <div class="product-layout">
 
-      <div class="product-gallery" aria-label="Product image">
-        <img
-          id="productMainImage"
-          src="${esc(safeImageUrl)}"
-          alt="${esc(safeName)}"
-          onerror="this.onerror=null;this.src='/assets/img/dwm-logo-new.png';"
-        >
+      <div
+        class="product-gallery"
+        aria-label="Product media gallery"
+      >
+
+        <div
+          id="productMediaStage"
+          class="product-media-stage"
+          tabindex="0"
+          aria-live="polite"
+        ></div>
+
+        ${productMedia.length > 1
+          ? `
+            <div
+              id="productGalleryThumbs"
+              class="product-gallery-thumbs"
+              aria-label="Product media thumbnails"
+            >
+              ${productMedia.map((item, index) => `
+                <button
+                  type="button"
+                  class="product-gallery-thumb ${index === 0 ? 'is-active' : ''}"
+                  data-media-index="${index}"
+                  aria-label="View media ${index + 1}"
+                >
+                  ${item.type === 'video'
+                    ? `
+                      <span class="product-gallery-video-thumb">
+                        ▶ VIDEO
+                      </span>
+                    `
+                    : `
+                      <img
+                        src="${esc(item.url)}"
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                      >
+                    `
+                  }
+                </button>
+              `).join('')}
+            </div>
+          `
+          : ''
+        }
+
       </div>
 
       <div class="product-meta">
@@ -187,6 +314,42 @@ function renderProductPage({ product, store, productId }) {
             }
           </button>
 
+          <button
+            type="button"
+            class="btn-save-drop dwm-favorite-btn"
+            data-dwm-favorite-product="${esc(productId)}"
+            aria-label="Save ${esc(safeName)} to saved drops"
+            aria-pressed="false"
+            title="Save drop"
+          >
+            <span
+              class="btn-save-drop-icon"
+              aria-hidden="true"
+            >♡</span>
+
+            <span class="btn-save-drop-label">
+              Save Drop
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="btn-message-seller"
+            data-dwm-message-seller
+            data-seller-uid="${esc(sellerUid)}"
+            data-store-id="${esc(storeId)}"
+            data-store-name="${esc(storeName)}"
+            data-product-id="${esc(productId)}"
+            data-product-name="${esc(safeName)}"
+            ${!sellerUid || !storeId ? 'disabled' : ''}
+            aria-label="Message ${esc(storeName)} about ${esc(safeName)}"
+          >
+            <span aria-hidden="true">✉</span>
+            <span class="btn-message-seller-label">
+              Message Seller
+            </span>
+          </button>
+
           <a
             href="cart.html"
             class="btn-checkout-soon"
@@ -208,6 +371,281 @@ function renderProductPage({ product, store, productId }) {
 
     </div>
   `);
+
+  refreshFavoriteButtons();
+  initMessageSellerButtons();
+
+  const mediaStage =
+    document.getElementById('productMediaStage');
+
+  const mediaThumbs =
+    Array.from(
+      document.querySelectorAll(
+        '[data-media-index]'
+      )
+    );
+
+  let activeMediaIndex =
+    0;
+
+  let touchStartX =
+    null;
+
+  function renderActiveMedia(index) {
+
+    if (
+      !mediaStage ||
+      !productMedia.length
+    ) {
+      return;
+    }
+
+    const total =
+      productMedia.length;
+
+    activeMediaIndex =
+      ((index % total) + total) % total;
+
+    const item =
+      productMedia[activeMediaIndex];
+
+    const mediaMarkup =
+      item.type === 'video'
+        ? `
+          <video
+            controls
+            playsinline
+            preload="metadata"
+            ${item.poster ? `poster="${esc(item.poster)}"` : ''}
+            aria-label="${esc(safeName)} product video"
+          >
+            <source
+              src="${esc(item.url)}"
+            >
+            Your browser does not support video playback.
+          </video>
+        `
+        : `
+          <img
+            id="productMainImage"
+            src="${esc(item.url)}"
+            alt="${esc(safeName)} — image ${activeMediaIndex + 1}"
+            decoding="async"
+            ${activeMediaIndex === 0 ? 'fetchpriority="high"' : 'loading="lazy"'}
+            onerror="this.onerror=null;this.src='/assets/img/dwm-logo-new.webp';"
+          >
+        `;
+
+    mediaStage.innerHTML = `
+      ${mediaMarkup}
+
+      ${total > 1
+        ? `
+          <button
+            type="button"
+            class="product-gallery-arrow prev"
+            data-gallery-prev
+            aria-label="Previous product media"
+          >
+            ‹
+          </button>
+
+          <button
+            type="button"
+            class="product-gallery-arrow next"
+            data-gallery-next
+            aria-label="Next product media"
+          >
+            ›
+          </button>
+
+          <div
+            class="product-gallery-counter"
+            aria-hidden="true"
+          >
+            ${activeMediaIndex + 1} / ${total}
+          </div>
+        `
+        : ''
+      }
+    `;
+
+    for (
+      const thumb of mediaThumbs
+    ) {
+      const thumbIndex =
+        Number(
+          thumb.dataset.mediaIndex
+        );
+
+      thumb.classList.toggle(
+        'is-active',
+        thumbIndex === activeMediaIndex
+      );
+    }
+
+    const activeThumb =
+      mediaThumbs.find(
+        (thumb) =>
+          Number(thumb.dataset.mediaIndex) ===
+          activeMediaIndex
+      );
+
+    if (activeThumb) {
+      activeThumb.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'nearest'
+      });
+    }
+  }
+
+  function nextMedia() {
+    renderActiveMedia(
+      activeMediaIndex + 1
+    );
+  }
+
+  function previousMedia() {
+    renderActiveMedia(
+      activeMediaIndex - 1
+    );
+  }
+
+  if (mediaStage) {
+
+    renderActiveMedia(0);
+
+    mediaStage.addEventListener(
+      'click',
+      (event) => {
+
+        if (
+          event.target.closest(
+            '[data-gallery-prev]'
+          )
+        ) {
+          previousMedia();
+          return;
+        }
+
+        if (
+          event.target.closest(
+            '[data-gallery-next]'
+          )
+        ) {
+          nextMedia();
+        }
+
+      }
+    );
+
+    mediaStage.addEventListener(
+      'keydown',
+      (event) => {
+
+        if (
+          event.key === 'ArrowLeft'
+        ) {
+          event.preventDefault();
+          previousMedia();
+        }
+
+        if (
+          event.key === 'ArrowRight'
+        ) {
+          event.preventDefault();
+          nextMedia();
+        }
+
+      }
+    );
+
+    mediaStage.addEventListener(
+      'touchstart',
+      (event) => {
+
+        touchStartX =
+          event.changedTouches?.[0]?.clientX ??
+          null;
+
+      },
+      {
+        passive: true
+      }
+    );
+
+    mediaStage.addEventListener(
+      'touchend',
+      (event) => {
+
+        if (
+          touchStartX === null
+        ) {
+          return;
+        }
+
+        const touchEndX =
+          event.changedTouches?.[0]?.clientX;
+
+        if (
+          typeof touchEndX !== 'number'
+        ) {
+          touchStartX = null;
+          return;
+        }
+
+        const distance =
+          touchEndX -
+          touchStartX;
+
+        touchStartX =
+          null;
+
+        if (
+          Math.abs(distance) < 45
+        ) {
+          return;
+        }
+
+        if (distance < 0) {
+          nextMedia();
+        } else {
+          previousMedia();
+        }
+
+      },
+      {
+        passive: true
+      }
+    );
+
+  }
+
+  for (
+    const thumb of mediaThumbs
+  ) {
+
+    thumb.addEventListener(
+      'click',
+      () => {
+
+        const index =
+          Number(
+            thumb.dataset.mediaIndex
+          );
+
+        if (
+          Number.isInteger(index)
+        ) {
+          renderActiveMedia(index);
+        }
+
+      }
+    );
+
+  }
+
 
   const btn = document.getElementById('addToCartButton');
   const fb = document.getElementById('productFeedback');

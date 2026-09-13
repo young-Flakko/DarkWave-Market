@@ -1793,3 +1793,209 @@ html[data-theme="light"]
   }
 
 }
+
+/* Light mode product image canvas */
+html[data-theme="light"] .drop-img {
+  background: #ffffff !important;
+}
+
+html[data-theme="light"] .drop-img::before {
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 20px,
+      rgba(84, 38, 123, 0.02) 20px,
+      rgba(84, 38, 123, 0.02) 21px
+    ) !important;
+}
+
+/* ============================================================
+   SELLER CATALOG IMAGE CANVAS
+   ============================================================ */
+
+html[data-theme="light"] .seller-catalog-image-canvas {
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff 0%,
+      #faf8fb 55%,
+      #f2eef5 100%
+    ) !important;
+}
+
+html[data-theme="dark"] .seller-catalog-image-canvas {
+  background:
+    linear-gradient(
+      145deg,
+      #1a1a1a,
+      #222222
+    ) !important;
+}
+
+
+
+/* ============================================================
+   DWM MESSAGE SELLER
+   ============================================================ */
+
+.btn-message-seller {
+  width:100%;
+  min-height:52px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:14px 20px;
+
+  border:1px solid
+    rgba(74,157,168,.45);
+
+  background:
+    rgba(74,157,168,.06);
+
+  color:inherit;
+
+  font:inherit;
+  font-size:.66rem;
+  font-weight:700;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+
+  cursor:pointer;
+
+  transition:
+    background .2s ease,
+    border-color .2s ease,
+    transform .2s ease;
+}
+
+
+.btn-message-seller:hover:not(:disabled) {
+  background:
+    rgba(74,157,168,.12);
+
+  border-color:
+    var(--teal-bright);
+
+  transform:
+    translateY(-1px);
+}
+
+
+.btn-message-seller:disabled {
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+
+html[data-theme="light"]
+.btn-message-seller {
+  background:
+    rgba(84,38,123,.025);
+}
+
+
+html[data-theme="light"]
+.btn-message-seller:hover:not(:disabled) {
+  background:
+    rgba(84,38,123,.06);
+}
+
+/* ============================================================
+   DWM PROFILE PICTURES
+   ============================================================ */
+
+.dwm-profile-picture-wrap {
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin:14px 0 20px;
+}
+
+.dwm-profile-avatar {
+  width:72px;
+  height:72px;
+  flex:0 0 72px;
+  border-radius:50%;
+  object-fit:cover;
+  border:1px solid rgba(74,157,168,.45);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(74,157,168,.16),
+      rgba(84,38,123,.16)
+    );
+}
+
+.dwm-profile-avatar-fallback {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:800;
+  letter-spacing:.08em;
+  color:var(--teal-bright);
+}
+
+.dwm-profile-picture-actions {
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:7px;
+}
+
+.dwm-profile-picture-message {
+  min-height:16px;
+  font-size:.65rem;
+  opacity:.78;
+}
+
+.conversation-avatar,
+.chat-avatar {
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  object-fit:cover;
+  border:1px solid rgba(74,157,168,.32);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(74,157,168,.13),
+      rgba(84,38,123,.13)
+    );
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:.62rem;
+  font-weight:800;
+  color:var(--teal-bright);
+  overflow:hidden;
+}
+
+
+/* ============================================================
+   MESSAGE AVATAR LAYOUT
+   ============================================================ */
+
+.conversation-row {
+  position:relative !important;
+  padding-left:62px !important;
+}
+
+.conversation-row .conversation-avatar {
+  position:absolute;
+  left:15px;
+  top:50%;
+  transform:translateY(-50%);
+}
+
+.chat-head {
+  display:flex !important;
+  align-items:center;
+  gap:12px;
+}
+
+.chat-avatar {
+  flex:0 0 36px;
+}
+
