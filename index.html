@@ -174,52 +174,25 @@
 <section class="drops">
   <div class="section-header">
     <div>
-      <span class="section-label">Latest</span>
-      <h2 class="section-title">Fresh from the market.</h2>
+      <span class="section-label" id="homeDropsLabel">Latest</span>
+      <h2 class="section-title" id="homeDropsTitle">Fresh from the market.</h2>
     </div>
     <a href="drops.html" class="section-link">All Drops →</a>
   </div>
-  <div class="drops-grid">
-    <a href="drops.html" class="drop-card featured" style="text-decoration:none;color:inherit;">
-      <div class="drop-img-placeholder"><span class="drop-placeholder-text">DWM</span></div>
-      <div class="drop-info">
-        <div class="drop-tag">⚡ New Drop</div>
-        <div class="drop-name">Featured Piece of the Week</div>
-        <div class="drop-price">R 00.00</div>
-      </div>
-    </a>
-    <a href="drops.html?category=tops-tees" class="drop-card" style="text-decoration:none;color:inherit;">
-      <div class="drop-img-placeholder"><span class="drop-placeholder-text">01</span></div>
-      <div class="drop-info">
-        <div class="drop-tag">Streetwear</div>
-        <div class="drop-name">Premium Polo</div>
-        <div class="drop-price">R 00.00</div>
-      </div>
-    </a>
-    <a href="drops.html?category=sneakers" class="drop-card" style="text-decoration:none;color:inherit;">
-      <div class="drop-img-placeholder"><span class="drop-placeholder-text">02</span></div>
-      <div class="drop-info">
-        <div class="drop-tag">Kicks</div>
-        <div class="drop-name">Fresh Pair</div>
-        <div class="drop-price">R 00.00</div>
-      </div>
-    </a>
-    <a href="drops.html?category=cologne" class="drop-card" style="text-decoration:none;color:inherit;">
-      <div class="drop-img-placeholder"><span class="drop-placeholder-text">03</span></div>
-      <div class="drop-info">
-        <div class="drop-tag">Cologne</div>
-        <div class="drop-name">Signature Scent</div>
-        <div class="drop-price">R 00.00</div>
-      </div>
-    </a>
-    <a href="drops.html" class="drop-card" style="text-decoration:none;color:inherit;">
-      <div class="drop-img-placeholder"><span class="drop-placeholder-text">04</span></div>
-      <div class="drop-info">
-        <div class="drop-tag">High End</div>
-        <div class="drop-name">Signature Piece</div>
-        <div class="drop-price">R 00.00</div>
-      </div>
-    </a>
+  <div
+    class="drops-grid"
+    id="homeFeaturedProducts"
+  >
+    <div
+      style="
+        grid-column:1/-1;
+        padding:40px;
+        text-align:center;
+        color:var(--gray-light);
+      "
+    >
+      Loading the latest wave...
+    </div>
   </div>
 </section>
 
@@ -318,6 +291,8 @@
     });
   }
 </script>
+
+<script type="module" src="/assets/js/home-featured.js"></script>
 
 </body>
 </html>

@@ -18,6 +18,7 @@ export default defineConfig({
       adminDrops: resolve(__dirname, 'admin-drops.html'),
       adminAnalytics: resolve(__dirname, 'admin-analytics.html'),
       adminEvents: resolve(__dirname, 'admin-events.html'),
+      adminHome: resolve(__dirname, 'admin-home.html'),
         adminBrands: resolve(__dirname, 'admin-brands.html'),
         store: resolve(__dirname, 'store.html'),
         events: resolve(__dirname, 'events.html'),
